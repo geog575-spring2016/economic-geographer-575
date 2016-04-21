@@ -1,28 +1,28 @@
+
+
+// Initialize global variables
 var mouseMoveControl = true;
+
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2t5d2lsbGlhbXMiLCJhIjoibUI4TlByNCJ9.9UuhBU3ElNiesrd-BcTdPQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/light-v8', //basemap style
-    center: [-74.50, 40], // starting position
-    zoom: 4 // starting zoom
+    center: [-108, 40], // starting position
+    zoom: 3 // starting zoom
 });
 
 
+map.boxZoom.disable(); // disable default box zooming
 
-// Disable default box zooming.
-map.boxZoom.disable();
 
-// Add zoom and rotation controls to the map.
-map.addControl(new mapboxgl.Navigation());
+map.addControl(new mapboxgl.Navigation()); // add zoom and rotation controls to the map
 
 // Create a popup, but don't add it to the map yet.
 var popup = new mapboxgl.Popup({
     closeButton: false
 });
 
-// Show the state choropleth first
-var level = 'isState';
 
 
 map.on('load', function() {
@@ -278,3 +278,10 @@ map.on('load', function() {
 		map.setPaintProperty("counties-highlighted", "fill-color", "#fff");
 	};
 });
+
+
+// Function to move introduction page out of the way
+function moveIntroPage() {
+	document.getElementById("introPage").style.transform = "translate(100%)";
+	document.getElementById("introExtra").style.transform = "translate(-100%)";
+}
