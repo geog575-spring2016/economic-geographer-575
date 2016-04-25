@@ -24,6 +24,7 @@
     
     <!-- Link custom css -->
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/scatterPlot.css" rel="stylesheet" />
         
 </head>
 <body>
@@ -44,7 +45,7 @@
 	</div>
 	<div style="width:100%; height:20%; background:orange; color:white; text-align:center;">
 		<p style="margin-top:0px;">TimeSeries</p>
-		<p style="margin-top:0px;">Range Slider to manually maneuver between times</p>
+		<div id="slider"></div>
 		<p style="margin-top:0px;">Play and Pause to play animation</p>
 	</div>
 </div>
@@ -63,6 +64,7 @@
 <!-- Link custom js script -->
 <script src="js/main.js"></script>
 <script src="js/load_Data.js"></script>
+<script src="js/buildScatterPlot.js"></script>
 
 </body>
 </html>
