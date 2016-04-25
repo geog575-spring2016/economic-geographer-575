@@ -137,7 +137,7 @@ map.on('load', function() {
     	"paint": {
     		"fill-outline-color": "#484896",
     		"fill-color": "#fff",
-    		"fill-opacity": 0.75
+    		"fill-opacity": 0.75,
     	},
     	"filter": ["in", "FIPS", ""]
     });
