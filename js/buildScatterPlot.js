@@ -35,14 +35,16 @@ function initializeScatterPlot(dots, margins, dimensions) {
 
 	var titleLabel = inner.append("text")
 		.attr("class", "title")
-		.attr("x", innerWidth/9)
 		.attr("y", -margins.top/2)
+		.attr("dy", "0.5em")
 		.style("text-anchor", "start");
 
 	var timeLabel = inner.append("text")
 		.attr("class", "time")
-		.attr("x", innerWidth*8/9)
+		.attr("x", innerWidth)
 		.attr("y", -margins.top/2)
+		.attr("dy", "0.5em")
+		.attr("opacity", 100)
 		.style("text-anchor", "end");
 
 	var xLabel = xAxis.append("text")
@@ -122,9 +124,7 @@ function bindData(plot, xData, xCol, yData, yCol) {
 
   	plot.dots.data(data, function(d) {
 		return d.FIPS;
-	}).transition().delay(function(d, i) {
-		return i*0.5;
-	}).duration(2000)
+	}).transition().duration(2000)
 	.attr("cx", function(d) {
 
 		if (isNaN(plot.xScale(d['x']))) {

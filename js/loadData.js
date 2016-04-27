@@ -6,7 +6,7 @@
 
 			var scatterPlot = initializeScatterPlot(
 				FIPS,
-				{top: 50, right: 40, bottom: 30, left: 40},
+				{top: 70, right: 40, bottom: 30, left: 40},
 				{width: 650, height: 650}
 			);
 
@@ -24,7 +24,7 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 
 	scatterPlot.xLabel.text(xFilename);
   	scatterPlot.yLabel.text(yFilename);
-  	scatterPlot.titleLabel.text(yFilename+" vs. "+xFilename+" for US Counties");
+  	scatterPlot.titleLabel.text(yFilename+" vs. "+xFilename);
 
 	d3_queue.queue()
 		.defer(d3.csv, "data/"+xDataFilename+".csv")

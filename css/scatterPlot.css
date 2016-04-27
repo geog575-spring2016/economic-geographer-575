@@ -1,14 +1,28 @@
 .plotBackground {
-	background: pink;
+	background: white;
 	position: absolute;
-	top: 10px;
-	left: 10px;
+	top: 0px;
+	left: 0px;
 }
+
+.title {
+	font-size: 24px;
+}
+.time {
+	font-size: 48px;
+}
+.label {
+	font-size: 18px;	
+}
+
 .axis path,
 .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
+}
+.tick text {
+	font-size: 14px;
 }
 
 .dot {
