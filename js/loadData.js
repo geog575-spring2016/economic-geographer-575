@@ -6,7 +6,7 @@
 
 			var scatterPlot = initializeScatterPlot(
 				FIPS,
-				{top: 20, right: 40, bottom: 30, left: 40},
+				{top: 50, right: 40, bottom: 30, left: 40},
 				{width: 650, height: 650}
 			);
 
@@ -18,6 +18,13 @@
 })();
 
 function loadData(scatterPlot, xDataFilename, yDataFilename) {
+
+	var xFilename = xDataFilename.replace(/_/g, " ");
+	var yFilename = yDataFilename.replace(/_/g, " ");
+
+	scatterPlot.xLabel.text(xFilename);
+  	scatterPlot.yLabel.text(yFilename);
+  	scatterPlot.titleLabel.text(yFilename+" vs. "+xFilename+" for US Counties");
 
 	d3_queue.queue()
 		.defer(d3.csv, "data/"+xDataFilename+".csv")
@@ -32,10 +39,11 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 				console.log("Moving forward without timeseries...");
 			} else {
 				console.log("Moving forward with timeseries...");
-				bindData(scatterPlot, xData, 1, yData, 1);
+				bindData(scatterPlot, xData, 0, yData, 0);
 				$('#slider').slider({
-					max: Object.keys(xData[0]).length-1,
-					min: 1,
+					max: Object.keys(xData[0]).length-2,
+					min: 0,
+					value: 0,
 					change: function(event, ui) {
 						var sliderVal = $('#slider').slider("value");
 						bindData(scatterPlot, xData, sliderVal, yData, sliderVal);

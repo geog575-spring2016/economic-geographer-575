@@ -33,6 +33,18 @@ function initializeScatterPlot(dots, margins, dimensions) {
 	var yAxis = inner.append("g")
 		.attr("class", "axis");
 
+	var titleLabel = inner.append("text")
+		.attr("class", "title")
+		.attr("x", innerWidth/9)
+		.attr("y", -margins.top/2)
+		.style("text-anchor", "start");
+
+	var timeLabel = inner.append("text")
+		.attr("class", "time")
+		.attr("x", innerWidth*8/9)
+		.attr("y", -margins.top/2)
+		.style("text-anchor", "end");
+
 	var xLabel = xAxis.append("text")
 		.attr("class", "label")
 		.attr("x", innerWidth)
@@ -68,6 +80,8 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		yAxisGenerator: yAxisGenerator,
 		xAxis: xAxis,
 		yAxis: yAxis,
+		titleLabel: titleLabel,
+		timeLabel: timeLabel,
 		xLabel: xLabel,
 		yLabel: yLabel,
 		dots: dots,
@@ -100,17 +114,50 @@ function bindData(plot, xData, xCol, yData, yCol) {
 
 	plot.xScale.domain(d3.extent(data, function(d) { return d['x']; })).nice();
   	plot.yScale.domain(d3.extent(data, function(d) { return d['y']; })).nice();
+  	plot.xAxisGenerator.tickFormat(function(d) { return formatTicks(d); });
+  	plot.yAxisGenerator.tickFormat(function(d) { return formatTicks(d); });
   	plot.xAxis.call(plot.xAxisGenerator);
   	plot.yAxis.call(plot.yAxisGenerator);
-  	plot.xLabel.text(Object.keys(xData[0])[xCol]);
-  	plot.yLabel.text(Object.keys(yData[0])[yCol]);
+  	plot.timeLabel.text(Object.keys(xData[0])[xCol]);
 
   	plot.dots.data(data, function(d) {
 		return d.FIPS;
 	}).transition().delay(function(d, i) {
 		return i*0.5;
 	}).duration(2000)
-	.attr("cx", function(d) { return plot.xScale(d['x']); })
-    .attr("cy", function(d) { return plot.yScale(d['y']); });
+	.attr("cx", function(d) {
+
+		if (isNaN(plot.xScale(d['x']))) {
+			$('.FIPS-'+d.FIPS).attr("r", 0);
+		} else {
+			$('.FIPS-'+d.FIPS).attr("r", 0.5);
+			return plot.xScale(d['x']);
+		}
+
+	})
+    .attr("cy", function(d) {
+
+		if (isNaN(plot.yScale(d['y']))) {
+			$('.FIPS-'+d.FIPS).attr("r", 0);
+		} else {
+			$('.FIPS-'+d.FIPS).attr("r", 0.5);
+			return plot.yScale(d['y']);
+		}
+
+    });
+
+}
+
+function formatTicks(d) {
+
+	var tickValString = d.toFixed(0);
+
+	var suffix = "";
+	var magnitude = Math.ceil(tickValString.length/3);
+
+	if (magnitude == 2) { suffix = "K"; }
+	else if (magnitude == 3) { suffix = "M"; }
+
+	return tickValString.substring(0,tickValString.length-3*(magnitude-1))+suffix;
 
 }
