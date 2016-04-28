@@ -6,11 +6,11 @@
 
 			var scatterPlot = initializeScatterPlot(
 				FIPS,
-				{top: 90, right: 40, bottom: 75, left: 40},
-				{width: 500, height: 585}
+				{top: 90, right: 40, bottom: 75, left: 50},
+				{width: 500, height: 575}
 			);
 
-			loadData(scatterPlot, "Median_Home_Value", "test_data3");
+			loadData(scatterPlot, "Median_Home_Value", "Median_Household_Income");
 			//Schuyler, I was thinking you could call your functions here
 
 		});
@@ -56,9 +56,8 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 					at: 'left center',
 					of: 'text.time',
 				});
-				$('#slider .ui-slider-handle').on('click', function() {
-					$('#slider').slider("value", $('#slider').slider("value")+1);
-				}).append("<i class='fa fa-play'></i>");
+
+				setupTimeseriesAnimation();
 
 			}
 
