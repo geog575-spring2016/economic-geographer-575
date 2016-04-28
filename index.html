@@ -15,7 +15,7 @@
 	<script src="lib/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     
     <!-- LINK FONT AWESOME -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     
     <!-- LINK MAPBOX -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.js'></script>
@@ -25,41 +25,14 @@
     <!-- Link custom css -->
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/scatterPlot.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Raleway:800,200,500|Noticia+Text:400,700,400italic' rel='stylesheet' type='text/css'>
         
 </head>
 <body>
 
 <div id='map'></div>
-
-<div id='box1'>
-	<div style="width:100%; height:20%; background:black;">
-		<h1 style="color:white; margin-top:0px; text-align:center;">Welcome to the Jungle</h1>
-		<p style="color:white; text-align:center; margin-top:0px;">Title and links</p>
-	</div>
-	<div style="width:100%; height:40%; background:white; color:black; text-align:center;">
-		<p style="margin-top:0px;">Scatterplot</p>
-		<p style="margin-top:0px;">Has given value for one axes - home prices</p>
-		<p style="margin-top:0px;">Choose one other value from dropdown (layer overlays)</p>
-		<p style="margin-top:0px;">Then select county to generate scatter plot</p>
-		<p style="margin-top:0px;">Map Overlay toggle list</p>
-	</div>
-	<div style="width:100%; height:20%; background:orange; color:white; text-align:center;">
-		<p style="margin-top:0px;">TimeSeries</p>
-		<div id="slider"></div>
-		<p style="margin-top:0px;">Play and Pause to play animation</p>
-	</div>
-</div>
-
-<!--
-<div id="box2" style="position:absolute; height: 400px; width:330px; background: rgba(0,0,0,0.5); top:0; right:50px;">
-	<h1 style="text-align:center; color:black;">Scatterplot based on selected axes value and county(ies)</h1>
-	<h1 style="text-align:center; color:black;">Button to move chart <i class="fa fa-angle-right"></i></h1>
-</div>
-
-<div id="box3" style="position: absolute; height: 200px; width: 40%; top:0; margin-left: 30%; margin-right: 30%; text-align:center;">
-	<h1>Hold shift and drag to select counties</h1>
-</div>
--->
+<div id="slider"></div>
+<div id="timeButton"></div>
 
 <!-- Link custom js script -->
 <script src="js/main.js"></script>

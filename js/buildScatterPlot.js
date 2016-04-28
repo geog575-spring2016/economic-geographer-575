@@ -35,16 +35,15 @@ function initializeScatterPlot(dots, margins, dimensions) {
 
 	var titleLabel = inner.append("text")
 		.attr("class", "title")
-		.attr("y", -margins.top/2)
-		.attr("dy", "0.5em")
-		.style("text-anchor", "start");
+		.attr("x", innerWidth/2)
+		.attr("y", -margins.top)
+		.attr("dy", "1.4em")
+		.style("text-anchor", "middle");
 
 	var timeLabel = inner.append("text")
 		.attr("class", "time")
 		.attr("x", innerWidth)
-		.attr("y", -margins.top/2)
-		.attr("dy", "0.5em")
-		.attr("opacity", 100)
+		.attr("dy", "-0.4em")
 		.style("text-anchor", "end");
 
 	var xLabel = xAxis.append("text")
@@ -55,10 +54,10 @@ function initializeScatterPlot(dots, margins, dimensions) {
 
 	var yLabel = yAxis.append("text")
 		.attr("class", "label")
-		.attr("transform", "rotate(-90)")
+		.attr("transform", "rotate(90)")
 		.attr("y", 6)
-		.attr("dy", ".71em") //takes place of x, since we rotated the label
-		.style("text-anchor", "end");
+		.attr("dy", "-0.87em") //takes place of x, since we rotated the label
+		.style("text-anchor", "start");
 
 	var dots = inner.selectAll(".dot")
 		.data(dots).enter().append("circle")
@@ -124,7 +123,7 @@ function bindData(plot, xData, xCol, yData, yCol) {
 
   	plot.dots.data(data, function(d) {
 		return d.FIPS;
-	}).transition().duration(2000)
+	}).transition().duration(1000)
 	.attr("cx", function(d) {
 
 		if (isNaN(plot.xScale(d['x']))) {

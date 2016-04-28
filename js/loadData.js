@@ -6,8 +6,8 @@
 
 			var scatterPlot = initializeScatterPlot(
 				FIPS,
-				{top: 70, right: 40, bottom: 30, left: 40},
-				{width: 650, height: 650}
+				{top: 90, right: 40, bottom: 75, left: 40},
+				{width: 500, height: 585}
 			);
 
 			loadData(scatterPlot, "Median_Home_Value", "test_data3");
@@ -38,17 +38,28 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 				console.log("Dataset features have different number of attributes,");
 				console.log("Moving forward without timeseries...");
 			} else {
+
 				console.log("Moving forward with timeseries...");
 				bindData(scatterPlot, xData, 0, yData, 0);
+				
 				$('#slider').slider({
 					max: Object.keys(xData[0]).length-2,
 					min: 0,
 					value: 0,
 					change: function(event, ui) {
-						var sliderVal = $('#slider').slider("value");
+						var sliderVal = ui.value;
 						bindData(scatterPlot, xData, sliderVal, yData, sliderVal);
 					},
 				});
+				$('#slider').position({
+					my: 'right top',
+					at: 'left center',
+					of: 'text.time',
+				});
+				$('#slider .ui-slider-handle').on('click', function() {
+					$('#slider').slider("value", $('#slider').slider("value")+1);
+				}).append("<i class='fa fa-play'></i>");
+
 			}
 
 		});

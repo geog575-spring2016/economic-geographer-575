@@ -1,18 +1,39 @@
 .plotBackground {
 	background: white;
 	position: absolute;
-	top: 0px;
+	bottom: 0px;
 	left: 0px;
+}
+#slider {
+	z-index: 10;
+	width: 280px;
+}
+#slider .ui-slider-handle {
+	text-align: center;
+
+}
+i.fa {
+	position: absolute;
+	font-size: 12px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .title {
-	font-size: 24px;
+	font-size: 18px;
+	font-family: 'Noticia Text', serif;
+	font-weight: 400;
 }
 .time {
 	font-size: 48px;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 800;
 }
 .label {
-	font-size: 18px;	
+	font-size: 14px;
+	font-family: 'Noticia Text', serif;
+	font-weight: 400;
 }
 
 .axis path,
@@ -23,6 +44,8 @@
 }
 .tick text {
 	font-size: 14px;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 200;
 }
 
 .dot {
