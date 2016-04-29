@@ -44,7 +44,7 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 				console.log("Moving forward with timeseries...");
 				bindData(scatterPlot, xData, 0, yData, 0);
 				
-				/*$('#slider').slider({
+				$('#slider').slider({
 					animate: 1500,
 					max: Object.keys(xData[0]).length-2,
 					min: 0,
@@ -55,12 +55,12 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 					},
 				});
 				$('#slider').position({
-					my: 'right top',
-					at: 'left center',
-					of: 'text.time',
+					my: 'left center',
+					at: 'left+50 center-100',
+					of: window,
 				});
 
-				setupTimeseriesAnimation();*/
+				setupTimeseriesAnimation();
 
 			}
 

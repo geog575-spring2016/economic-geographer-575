@@ -41,7 +41,8 @@ function setupDataDropdowns(plot) {
 		width: 230,
 		position: { my : "left bottom", at: "left top" },
 		change: function(event, ui) {
-			loadData(plot, $("#xAxisDropdown option[selected]")[0].value, ui.item.value);
+			loadData(plot, $('#xAxisDropdown').val(), ui.item.value);
+			$('#slider').slider("destroy");
 		},
 	});
 
@@ -49,13 +50,14 @@ function setupDataDropdowns(plot) {
 		width: 230,
 		position: { my : "left bottom", at: "left top" },
 		change: function(event, ui) {
-			loadData(plot, ui.item.value, $("#yAxisDropdown option[selected]")[0].value);
+			loadData(plot, ui.item.value, $('#yAxisDropdown').val());
+			$('#slider').slider("destroy");
 		},
 	});
 
 	$('#dropdownContainer').position({
 		my: 'center bottom',
-		at: 'left+250 bottom-10',
+		at: 'left+250 bottom-25',
 		of: window,
 	});
 

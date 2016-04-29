@@ -23,3 +23,18 @@ body { margin:0; padding:0; }
 	transform: translate(0%);
 }
 
+#titleSidebar {
+	position: absolute;
+	text-align: center;
+	font-family: 'Noticia Text', serif;
+	font-weight: 700;
+	width: 500px;
+	height: 100%;
+	background: rgba(200,200,200,1);
+}
+#titleSidebar h3 {
+	font-size: 36px;
+}
+#titleSidebar h1 {
+	font-size: 56px;
+}

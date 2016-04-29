@@ -66,7 +66,7 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		.attr("class", "title")
 		.attr("x", innerWidth/2)
 		.attr("y", -margins.top)
-		.attr("dy", "1.4em")
+		.attr("dy", "1.6em")
 		.style("text-anchor", "middle");
 
 	var timeLabel = inner.append("text")
@@ -166,7 +166,7 @@ function bindData(plot, xData, xCol, yData, yCol) {
 	plot.yScaleQuantile.domain(all_yData);
 	xQuantileBreaks = plot.xScaleQuantile.quantiles();
 	yQuantileBreaks = plot.yScaleQuantile.quantiles();
-	xQuantileBreaks.splice(0,0,0);
+	xQuantileBreaks.splice(0,0,d3.min(plot.xScale.domain()));
 	xQuantileBreaks.splice(xQuantileBreaks.length,0,d3.max(plot.xScale.domain()));
 	yQuantileBreaks.reverse().splice(0,0,d3.max(plot.yScale.domain()));
 	yQuantileBreaks.splice(yQuantileBreaks.length,0,d3.min(plot.yScale.domain()));
@@ -211,14 +211,15 @@ function bindData(plot, xData, xCol, yData, yCol) {
 
 function formatTicks(d) {
 
-	var tickValString = d.toFixed(0);
+	var tickValString = d.toFixed(1);
+	var tickValStrings = tickValString.split('.');
 
 	var suffix = "";
-	var magnitude = Math.ceil(tickValString.length/3);
+	var magnitude = Math.ceil(tickValStrings[0].length/3);
 
 	if (magnitude == 2) { suffix = "K"; }
 	else if (magnitude == 3) { suffix = "M"; }
 
-	return tickValString.substring(0,tickValString.length-3*(magnitude-1))+suffix;
+	return tickValStrings[0].substring(0,tickValStrings[0].length-3*(magnitude-1))+suffix;
 
 }

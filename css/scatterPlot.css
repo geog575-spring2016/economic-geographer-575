@@ -60,9 +60,9 @@ i.fa {
 }
 
 .title {
-	font-size: 18px;
+	font-size: 14px;
 	font-family: 'Noticia Text', serif;
-	font-weight: 400;
+	font-weight: 700;
 }
 .time {
 	font-size: 48px;
@@ -70,7 +70,7 @@ i.fa {
 	font-weight: 800;
 }
 .label {
-	font-size: 14px;
+	font-size: 12px;
 	font-family: 'Noticia Text', serif;
 	font-weight: 400;
 }
