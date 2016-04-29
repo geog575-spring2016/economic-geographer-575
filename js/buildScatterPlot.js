@@ -24,7 +24,36 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		.attr("class", "plotBackground");
 
 	var inner = background.append("g")
+		.attr("class", "innerBackground")
 		.attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+	var bivariates = [
+		["A1", "B1", "C1"],
+		["A2", "B2", "C2"],
+		["A3", "B3", "C3"],
+	];
+
+	for (var i = 0; i < bivariates.length; i++) {
+		for (var j = 0; j < bivariates[i].length; j++) {
+
+			var block = inner.append("rect")
+				.attr("id", bivariates[i][j])
+				.attr("class", "bivariate")
+				.attr("x", j*(innerWidth/3))
+				.attr("y", i*(innerHeight/3))
+				.attr("width", innerWidth/3)
+				.attr("height", innerHeight/3);
+
+			bivariates[i][j] = block;
+
+		}
+	}
+
+	var xScaleQuantile = d3.scale.quantile()
+        .range(bivariates[0]);
+
+    var yScaleQuantile = d3.scale.quantile()
+        .range(bivariates[0]);
 
 	var xAxis = inner.append("g")
 		.attr("class", "axis")
@@ -48,13 +77,14 @@ function initializeScatterPlot(dots, margins, dimensions) {
 
 	var xLabel = xAxis.append("text")
 		.attr("class", "label")
-		.attr("x", innerWidth)
+		.attr("x", innerWidth-6)
 		.attr("y", -6)
 		.style("text-anchor", "end");
 
 	var yLabel = yAxis.append("text")
 		.attr("class", "label")
 		.attr("transform", "rotate(90)")
+		.attr("x", 6)
 		.attr("y", 6)
 		.attr("dy", "-0.87em") //takes place of x, since we rotated the label
 		.style("text-anchor", "start");
@@ -75,10 +105,13 @@ function initializeScatterPlot(dots, margins, dimensions) {
     return {
 		xScale: xScale,
 		yScale: yScale,
-		background: background,
-		inner: inner,
 		xAxisGenerator: xAxisGenerator,
 		yAxisGenerator: yAxisGenerator,
+		background: background,
+		inner: inner,
+		bivariates: bivariates,
+		xScaleQuantile: xScaleQuantile,
+		yScaleQuantile: yScaleQuantile,
 		xAxis: xAxis,
 		yAxis: yAxis,
 		titleLabel: titleLabel,
@@ -93,6 +126,8 @@ function initializeScatterPlot(dots, margins, dimensions) {
 function bindData(plot, xData, xCol, yData, yCol) {
 
 	data = [];
+	all_xData = [];
+	all_yData = [];
 	for (var i = 0; i < xData.length; i++) {
 
 		if (xData[i]['FIPS'] != yData[i]['FIPS']) {
@@ -100,11 +135,17 @@ function bindData(plot, xData, xCol, yData, yCol) {
 			return;
 		}
 
+		var xVal = xData[i][Object.keys(xData[i])[xCol]];
+		var yVal = yData[i][Object.keys(yData[i])[yCol]];
+
 		data.push({
 			FIPS: xData[i]['FIPS'],
-			x: xData[i][Object.keys(xData[i])[xCol]],
-			y: yData[i][Object.keys(yData[i])[yCol]],
+			x: xVal,
+			y: yVal,
 		});
+
+		all_xData.push(xVal);
+		all_yData.push(yVal);
 
 	}
 
@@ -121,9 +162,18 @@ function bindData(plot, xData, xCol, yData, yCol) {
   	plot.yAxis.call(plot.yAxisGenerator);
   	plot.timeLabel.text(Object.keys(xData[0])[xCol]);
 
+  	plot.xScaleQuantile.domain(all_xData);
+	plot.yScaleQuantile.domain(all_yData);
+	xQuantileBreaks = plot.xScaleQuantile.quantiles();
+	yQuantileBreaks = plot.yScaleQuantile.quantiles();
+	xQuantileBreaks.splice(0,0,0);
+	xQuantileBreaks.splice(xQuantileBreaks.length,0,d3.max(plot.xScale.domain()));
+	yQuantileBreaks.reverse().splice(0,0,d3.max(plot.yScale.domain()));
+	yQuantileBreaks.splice(yQuantileBreaks.length,0,d3.min(plot.yScale.domain()));
+
   	plot.dots.data(data, function(d) {
 		return d.FIPS;
-	}).transition().duration(1000)
+	}).transition().duration(1500)
 	.attr("cx", function(d) {
 
 		if (isNaN(plot.xScale(d['x']))) {
@@ -144,6 +194,18 @@ function bindData(plot, xData, xCol, yData, yCol) {
 		}
 
     });
+
+    for (var i = 0; i < plot.bivariates.length; i++) {
+		for (var j = 0; j < plot.bivariates[i].length; j++) {
+
+			plot.bivariates[i][j].transition().duration(1500)
+				.attr("x", plot.xScale(xQuantileBreaks[j]))
+				.attr("y", plot.yScale(yQuantileBreaks[i]))
+				.attr("width", plot.xScale(xQuantileBreaks[j+1])-plot.xScale(xQuantileBreaks[j]))
+				.attr("height", plot.yScale(yQuantileBreaks[i+1])-plot.yScale(yQuantileBreaks[i]));
+
+		}
+	}
 
 }
 

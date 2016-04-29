@@ -4,6 +4,45 @@
 	bottom: 0px;
 	left: 0px;
 }
+
+#dropdownContainer {
+	display: inline;
+	z-index: 10;
+}
+#yAxisDropdown-button, #xAxisDropdown-button {
+	font-size: 14px;
+	font-family: 'Noticia Text', serif;
+	font-weight: 400;
+}
+
+#A1 {
+	fill: #be64ac;
+}
+#B1 {
+	fill: #8c62aa;
+}
+#C1 {
+	fill: #3b4994;
+}
+#A2 {
+	fill: #dfb0d6;
+}
+#B2 {
+	fill: #a5add3;
+}
+#C2 {
+	fill: #5698b9;
+}
+#A3 {
+	fill: #e8e8e8;
+}
+#B3 {
+	fill: #ace4e4;
+}
+#C3 {
+	fill: #5ac8c8;
+}
+
 #slider {
 	z-index: 10;
 	width: 280px;
@@ -50,4 +89,5 @@ i.fa {
 
 .dot {
   stroke: #000;
+  opacity: 0.75;
 }

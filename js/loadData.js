@@ -10,8 +10,10 @@
 				{width: 500, height: 575}
 			);
 
+			//default datasets
 			loadData(scatterPlot, "Median_Home_Value", "Median_Household_Income");
-			//Schuyler, I was thinking you could call your functions here
+			
+			setupDataDropdowns(scatterPlot);
 
 		});
 
@@ -42,7 +44,8 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 				console.log("Moving forward with timeseries...");
 				bindData(scatterPlot, xData, 0, yData, 0);
 				
-				$('#slider').slider({
+				/*$('#slider').slider({
+					animate: 1500,
 					max: Object.keys(xData[0]).length-2,
 					min: 0,
 					value: 0,
@@ -57,7 +60,7 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 					of: 'text.time',
 				});
 
-				setupTimeseriesAnimation();
+				setupTimeseriesAnimation();*/
 
 			}
 
