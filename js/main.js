@@ -1,4 +1,6 @@
 var mouseMoveControl = true;
+var fipsArray = [];
+var arrayControl = true;
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2t5d2lsbGlhbXMiLCJhIjoibUI4TlByNCJ9.9UuhBU3ElNiesrd-BcTdPQ';
 var map = new mapboxgl.Map({
@@ -46,7 +48,23 @@ map.on('load', function() {
         "type": "vector",
         "url": "mapbox://mapbox.82pkq93d"
     });
-
+    
+    map.addSource('countiesAttribute', {
+    	"type": "geojson",
+    	"data": "/data/countiesAttribute.geojson"
+    });
+    
+    map.addLayer ({
+    	"id": "countiesAttribute",
+    	"type": "fill",
+    	"source": "countiesAttribute",
+    	"source-layer": "original",
+    	"paint": {
+    		"fill-outline-color": "black",
+    		"fill-color": "white"
+    	}
+    });
+	/*
     map.addLayer({
         "id": "counties",
         "type": "fill",
@@ -57,11 +75,11 @@ map.on('load', function() {
             "fill-color": "rgba(0,0,0,0.1)"
         }
     });
-    
+    */
     map.addLayer({
         "id": "counties-highlighted",
         "type": "fill",
-        "source": "counties",
+        "source": "countiesAttribute",
         "source-layer": "original",
         "interactive": true,
         "paint": {
@@ -69,27 +87,27 @@ map.on('load', function() {
             "fill-color": "#6e599f",
             "fill-opacity": 0.75
         },
-        "filter": ["in", "FIPS", ""]
+        "filter": ["in", "fips", ""]
     });
     
     map.addLayer({
     	"id": "counties-highlighted-one",
     	"type": "fill",
-    	"source": "counties",
+    	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "#fff",
+    		"fill-color": "orange",
     		"fill-opacity": 0.75
     	},
-    	"filter": ["in", "FIPS", ""]
+    	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
     	"id": "counties-highlighted-two",
     	"type": "fill",
-    	"source": "counties",
+    	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
@@ -97,13 +115,13 @@ map.on('load', function() {
     		"fill-color": "#fff",
     		"fill-opacity": 0.75
     	},
-    	"filter": ["in", "FIPS", ""]
+    	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
     	"id": "counties-highlighted-three",
     	"type": "fill",
-    	"source": "counties",
+    	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
@@ -111,13 +129,13 @@ map.on('load', function() {
     		"fill-color": "#fff",
     		"fill-opacity": 0.75
     	},
-    	"filter": ["in", "FIPS", ""]
+    	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
     	"id": "counties-highlighted-four",
     	"type": "fill",
-    	"source": "counties",
+    	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
@@ -125,13 +143,13 @@ map.on('load', function() {
     		"fill-color": "#fff",
     		"fill-opacity": 0.75
     	},
-    	"filter": ["in", "FIPS", ""]
+    	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
     	"id": "counties-highlighted-five",
     	"type": "fill",
-    	"source": "counties",
+    	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
@@ -139,8 +157,9 @@ map.on('load', function() {
     		"fill-color": "#fff",
     		"fill-opacity": 0.75,
     	},
-    	"filter": ["in", "FIPS", ""]
+    	"filter": ["in", "fips", ""]
     });
+    
     // maybe add a new layer for each different choropleth color, instead of new layer for each county?
     // yes, add new layer for each choropleth class, with filter for the class, try to add every rendered county to each class, desired county will only show up in desired filtered choropleth layer
     
@@ -221,7 +240,7 @@ map.on('load', function() {
 
         // If bbox exists. use this value as the argument for `queryRenderedFeatures`
         if (bbox) {
-            var features = map.queryRenderedFeatures(bbox, { layers: ['counties'] });
+            var features = map.queryRenderedFeatures(bbox, { layers: ['countiesAttribute'] });
 
             if (features.length >= 1000) {
                 return window.alert('Select a smaller number of features');
@@ -231,18 +250,19 @@ map.on('load', function() {
             // to match features with unique FIPS codes to activate
             // the `counties-highlighted` layer.
             var filter = features.reduce(function(memo, feature) {
-                memo.push(feature.properties.FIPS);
+                memo.push(feature.properties.fips);
                 
-                console.log(memo);
+                //console.log(memo);
                 // call function to change colors for choropleth
             	//choropleth(feature.properties.FIPS, features);
                 return memo;
-            }, ['in', 'FIPS']);
+            }, ['in', 'fips']);
             
          	// so we're finding the unique fips id, and we need to add another filter for if that fips number is to a certain extent
-            map.setFilter("counties-highlighted", ["all", filter, ["<", "FIPS", 20000]]);
-            map.setFilter("counties-highlighted-one", ["all", filter, [">=", "FIPS", 20000]]);
+            map.setFilter("counties-highlighted", ["all", filter, ["<", "fips", 20000]]);
+            map.setFilter("counties-highlighted-one", ["all", filter, [">=", "fips", 20000]]);
             mouseMoveControl = false;
+    		//console.log(fipsArray);
         }
 
         map.dragPan.enable();
@@ -261,7 +281,7 @@ map.on('load', function() {
 			var feature = features[0];
 		
 			popup.setLngLat(e.lngLat)
-            	.setText(feature.properties.COUNTY + " " + feature.properties.FIPS)
+            	.setText(feature.properties.NAME + " County" + " " + feature.properties.fips)
             	.addTo(map);
         } else {
         	return
@@ -273,8 +293,14 @@ map.on('load', function() {
 	// create a new layer for each county? loading times?
 	// function may be obsolete now
 	function choropleth(x, y){
-		console.log(x);
-		console.log(y.length);
-		map.setPaintProperty("counties-highlighted", "fill-color", "#fff");
+		
+		if (arrayControl = false) {
+			for (i=0; i < fipsArray.length; i++) {
+				fipsArray.pop();
+			}
+		}
+		fipsArray.push(x);
+		//console.log(y.length);
+		//map.setPaintProperty("counties-highlighted", "fill-color", "#fff");
 	};
 });
