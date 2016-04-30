@@ -75,10 +75,28 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		.attr("dy", "-0.4em")
 		.style("text-anchor", "end");
 
+	var quantileLabels = [];
+
 	var xLabel = xAxis.append("text")
 		.attr("class", "label")
 		.attr("x", innerWidth-6)
 		.attr("y", -6)
+		.style("text-anchor", "end");
+
+	var yQuantileLabel_1 = xAxis.append("text")
+		.attr("class", "numLabel")
+		.attr("x", innerWidth-3)
+		.attr("y", -6)
+		.attr("style", "fill: white;")
+		.attr("dy", "0.15em")
+		.style("text-anchor", "end");
+
+	var yQuantileLabel_2 = xAxis.append("text")
+		.attr("class", "numLabel")
+		.attr("x", innerWidth-3)
+		.attr("y", -6)
+		.attr("style", "fill: white;")
+		.attr("dy", "0.15em")
 		.style("text-anchor", "end");
 
 	var yLabel = yAxis.append("text")
@@ -88,6 +106,17 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		.attr("y", 6)
 		.attr("dy", "-0.87em") //takes place of x, since we rotated the label
 		.style("text-anchor", "start");
+
+	var xQuantileLabel_1 = yAxis.append("text")
+		.attr("class", "numLabel")
+		.attr("y", 14)
+		.attr("style", "fill: white;")
+		.style("text-anchor", "middle");
+
+	var xQuantileLabel_2 = yAxis.append("text")
+		.attr("class", "numLabel")
+		.attr("y", -4)
+		.style("text-anchor", "middle");
 
 	var dots = inner.selectAll(".dot")
 		.data(dots).enter().append("circle")
@@ -118,24 +147,35 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		timeLabel: timeLabel,
 		xLabel: xLabel,
 		yLabel: yLabel,
+		quantileLabels: {
+			x1: xQuantileLabel_1,
+			x2: xQuantileLabel_2,
+			y1: yQuantileLabel_1,
+			y2: yQuantileLabel_2,
+		},
 		dots: dots,
     };
 
 }
 
-function bindData(plot, xData, xCol, yData, yCol) {
+function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 
 	data = [];
 	all_xData = [];
 	all_yData = [];
-	for (var i = 0; i < xData.length; i++) {
+	for (var i = 0; i < yData.length; i++) {
 
 		if (xData[i]['FIPS'] != yData[i]['FIPS']) {
 			console.log("FIPS order does not match between data sets");
 			return;
 		}
 
-		var xVal = xData[i][Object.keys(xData[i])[xCol]];
+		if (bivariate) {
+			var xVal = xData[i][Object.keys(xData[i])[xCol]];
+		} else {
+			var xVal = i;
+		}
+
 		var yVal = yData[i][Object.keys(yData[i])[yCol]];
 
 		data.push({
@@ -156,16 +196,46 @@ function bindData(plot, xData, xCol, yData, yCol) {
 
 	plot.xScale.domain(d3.extent(data, function(d) { return d['x']; })).nice();
   	plot.yScale.domain(d3.extent(data, function(d) { return d['y']; })).nice();
-  	plot.xAxisGenerator.tickFormat(function(d) { return formatTicks(d); });
+  	
+  	if (bivariate) {
+
+  		plot.xAxisGenerator
+  			.innerTickSize([6])
+  			.outerTickSize([6])
+  			.tickFormat(function(d) { return formatTicks(d); });
+
+  	} else {
+
+  		plot.xAxisGenerator
+  			.innerTickSize([0])
+  			.outerTickSize([0])
+  			.tickFormat(function(d) { return ''; });
+
+  	}
+  	
   	plot.yAxisGenerator.tickFormat(function(d) { return formatTicks(d); });
   	plot.xAxis.call(plot.xAxisGenerator);
   	plot.yAxis.call(plot.yAxisGenerator);
-  	plot.timeLabel.text(Object.keys(xData[0])[xCol]);
+  	plot.timeLabel.text(Object.keys(yData[0])[yCol]);
 
   	plot.xScaleQuantile.domain(all_xData);
 	plot.yScaleQuantile.domain(all_yData);
 	xQuantileBreaks = plot.xScaleQuantile.quantiles();
 	yQuantileBreaks = plot.yScaleQuantile.quantiles();
+
+	plot.quantileLabels.x2.transition().duration(1500)
+		.attr("x", plot.xScale(xQuantileBreaks[0]))
+		.text(xQuantileBreaks[0]);
+	plot.quantileLabels.x1.transition().duration(1500)
+		.attr("x", plot.xScale(xQuantileBreaks[1]))
+		.text(xQuantileBreaks[1]);
+	plot.quantileLabels.y1.transition().duration(1500)
+		.attr("y", plot.yScale(yQuantileBreaks[0])-plot.yScale.range()[0])
+		.text(yQuantileBreaks[0]);
+	plot.quantileLabels.y2.transition().duration(1500)
+		.attr("y", plot.yScale(yQuantileBreaks[1])-plot.yScale.range()[0])
+		.text(yQuantileBreaks[1]);
+	
 	xQuantileBreaks.splice(0,0,d3.min(plot.xScale.domain()));
 	xQuantileBreaks.splice(xQuantileBreaks.length,0,d3.max(plot.xScale.domain()));
 	yQuantileBreaks.reverse().splice(0,0,d3.max(plot.yScale.domain()));
@@ -173,14 +243,22 @@ function bindData(plot, xData, xCol, yData, yCol) {
 
   	plot.dots.data(data, function(d) {
 		return d.FIPS;
-	}).transition().duration(1500)
-	.attr("cx", function(d) {
+	}).sort(function(a, b) {
+		return a['y']-b['y'];
+	})
+	.transition().duration(1500)
+	.attr("cx", function(d, i) {
 
 		if (isNaN(plot.xScale(d['x']))) {
 			$('.FIPS-'+d.FIPS).attr("r", 0);
 		} else {
 			$('.FIPS-'+d.FIPS).attr("r", 0.5);
-			return plot.xScale(d['x']);
+
+			if (bivariate) {
+				return plot.xScale(d['x']);
+			} else {
+				return plot.xScale(i);
+			}
 		}
 
 	})
