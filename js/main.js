@@ -1,6 +1,9 @@
 var mouseMoveControl = true;
 
 
+	
+
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2t5d2lsbGlhbXMiLCJhIjoibUI4TlByNCJ9.9UuhBU3ElNiesrd-BcTdPQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
@@ -50,7 +53,7 @@ map.on('load', function() {
     
     map.addSource('countiesAttribute', {
     	"type": "geojson",
-    	"data": "/data/countiesAttribute.geojson"
+    	"data": "/data/countiesAttribute00.geojson"
     });
     
     map.addLayer ({
@@ -76,126 +79,126 @@ map.on('load', function() {
     });
     */
     map.addLayer({
-        "id": "counties-highlighted",
+        "id": "counties-highlighted-A1",
         "type": "fill",
         "source": "countiesAttribute",
         "source-layer": "original",
         "interactive": true,
         "paint": {
             "fill-outline-color": "#484896",
-            "fill-color": "#6e599f",
+            "fill-color": "#be64ac",
             "fill-opacity": 0.75
         },
         "filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-one",
+    	"id": "counties-highlighted-B1",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "orange",
+    		"fill-color": "#8c62aa",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-two",
+    	"id": "counties-highlighted-C1",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "blue",
+    		"fill-color": "#3b4994",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-three",
+    	"id": "counties-highlighted-A2",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "red",
+    		"fill-color": "#dfb0d6",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-four",
+    	"id": "counties-highlighted-B2",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "green",
+    		"fill-color": "#a5add3",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-five",
+    	"id": "counties-highlighted-C2",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "yellow",
+    		"fill-color": "#5698b9",
     		"fill-opacity": 0.75,
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-six",
+    	"id": "counties-highlighted-A3",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "black",
+    		"fill-color": "#e8e8e8",
     		"fill-opacity": 0.75,
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-seven",
+    	"id": "counties-highlighted-B3",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "#fff",
+    		"fill-color": "#ace4e4",
     		"fill-opacity": 0.75,
     	},
     	"filter": ["in", "fips", ""]
     });
     
     map.addLayer({
-    	"id": "counties-highlighted-eight",
+    	"id": "counties-highlighted-C3",
     	"type": "fill",
     	"source": "countiesAttribute",
     	"source-layer": "original",
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "#fff",
+    		"fill-color": "#5ac8c8",
     		"fill-opacity": 0.75,
     	},
     	"filter": ["in", "fips", ""]
@@ -300,10 +303,12 @@ map.on('load', function() {
             }, ['in', 'fips']);
             
          	// so we're finding the unique fips id, and we need to add another filter for if that fips number is to a certain extent
-         	map.setFilter("counties-highlighted", ["all", filter, ["<", "medianHome", 50000]]);
-         	map.setFilter("counties-highlighted-one", ["all", filter, [">=", "medianHome", 50000]]);
+         	//map.setFilter("counties-highlighted-A1", ["all", filter, ["<", "medianHome", 50000]]);
+         	//map.setFilter("counties-highlighted-B1", ["all", filter, [">=", "medianHome", 50000]]);
             //map.setFilter("counties-highlighted", ["all", filter, ["<", "fips", 20000]]);
             //map.setFilter("counties-highlighted-one", ["all", filter, [">=", "fips", 20000]]);
+            
+            choropleth(filter);
             mouseMoveControl = false;
     		
         }
@@ -313,7 +318,17 @@ map.on('load', function() {
     
     map.on('mousemove', function(e) {
     	if (mouseMoveControl == false) {
-			var features = map.queryRenderedFeatures(e.point, { layers: ['counties-highlighted', 'counties-highlighted-one'] });
+			var features = map.queryRenderedFeatures(e.point, { layers: 
+				['counties-highlighted-A1',
+				 'counties-highlighted-B1',
+				 'counties-highlighted-C1',
+				 'counties-highlighted-A2',
+				 'counties-highlighted-B2',
+				 'counties-highlighted-C2',
+				 'counties-highlighted-A3',
+				 'counties-highlighted-B3',
+				 'counties-highlighted-C3'] 
+			});
 			map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 		
 			if (!features.length) {
@@ -333,8 +348,12 @@ map.on('load', function() {
 	
 	
 	// function that keep tracks of the year being displayed and the two variables being displayed
-	function choropleth(x, y){
-		
-		
+	function choropleth(x){
+		map.setFilter("counties-highlighted-A1", ["all", x, [">=", "medianHome", 140000]]);
+        map.setFilter("counties-highlighted-B1", ["all", x, ["<", "medianHome", 140000], [">=", "medianHome", 120000]]);
+        map.setFilter("counties-highlighted-C1", ["all", x, ["<", "medianHome", 120000], [">=", "medianHome", 100000]]);
+        map.setFilter("counties-highlighted-A2", ["all", x, ["<", "medianHome", 100000], [">=", "medianHome", 80000]]);
+        map.setFilter("counties-highlighted-B2", ["all", x, ["<", "medianHome", 80000], [">=", "medianHome", 60000]]);
+        map.setFilter("counties-highlighted-C2", ["all", x, ["<", "medianHome", 60000]]);
 	};
 });
