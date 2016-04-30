@@ -1,6 +1,5 @@
 var mouseMoveControl = true;
-var fipsArray = [];
-var arrayControl = true;
+
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2t5d2lsbGlhbXMiLCJhIjoibUI4TlByNCJ9.9UuhBU3ElNiesrd-BcTdPQ';
 var map = new mapboxgl.Map({
@@ -112,7 +111,7 @@ map.on('load', function() {
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "#fff",
+    		"fill-color": "blue",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
@@ -126,7 +125,7 @@ map.on('load', function() {
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "#fff",
+    		"fill-color": "red",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
@@ -140,7 +139,7 @@ map.on('load', function() {
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
-    		"fill-color": "#fff",
+    		"fill-color": "green",
     		"fill-opacity": 0.75
     	},
     	"filter": ["in", "fips", ""]
@@ -154,13 +153,55 @@ map.on('load', function() {
     	"interactive": true,
     	"paint": {
     		"fill-outline-color": "#484896",
+    		"fill-color": "yellow",
+    		"fill-opacity": 0.75,
+    	},
+    	"filter": ["in", "fips", ""]
+    });
+    
+    map.addLayer({
+    	"id": "counties-highlighted-six",
+    	"type": "fill",
+    	"source": "countiesAttribute",
+    	"source-layer": "original",
+    	"interactive": true,
+    	"paint": {
+    		"fill-outline-color": "#484896",
+    		"fill-color": "black",
+    		"fill-opacity": 0.75,
+    	},
+    	"filter": ["in", "fips", ""]
+    });
+    
+    map.addLayer({
+    	"id": "counties-highlighted-seven",
+    	"type": "fill",
+    	"source": "countiesAttribute",
+    	"source-layer": "original",
+    	"interactive": true,
+    	"paint": {
+    		"fill-outline-color": "#484896",
     		"fill-color": "#fff",
     		"fill-opacity": 0.75,
     	},
     	"filter": ["in", "fips", ""]
     });
     
-    // maybe add a new layer for each different choropleth color, instead of new layer for each county?
+    map.addLayer({
+    	"id": "counties-highlighted-eight",
+    	"type": "fill",
+    	"source": "countiesAttribute",
+    	"source-layer": "original",
+    	"interactive": true,
+    	"paint": {
+    		"fill-outline-color": "#484896",
+    		"fill-color": "#fff",
+    		"fill-opacity": 0.75,
+    	},
+    	"filter": ["in", "fips", ""]
+    });
+ 	
+    
     // yes, add new layer for each choropleth class, with filter for the class, try to add every rendered county to each class, desired county will only show up in desired filtered choropleth layer
     
     // Set `true` to dispatch the event before other functions
@@ -259,10 +300,12 @@ map.on('load', function() {
             }, ['in', 'fips']);
             
          	// so we're finding the unique fips id, and we need to add another filter for if that fips number is to a certain extent
-            map.setFilter("counties-highlighted", ["all", filter, ["<", "fips", 20000]]);
-            map.setFilter("counties-highlighted-one", ["all", filter, [">=", "fips", 20000]]);
+         	map.setFilter("counties-highlighted", ["all", filter, ["<", "medianHome", 50000]]);
+         	map.setFilter("counties-highlighted-one", ["all", filter, [">=", "medianHome", 50000]]);
+            //map.setFilter("counties-highlighted", ["all", filter, ["<", "fips", 20000]]);
+            //map.setFilter("counties-highlighted-one", ["all", filter, [">=", "fips", 20000]]);
             mouseMoveControl = false;
-    		//console.log(fipsArray);
+    		
         }
 
         map.dragPan.enable();
@@ -281,7 +324,7 @@ map.on('load', function() {
 			var feature = features[0];
 		
 			popup.setLngLat(e.lngLat)
-            	.setText(feature.properties.NAME + " County" + " " + feature.properties.fips)
+            	.setText(feature.properties.NAME + " County" + " " + feature.properties.medianHome)
             	.addTo(map);
         } else {
         	return
@@ -289,18 +332,9 @@ map.on('load', function() {
 	});
 	
 	
-	// function to retrieve data and change colors based on data retrieved
-	// create a new layer for each county? loading times?
-	// function may be obsolete now
+	// function that keep tracks of the year being displayed and the two variables being displayed
 	function choropleth(x, y){
 		
-		if (arrayControl = false) {
-			for (i=0; i < fipsArray.length; i++) {
-				fipsArray.pop();
-			}
-		}
-		fipsArray.push(x);
-		//console.log(y.length);
-		//map.setPaintProperty("counties-highlighted", "fill-color", "#fff");
+		
 	};
 });
