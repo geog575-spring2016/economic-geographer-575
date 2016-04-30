@@ -1,15 +1,89 @@
 var mouseMoveControl = true;
 
+var filterHolder;
 
-    
 
+var arrAxisValues = [
+	"Median_Home_Value",
+	"Median_Household_Income",
+	"Unemployment_Rate",
+	"Median_Monthly_Ownership_Costs"
+];
+
+var yAxisValue = arrAxisValues[1];
+var xAxisValue = arrAxisValues[0];
+
+var arrMedianHomeValue = [
+	"medianHome",
+	"medianHo_1",
+	"medianHo_2",
+	"medianHo_3",
+	"medianHo_4",
+	"medianHo_5"
+];
+
+var arrIncome = [
+	"Income_Dat",
+	"Income_200",
+	"Income_201",
+	"Income_202",
+	"Income_203",
+	"Income_204",
+	"Income_205"
+];
+
+var arrMonthlyCost = [
+	"MonthyCost",
+	"MonthlyCos",
+	"MonthlyC_1",
+	"MonthlyC_2",
+	"MonthlyC_3",
+	"MonthlyC_4",
+	"MonthlyC_5"
+];
+
+var arrUnemployment = [
+	"Unemployme",
+	"Unemploy_1",
+	"Unemploy_2",
+	"Unemploy_3",
+	"Unemploy_4",
+	"Unemploy_5"
+];
+
+var arrYears = [
+	2009,
+	2010,
+	2011,
+	2012,
+	2013,
+	2014
+];
+
+var arrAttributes = [
+	"medianHomeValue",
+	"income",
+	"monthlyCost",
+	"unemployment",
+];
+
+
+
+	
+var bounds = [
+    [-180, 10], // Southwest coordinates
+    [-45, 65]  // Northeast coordinates
+];
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2t5d2lsbGlhbXMiLCJhIjoibUI4TlByNCJ9.9UuhBU3ElNiesrd-BcTdPQ';
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/light-v8', //basemap style
-    center: [-74.50, 40], // starting position
-    zoom: 4 // starting zoom
+    center: [-118, 40], // starting position
+    minZoom: 3,
+    maxZoom: 8,
+    maxBounds: bounds,
+    zoom: 3, // starting zoom
 });
 
 
@@ -66,18 +140,7 @@ map.on('load', function() {
             "fill-color": "white"
         }
     });
-    /*
-    map.addLayer({
-        "id": "counties",
-        "type": "fill",
-        "source": "counties",
-        "source-layer": "original",
-        "paint": {
-            "fill-outline-color": "rgba(0,0,0,0.1)",
-            "fill-color": "rgba(0,0,0,0.1)"
-        }
-    });
-    */
+   
     map.addLayer({
         "id": "counties-highlighted-A1",
         "type": "fill",
@@ -308,7 +371,8 @@ map.on('load', function() {
             //map.setFilter("counties-highlighted", ["all", filter, ["<", "fips", 20000]]);
             //map.setFilter("counties-highlighted-one", ["all", filter, [">=", "fips", 20000]]);
             
-            choropleth(filter);
+            filterHolder = filter;
+            choropleth(filterHolder);
             mouseMoveControl = false;
             
         }
@@ -344,16 +408,68 @@ map.on('load', function() {
         } else {
             return
         }
-    });
-    
-    
-    // function that keep tracks of the year being displayed and the two variables being displayed
-    function choropleth(x){
-        map.setFilter("counties-highlighted-A1", ["all", x, [">=", "medianHome", 140000]]);
-        map.setFilter("counties-highlighted-B1", ["all", x, ["<", "medianHome", 140000], [">=", "medianHome", 120000]]);
-        map.setFilter("counties-highlighted-C1", ["all", x, ["<", "medianHome", 120000], [">=", "medianHome", 100000]]);
-        map.setFilter("counties-highlighted-A2", ["all", x, ["<", "medianHome", 100000], [">=", "medianHome", 80000]]);
-        map.setFilter("counties-highlighted-B2", ["all", x, ["<", "medianHome", 80000], [">=", "medianHome", 60000]]);
-        map.setFilter("counties-highlighted-C2", ["all", x, ["<", "medianHome", 60000]]);
-    };
+	});
 });
+
+// function that keep tracks of the year being displayed and the two variables being displayed
+function choropleth(x){
+	var selectedYear = arrYears.indexOf(2009);
+		
+	var selectedYAttribute = yAxisValue;
+	var selectedXAttribute = xAxisValue;
+		
+	if (selectedXAttribute == arrAxisValues[0]) {
+		fmedianHomeValue(selectedYear, x);
+	} else if (selectedXAttribute == arrAxisValues[1]) {
+		fmedianHouseholdIncome(selectedYear, x);
+	} else if (selectedXAttribute == arrAxisValues[2]) {
+		funemploymentRate(selectedYear, x);
+	} else if (selectedXAttribute == arrAxisValues[3]) {
+		fmedianMonthlyCosts(selectedYear, x);
+	};
+};
+	
+function fmedianHomeValue(year,filter){
+	var yearAttribute = arrMedianHomeValue[year];
+		
+	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute, 140000]]);
+    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute, 140000], [">=", yearAttribute, 120000]]);
+    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute, 120000], [">=", yearAttribute, 100000]]);
+    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute, 100000], [">=", yearAttribute, 80000]]);
+    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute, 80000], [">=", yearAttribute, 60000]]);
+    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute, 60000]]);
+};
+    
+function fmedianHouseholdIncome(year, filter){
+    var yearAttribute = arrIncome[year];
+    	
+    map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute, 140000]]);
+    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute, 140000], [">=", yearAttribute, 120000]]);
+    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute, 120000], [">=", yearAttribute, 100000]]);
+    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute, 100000], [">=", yearAttribute, 80000]]);
+    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute, 80000], [">=", yearAttribute, 60000]]);
+    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute, 60000]]);
+};
+    
+function funemploymentRate(year, filter){
+    var yearAttribute = arrUnemployment[year];
+    	
+    map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute, 140000]]);
+    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute, 140000], [">=", yearAttribute, 120000]]);
+    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute, 120000], [">=", yearAttribute, 100000]]);
+    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute, 100000], [">=", yearAttribute, 80000]]);
+    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute, 80000], [">=", yearAttribute, 60000]]);
+    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute, 60000]]);
+};
+    
+function fmedianMonthlyCosts(year, filter) {
+    var yearAttribute = arrMonthlyCost[year];
+    	
+    map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute, 140000]]);
+    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute, 140000], [">=", yearAttribute, 120000]]);
+    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute, 120000], [">=", yearAttribute, 100000]]);
+    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute, 100000], [">=", yearAttribute, 80000]]);
+    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute, 80000], [">=", yearAttribute, 60000]]);
+    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute, 60000]]);
+};
+

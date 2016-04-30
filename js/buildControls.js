@@ -43,6 +43,9 @@ function setupDataDropdowns(plot) {
 		change: function(event, ui) {
 			loadData(plot, $('#xAxisDropdown').val(), ui.item.value);
 			$('#slider').slider("destroy");
+			
+			//store Y value in variable for map display
+			yAxisValue = ui.item.value;
 		},
 	});
 
@@ -52,6 +55,12 @@ function setupDataDropdowns(plot) {
 		change: function(event, ui) {
 			loadData(plot, ui.item.value, $('#yAxisDropdown').val());
 			$('#slider').slider("destroy");
+			
+			//store X value in variable for map display
+			xAxisValue = ui.item.value;
+			
+			//call choropleth function to update map
+			choropleth(filterHolder);
 		},
 	});
 
