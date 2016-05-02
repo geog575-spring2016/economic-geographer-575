@@ -12,14 +12,33 @@
 
 			//default datasets
 			loadData(scatterPlot, "Median_Home_Value", "Median_Household_Income");
-			
+
 			setupDataDropdowns(scatterPlot);
 
 		});
 
 })();
 
-function loadData(scatterPlot, xDataFilename, yDataFilename) {
+function loadData(scatterPlot, xDataOption, yDataOption) {
+	console.log(yDataOption)
+	if(yDataOption=="Uploaded User Dataset") {
+		loadXDataFromSite(scatterPlot, xDataOption)
+	}
+	else {
+		loadDataFromSite(scatterPlot, xDataOption, yDataOption)
+	}
+}
+
+function loadXDataFromSite(scatterPlot, xDataOption) {
+		var xFilename = xDataFilename.replace(/_/g, " ");
+		var yFilename = yDataFilename.replace(/_/g, " ");
+	  var yData = document.getElementById("importUserData");
+		
+		d3_queue.queue()
+			.defer(d3.csv, "data/"+xDataFilename+".csv")
+			.await(function(error,xData,yData) {applyData(scatterPlot, xDataFilename, yDataFilename, xData, yData)})
+}
+function loadDataFromSite(scatterPlot, xDataFilename, yDataFilename) {
 
 	var xFilename = xDataFilename.replace(/_/g, " ");
 	var yFilename = yDataFilename.replace(/_/g, " ");
@@ -27,13 +46,20 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 	d3_queue.queue()
 		.defer(d3.csv, "data/"+xDataFilename+".csv")
 		.defer(d3.csv, "data/"+yDataFilename+".csv")
-		.await(function(error, xData, yData) {
+		.await(function(error,xData,yData) {applyData(scatterPlot, xDataFilename, yDataFilename, xData, yData)})
+
+};
+
+function applyData(scatterPlot, xDataFilename, yDataFilename, xData, yData) {
+
+	var xFilename = xDataFilename.replace(/_/g, " ");
+	var yFilename = yDataFilename.replace(/_/g, " ");
 
 			if (xData.length != yData.length) {
 				//console.log("Datasets have different numbers of records,");
 				console.log("ERROR: Datasets must have the same number of records!");
 			} else if (Object.keys(xData[0]).length != Object.keys(yData[0]).length) {
-				
+
 				//console.log("Dataset features have different number of attributes,");
 				console.log("Moving forward without timeseries...");
 
@@ -63,12 +89,12 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 			} else {
 
 				//console.log("Moving forward with timeseries...");
-				
+
 				scatterPlot.xLabel.text(xFilename);
 			  	scatterPlot.yLabel.text(yFilename);
 			  	scatterPlot.titleLabel.text(yFilename+" vs. "+xFilename);
 				bindData(scatterPlot, xData, 0, yData, 0, true);
-				
+
 				$('#slider').slider({
 					animate: 1500,
 					max: Object.keys(yData[0]).length-2,
@@ -89,6 +115,4 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 
 			}
 
-		});
-
-}
+};
