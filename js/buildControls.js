@@ -46,6 +46,9 @@ function setupDataDropdowns(plot) {
 			
 			//store Y value in variable for map display
 			yAxisValue = ui.item.value;
+			
+			//call choropleth function to update map
+			choropleth(filterHolder);
 		},
 	});
 
