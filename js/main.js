@@ -19,7 +19,7 @@ var arrAxisValues = [
 	"Median_Home_Value",
 	"Median_Household_Income",
 	"Unemployment_Rate",
-	"Median_Monthly_Ownership_Costs"
+	"Median_Monthly_Ownership_Costs",
 	"Uploaded_User_Dataset"
 ];
 

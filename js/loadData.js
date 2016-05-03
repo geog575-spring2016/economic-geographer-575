@@ -138,6 +138,4 @@ function applyData(scatterPlot, xTitle, yTitle, xData, yData) {
 
 			}
 
-		});
-
-}
+		};
