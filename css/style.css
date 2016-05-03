@@ -1,6 +1,6 @@
 body { margin:0; padding:0; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
-        
+
 .boxdraw {
 	background: rgba(56,135,190,0.1);
     border: 2px solid #3887be;
@@ -37,4 +37,12 @@ body { margin:0; padding:0; }
 }
 #titleSidebar h1 {
 	font-size: 56px;
+}
+
+#importUserData {
+  position:absolute;
+	height:85%;
+	width:200px;
+	bottom: 10%;
+	right:10%;
 }

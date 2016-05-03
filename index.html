@@ -2,7 +2,7 @@
 <head>
     <meta charset='utf-8' />
     <title>Final Project 575</title>
-    
+
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <!-- LINK D3 & ASSOCIATED -->
@@ -13,20 +13,20 @@
     <link rel="stylesheet" href="lib/jquery-ui-1.11.4.custom/jquery-ui.min.css">
 	<script src="lib/jquery-ui-1.11.4.custom/external/jquery/jquery.js"></script>
 	<script src="lib/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-    
+
     <!-- LINK FONT AWESOME -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-    
+
     <!-- LINK MAPBOX -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.16.0/mapbox-gl.css' rel='stylesheet' />
     <!-- /LINK MAPBOX -->
-    
+
     <!-- Link custom css -->
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/scatterPlot.css" rel="stylesheet" />
     <link href='https://fonts.googleapis.com/css?family=Raleway:800,200,500|Noticia+Text:400,700,400italic' rel='stylesheet' type='text/css'>
-        
+
 </head>
 <body>
 
@@ -43,6 +43,7 @@
         <option value="Unemployment_Rate">Unemployment Rate</option>
         <option value="Median_Monthly_Ownership_Costs">Median Monthly Ownership Costs</option>
          <option value="Housing_Age">Housing Age</option>
+         <option value="Uploaded_User_Dataset">Uploaded User Dataset</option>
     </select>
     <select id="xAxisDropdown">
         <option value="Median_Home_Value" selected>Median Home Value</option>
@@ -60,4 +61,11 @@
 <script src="js/buildControls.js"></script>
 
 </body>
+<div id='importUserData'>
+<p> You can upload your own single attribute dataset, using the dataset template available below </p>
+<a href="/data/template.csv" download>
+<button type="button">Download Dataset Template</button> </a>
+<input type="file" id='Uploaded_User_Dataset' accept='.csv' />
+</div>
+
 </html>

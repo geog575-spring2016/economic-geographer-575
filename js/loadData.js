@@ -12,35 +12,84 @@
 
 			//default datasets
 			loadData(scatterPlot, "Median_Home_Value", "Median_Household_Income");
-			
+
 			setupDataDropdowns(scatterPlot);
 
 		});
 
 })();
+function loadData(scatterPlot, xDataOption, yDataOption) {
+    console.log(xDataOption)
+    if (xDataOption == "Uploaded_User_Dataset") {
+        loadYDataFromSite(scatterPlot, yDataOption)
+    } else {
+        loadDataFromSite(scatterPlot, xDataOption, yDataOption)
+    }
+};
+function loadYDataFromSite(scatterPlot, yDataFilename) {
+   var yFilename = yDataFilename.replace(/_/g, " ");
+	     var uploadedFile = document.getElementById("Uploaded_User_Dataset").files[0];
+    //handleFile adapted from MounirMesselmeni on github
+    function handleFile(file) {
+        console.log(file)
+           // Check for the various File API support.
+        if (window.FileReader) {
+            // FileReader are supported.
+						var reader = new FileReader();
+					reader.onload = loadHandler;
+					reader.onerror = errorHandler;
+					reader.readAsText(file)
+        } else {
+            alert('FileReader is not supported in this browser, so your uploaded user dataset cannot be read.');
+        }
+    }
 
-function loadData(scatterPlot, xDataFilename, yDataFilename) {
+    function loadHandler(event) {
+        var raw = event.target.result;
+				console.log(raw)
+				xData = d3.csv.parse(raw)
+        console.log(xData)
+			d3_queue.queue()
+						.defer(d3.csv, "data/" + yDataFilename + ".csv")
+						.await(function(error, yData) {
+								applyData(scatterPlot, "Uploaded User Dataset", yFilename, xData, yData)
+						})
+    }
 
-	var xFilename = xDataFilename.replace(/_/g, " ");
-	var yFilename = yDataFilename.replace(/_/g, " ");
+    function errorHandler(evt) {
+        if (evt.target.error.name == "NotReadableError") {
+           alert("Cannot read file!");
+        }
+    }
+   handleFile(uploadedFile)
+}
 
-	d3_queue.queue()
-		.defer(d3.csv, "data/"+xDataFilename+".csv")
-		.defer(d3.csv, "data/"+yDataFilename+".csv")
-		.await(function(error, xData, yData) {
+function loadDataFromSite(scatterPlot, xDataFilename, yDataFilename) {
+    var xFilename = xDataFilename.replace(/_/g, " ");
+    var yFilename = yDataFilename.replace(/_/g, " ");
+   d3_queue.queue()
+       .defer(d3.csv, "data/" + xDataFilename + ".csv")
+			         .defer(d3.csv, "data/" + yDataFilename + ".csv")
+        .await(function(error, xData, yData) {
+           applyData(scatterPlot, xFilename, yFilename, xData, yData)
+        })
+};
 
-			if (xData.length != yData.length) {
-				//console.log("Datasets have different numbers of records,");
-				console.log("ERROR: Datasets must have the same number of records!");
-			} else if (Object.keys(xData[0]).length != Object.keys(yData[0]).length) {
-				
-				//console.log("Dataset features have different number of attributes,");
-				console.log("Moving forward without timeseries...");
+function applyData(scatterPlot, xTitle, yTitle, xData, yData) {
+    console.log(xData)
+    console.log(yData)
+    if (xData.length != yData.length) {
+        //console.log("Datasets have different numbers of records,");
+        console.log("ERROR: Datasets must have the same number of records!");
+    } else if (Object.keys(xData[0]).length != Object.keys(yData[0]).length) {
 
-				bindData(scatterPlot, xData, 0, yData, 0, false);
-				scatterPlot.xLabel.text("");
-				scatterPlot.yLabel.text(yFilename);
-				scatterPlot.titleLabel.text(yFilename);
+        //console.log("Dataset features have different number of attributes,");
+        console.log("Moving forward without timeseries...");
+
+        bindData(scatterPlot, xData, 0, yData, 0, false);
+        scatterPlot.xLabel.text("");
+        scatterPlot.yLabel.text(yTitle);
+        scatterPlot.titleLabel.text(yTitle);
 
 				$('#slider').slider({
 					animate: 1500,
@@ -63,12 +112,12 @@ function loadData(scatterPlot, xDataFilename, yDataFilename) {
 			} else {
 
 				//console.log("Moving forward with timeseries...");
-				
-				scatterPlot.xLabel.text(xFilename);
-			  	scatterPlot.yLabel.text(yFilename);
-			  	scatterPlot.titleLabel.text(yFilename+" vs. "+xFilename);
-				bindData(scatterPlot, xData, 0, yData, 0, true);
-				
+
+				scatterPlot.xLabel.text(xTitle);
+       scatterPlot.yLabel.text(yTitle);
+      scatterPlot.titleLabel.text(yTitle + " vs. " + xTitle);
+       bindData(scatterPlot, xData, 0, yData, 0, true);
+
 				$('#slider').slider({
 					animate: 1500,
 					max: Object.keys(yData[0]).length-2,
