@@ -6,6 +6,15 @@ var xQuantile02;
 var yQuantile01;
 var yQuantile02;
 
+//variables for displaying pop-up info
+var displayPop01 = 0;
+var displayPop02 = 0;
+var displayPop10 = 0;
+var displayPop20 = 0;
+
+//variable for keeping track of year
+var displayedYear = 2009;
+
 var arrAxisValues = [
 	"Median_Home_Value",
 	"Median_Household_Income",
@@ -71,6 +80,9 @@ var arrAttributes = [
 ];
 
 
+	
+
+
 
 	
 var bounds = [
@@ -108,6 +120,8 @@ var level = 'isState';
 
 map.on('load', function() {
     var canvas = map.getCanvasContainer();
+    
+    alterHoveredValues();
     
     // Variable to hold the starting xy coordinates
     // when `mousedown` occured.
@@ -404,9 +418,16 @@ map.on('load', function() {
             }
         
             var feature = features[0];
-        
+        	var arrProperties = [
+				[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
+				[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
+				[feature.properties.MonthyCost, feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],
+				[feature.properties.Unemployme, feature.properties.Unemploy_1, feature.properties.Unemploy_2, feature.properties.Unemploy_3, feature.properties.Unemploy_4, feature.properties.Unemploy_5]
+			];
+			
+        	
             popup.setLngLat(e.lngLat)
-                .setText(feature.properties.NAME + " County" + " " + feature.properties.medianHome)
+                .setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
                 .addTo(map);
         } else {
             return
@@ -506,10 +527,6 @@ function fvalueValue(year, filter) {
 */
 
 function fvalueIncome(filter, yearX, yearY) {
-	/*
-	var yearAttribute01 = arrMedianHomeValue[year]; //x value
-	var yearAttribute02 = arrIncome[year]; //y value
-	*/
 	
 	map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
     map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
@@ -520,11 +537,40 @@ function fvalueIncome(filter, yearX, yearY) {
     map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
     map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
     map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
-    
-    console.log(yearX);
-    console.log(yearY);
 };
 
+
+function alterHoveredValues() {
+	for (z=0; z<4; z++) {
+		var testPlaceholder = arrAxisValues.indexOf(xAxisValue);
+		var testPlaceholder0101 = arrAxisValues[testPlaceholder];
+		console.log('hello');
+		if (testPlaceholder0101 == arrAxisValues[z]) {
+			displayPop01 = z;
+			return displayPop01;
+		}
+	}
+	
+	for (m=0; m<4; m++) {
+		var testPlaceholder03 = arrAxisValues.indexOf(yAxisValue);
+		var testPlaceholder0301 = arrAxisValues[testPlaceholder03];
+		console.log('hello');
+		if (testPlaceholder0301 == arrAxisValues[m]) {
+			displayPop10 = m;
+			return displayPop10;
+		}
+	}
+			
+	for (n=0; n<6; n++) {
+		var testPlaceholder04 = arrYears.indexOf(displayedYear);
+		console.log('hello');
+		if (testPlaceholder04 == arrYears[n]) {
+			displayPop20 = n;
+			return displayPop20;
+		}
+	}
+	
+};
 /*
 function fvalueUnemployment(year, filter) {
 	var yearAttribute01 = arrMedianHomeValue[year];

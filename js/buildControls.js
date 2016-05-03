@@ -46,7 +46,7 @@ function setupDataDropdowns(plot) {
 			
 			//store Y value in variable for map display
 			yAxisValue = ui.item.value;
-			
+			alterHoveredValues();
 			//call choropleth function to update map
 			choropleth(filterHolder);
 		},
@@ -61,7 +61,7 @@ function setupDataDropdowns(plot) {
 			
 			//store X value in variable for map display
 			xAxisValue = ui.item.value;
-			
+			alterHoveredValues();
 			//call choropleth function to update map
 			choropleth(filterHolder);
 		},
