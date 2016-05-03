@@ -19,15 +19,15 @@
 
 })();
 function loadData(scatterPlot, xDataOption, yDataOption) {
-    console.log(xDataOption)
-    if (xDataOption == "Uploaded_User_Dataset") {
-        loadYDataFromSite(scatterPlot, yDataOption)
+    console.log(yDataOption)
+    if (yDataOption == "Uploaded_User_Dataset") {
+        loadXDataFromSite(scatterPlot, xDataOption)
     } else {
         loadDataFromSite(scatterPlot, xDataOption, yDataOption)
     }
 };
-function loadYDataFromSite(scatterPlot, yDataFilename) {
-   var yFilename = yDataFilename.replace(/_/g, " ");
+function loadXDataFromSite(scatterPlot, xDataFilename) {
+   var xFilename = xDataFilename.replace(/_/g, " ");
 	     var uploadedFile = document.getElementById("Uploaded_User_Dataset").files[0];
     //handleFile adapted from MounirMesselmeni on github
     function handleFile(file) {
@@ -47,12 +47,12 @@ function loadYDataFromSite(scatterPlot, yDataFilename) {
     function loadHandler(event) {
         var raw = event.target.result;
 				console.log(raw)
-				xData = d3.csv.parse(raw)
-        console.log(xData)
+				yData = d3.csv.parse(raw)
+        console.log(yData)
 			d3_queue.queue()
-						.defer(d3.csv, "data/" + yDataFilename + ".csv")
-						.await(function(error, yData) {
-								applyData(scatterPlot, "Uploaded User Dataset", yFilename, xData, yData)
+						.defer(d3.csv, "data/" + xDataFilename + ".csv")
+						.await(function(error, xData) {
+								applyData(scatterPlot, xFilename, "Uploaded User Dataset", xData, yData)
 						})
     }
 
