@@ -18,8 +18,8 @@ var displayedYear = 2009;
 var arrAxisValues = [
 	"Median_Home_Value",
 	"Median_Household_Income",
-	"Unemployment_Rate",
 	"Median_Monthly_Ownership_Costs",
+	"Unemployment_Rate",
 	"Uploaded_User_Dataset"
 ];
 
@@ -451,7 +451,9 @@ function choropleth(x){
 
 	var selectedYAttribute = yAxisValue;
 	var selectedXAttribute = xAxisValue;
-
+	
+	// for single variate, we need to only display the three middle rectangles of bivariate legend
+	// so only three filters and layers, not 9
 	if (selectedXAttribute == arrAxisValues[0] && selectedYAttribute == arrAxisValues[0]) {
 		var yearAttribute01 = arrMedianHomeValue[selectedYear];
 		var yearAttribute02 = arrMedianHomeValue[selectedYear];
