@@ -166,6 +166,9 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 	for (var i = 0; i < yData.length; i++) {
 
 		if (xData[i]['FIPS'] != yData[i]['FIPS']) {
+			console.log(i)
+			console.log(xData[i])
+			console.log(yData[i])
 			console.log("FIPS order does not match between data sets");
 			return;
 		}
@@ -196,7 +199,7 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 
 	plot.xScale.domain(d3.extent(data, function(d) { return d['x']; })).nice();
   	plot.yScale.domain(d3.extent(data, function(d) { return d['y']; })).nice();
-  	
+
   	if (bivariate) {
 
   		plot.xAxisGenerator
@@ -212,7 +215,7 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
   			.tickFormat(function(d) { return ''; });
 
   	}
-  	
+
   	plot.yAxisGenerator.tickFormat(function(d) { return formatTicks(d); });
   	plot.xAxis.call(plot.xAxisGenerator);
   	plot.yAxis.call(plot.yAxisGenerator);
@@ -235,7 +238,7 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 	plot.quantileLabels.y2.transition().duration(1500)
 		.attr("y", plot.yScale(yQuantileBreaks[1])-plot.yScale.range()[0])
 		.text(yQuantileBreaks[1]);
-	
+
 	xQuantileBreaks.splice(0,0,d3.min(plot.xScale.domain()));
 	xQuantileBreaks.splice(xQuantileBreaks.length,0,d3.max(plot.xScale.domain()));
 	yQuantileBreaks.reverse().splice(0,0,d3.max(plot.yScale.domain()));
