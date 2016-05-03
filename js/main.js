@@ -1,7 +1,10 @@
 var mouseMoveControl = true;
 
 var filterHolder;
-
+var xQuantile01;
+var xQuantile02;
+var yQuantile01;
+var yQuantile02;
 
 var arrAxisValues = [
 	"Median_Home_Value",
@@ -442,9 +445,11 @@ function choropleth(x){
 };
 
 
+
 function fvalueValue(year, filter) {
 	var yearAttribute01 = arrMedianHomeValue[year];
 	
+	/*
 	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 140000]]);
     map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 140000], [">=", yearAttribute01, 120000]]);
     map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 120000], [">=", yearAttribute01, 100000]]);
@@ -454,22 +459,32 @@ function fvalueValue(year, filter) {
     map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 50000], [">=", yearAttribute01, 40000]]);
     map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 40000], [">=", yearAttribute01, 30000]]);
     map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 30000]]);
+    */
+    
+    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
+    map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
 };
 
 function fvalueIncome(year, filter) {
-	var yearAttribute01 = arrMedianHomeValue[year];
-	var yearAttribute02 = arrIncome[year];
+	var yearAttribute01 = arrMedianHomeValue[year]; //x value
+	var yearAttribute02 = arrIncome[year]; //y value
 	
-	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 140000], [">=", yearAttribute02, 140000]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 140000], [">=", yearAttribute01, 120000], ["<", yearAttribute02, 140000], [">=", yearAttribute02, 120000]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 120000], [">=", yearAttribute01, 100000], ["<", yearAttribute02, 120000], [">=", yearAttribute02, 100000]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, 100000], [">=", yearAttribute01, 80000], ["<", yearAttribute02, 100000], [">=", yearAttribute02, 80000]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute01, 80000], [">=", yearAttribute01, 60000], ["<", yearAttribute02, 80000], [">=", yearAttribute02, 60000]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute01, 60000], [">=", yearAttribute01, 50000], ["<", yearAttribute02, 60000], [">=", yearAttribute02, 50000]]);
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 50000], [">=", yearAttribute01, 40000], ["<", yearAttribute02, 50000], [">=", yearAttribute02, 40000]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 40000], [">=", yearAttribute01, 30000], ["<", yearAttribute02, 40000], [">=", yearAttribute02, 30000]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 30000], ["<", yearAttribute02, 30000]]);
-    
+	map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, xQuantile01], ["<", yearAttribute02, yQuantile01]]);
+    map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile02], ["<", yearAttribute02, yQuantile01]]);
+    map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearAttribute01, xQuantile02], ["<", yearAttribute02, yQuantile01]]);
+    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute02, yQuantile01], ["<", yearAttribute02, yQuantile02]]);
+    map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile02], [">=", yearAttribute02, yQuantile01], ["<", yearAttribute02, yQuantile02]]);
+    map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearAttribute01, xQuantile02], [">=", yearAttribute02, yQuantile01], ["<", yearAttribute02, yQuantile02]]);
+    map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute02, yQuantile02]]);
+    map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute02, yQuantile02]]);
+    map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearAttribute01, xQuantile02], [">=", yearAttribute02, yQuantile02]]);
 };
 
 function fvalueUnemployment(year, filter) {

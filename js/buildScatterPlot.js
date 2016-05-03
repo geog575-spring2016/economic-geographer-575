@@ -222,6 +222,12 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 	plot.yScaleQuantile.domain(all_yData);
 	xQuantileBreaks = plot.xScaleQuantile.quantiles();
 	yQuantileBreaks = plot.yScaleQuantile.quantiles();
+	
+	//Assign quantile breaks to global variables
+	xQuantile01 = xQuantileBreaks[0];
+	xQuantile02 = xQuantileBreaks[1];
+	yQuantile01 = yQuantileBreaks[0];
+	yQuantile02 = yQuantileBreaks[1];
 
 	plot.quantileLabels.x2.transition().duration(1500)
 		.attr("x", plot.xScale(xQuantileBreaks[0]))
