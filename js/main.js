@@ -36,7 +36,7 @@ var arrMedianHomeValue = [
 ];
 
 var arrIncome = [
-	"Income_Dat",
+	/*"Income_Dat",*/
 	"Income_200",
 	"Income_201",
 	"Income_202",
@@ -46,7 +46,7 @@ var arrIncome = [
 ];
 
 var arrMonthlyCost = [
-	"MonthyCost",
+	/*"MonthyCost",*/
 	"MonthlyCos",
 	"MonthlyC_1",
 	"MonthlyC_2",
