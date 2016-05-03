@@ -551,34 +551,11 @@ function fvalueIncome(filter, yearX, yearY) {
 
 
 function alterHoveredValues() {
-	for (z=0; z<4; z++) {
-		var testPlaceholder = arrAxisValues.indexOf(xAxisValue);
-		var testPlaceholder0101 = arrAxisValues[testPlaceholder];
-		console.log('hello');
-		if (testPlaceholder0101 == arrAxisValues[z]) {
-			displayPop01 = z;
-			return displayPop01;
-		}
-	}
-
-	for (m=0; m<4; m++) {
-		var testPlaceholder03 = arrAxisValues.indexOf(yAxisValue);
-		var testPlaceholder0301 = arrAxisValues[testPlaceholder03];
-		console.log('hello');
-		if (testPlaceholder0301 == arrAxisValues[m]) {
-			displayPop10 = m;
-			return displayPop10;
-		}
-	}
-
-	for (n=0; n<6; n++) {
-		var testPlaceholder04 = arrYears.indexOf(displayedYear);
-		console.log('hello');
-		if (testPlaceholder04 == arrYears[n]) {
-			displayPop20 = n;
-			return displayPop20;
-		}
-	}
+	displayPop01 = arrAxisValues.indexOf(xAxisValue);
+	displayPop10 = arrAxisValues.indexOf(yAxisValue);
+	displayPop20 = arrYears.indexOf(displayedYear);
+	
+	console.log(displayPop01);
 
 };
 /*
