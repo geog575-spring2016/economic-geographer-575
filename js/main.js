@@ -295,6 +295,50 @@ map.on('load', function() {
         "filter": ["in", "fips", ""]
     });
 
+// this function is a work in progress
+//inspired by https://github.com/skorasaurus/dtparking/blob/master/index.html#L63
+choroplethExternalData(){
+	//create a featureLayer method that will be used to load the geojson file
+	       var featLayer = L.mapbox.featureLayer().addTo(mizzap);
+				 //load your geojson file using loadURL - I don't have a geojson or a url
+				    featLayer.loadURL('dtparking.geojson');
+
+						// inspired by http://geosprocket.github.io/btv-geographic/social/sociallayers.js
+function getMyColor(myargument) {
+    if (myargument === 'multi-storey') {
+        return '#996767'
+    };
+    if (myargument === 'surface') {
+        return '#679967'
+    };
+    if (myargument === 'underground') {
+        return '#676799'
+    };
+}
+						// styles each polygon based on its properties in the geojson file, using leaflet's setStyle
+		featLayer.on('ready', function() {
+    featLayer.eachLayer(function(polygon) {
+    polygon.bindPopup('This is a ' + polygon.feature.properties.parking + ' parking lot');
+    console.log(typeof setStyle);
+    polygon.setStyle({
+        opacity: 0.55,
+        fillOpacity: 0.55,
+        fillColor: getMyColor(polygon.feature.properties.parking),
+        color: getMyColor(polygon.feature.properties.parking) * 1.04
+		});
+});
+});
+/* from skorasaurus: "The eachLayer method is confusing. This method is being used to say “hey, I want this code (in lines 77-83) to act on every object (all of the parking areas) that’s in featLayer. Layers have different meanings depending on context in geospatial/GIS.
+
+getMyColor is just an arbitrary name that I made to name the function that I made.I still catch myself once in a while of what is function and what is a method….
+In several past commits, I didn’t include the ‘feature’ part of the object
+because I had mistaken assumed that eachLayer method would go through each object within the layer and that adding ‘feature’ wasn’t necessary.
+
+Beginning at line 63, is the function that will return a different color depending on what is the value of parking. For example, for this polygon parking has a value of ‘surface’ so ‘#679967’ is used as the fillColor for that particular polygon.
+
+polygon and myargument are both arbitrary names that are selected by the coder. If you were to copy and paste this page into as your own, (as well as the dtparking.geojson file at the github repo ), you could rename polygon to
+blob and myargument to judgejudy in each place and it’ll work."*/
+}
 
     // yes, add new layer for each choropleth class, with filter for the class, try to add every rendered county to each class, desired county will only show up in desired filtered choropleth layer
 
