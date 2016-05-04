@@ -62,6 +62,14 @@ function initializeScatterPlot(dots, margins, dimensions) {
 	var yAxis = inner.append("g")
 		.attr("class", "axis");
 
+	var correlationLine = inner.append("line")
+		.attr("class", "correlationLine")
+		.attr("x1", 0)
+		.attr("y1", 0)
+		.attr("x2", 100)
+		.attr("y2", 100)
+		.attr("style", "stroke: red; stroke-width: 2;");
+
 	var titleLabel = inner.append("text")
 		.attr("class", "title")
 		.attr("x", innerWidth/2)
@@ -74,6 +82,14 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		.attr("x", innerWidth)
 		.attr("dy", "-0.4em")
 		.style("text-anchor", "end");
+
+	var correlationLabel = inner.append("text")
+		.attr("class", "correlationLabel")
+		.attr("x", innerWidth/2)
+		.attr("y", 44)
+		.attr("style", "fill: white;")
+		.style("text-anchor", "middle")
+		.text("r = NULL");
 
 	var quantileLabels = [];
 
@@ -143,8 +159,10 @@ function initializeScatterPlot(dots, margins, dimensions) {
 		yScaleQuantile: yScaleQuantile,
 		xAxis: xAxis,
 		yAxis: yAxis,
+		correlationLine: correlationLine,
 		titleLabel: titleLabel,
 		timeLabel: timeLabel,
+		correlationLabel: correlationLabel,
 		xLabel: xLabel,
 		yLabel: yLabel,
 		quantileLabels: {
@@ -161,6 +179,7 @@ function initializeScatterPlot(dots, margins, dimensions) {
 function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 
 	data = [];
+	dataPoints = [];
 	all_xData = [];
 	all_yData = [];
 	for (var i = 0; i < yData.length; i++) {
@@ -184,8 +203,11 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 			y: yVal,
 		});
 
-		all_xData.push(xVal);
-		all_yData.push(yVal);
+		if ( !isNaN(parseInt(xVal)) && !isNaN(parseInt(yVal)) ) {
+			dataPoints.push([parseInt(xVal), parseInt(yVal)]);
+			all_xData.push(parseInt(xVal));
+			all_yData.push(parseInt(yVal));
+		}
 
 	}
 
@@ -196,7 +218,14 @@ function bindData(plot, xData, xCol, yData, yCol, bivariate) {
 
 	plot.xScale.domain(d3.extent(data, function(d) { return d['x']; })).nice();
   	plot.yScale.domain(d3.extent(data, function(d) { return d['y']; })).nice();
-  	
+
+  	var regressionLine = ss.linearRegressionLine(ss.linearRegression(dataPoints));
+  	plot.correlationLine.attr("x1", plot.xScale(plot.xScale.domain()[0]))
+		.attr("y1", plot.yScale(regressionLine(plot.xScale.domain()[0])))
+		.attr("x2", plot.xScale(plot.xScale.domain()[1]))
+		.attr("y2", plot.yScale(regressionLine(plot.xScale.domain()[1])));
+	plot.correlationLabel.text("r = "+ss.sampleCorrelation(all_xData, all_yData))
+
   	if (bivariate) {
 
   		plot.xAxisGenerator

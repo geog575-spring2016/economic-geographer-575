@@ -76,8 +76,7 @@ function loadDataFromSite(scatterPlot, xDataFilename, yDataFilename) {
 };
 
 function applyData(scatterPlot, xTitle, yTitle, xData, yData) {
-    console.log(xData)
-    console.log(yData)
+
     if (xData.length != yData.length) {
         //console.log("Datasets have different numbers of records,");
         console.log("ERROR: Datasets must have the same number of records!");
