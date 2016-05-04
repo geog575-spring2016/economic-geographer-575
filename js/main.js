@@ -15,7 +15,7 @@ var displayPop20 = 0;
 //variable for keeping track of year
 var displayedYear = 2009;
 
-var arrAxisValues = [
+var arrAxisValues = [ //I don't think this needs anything from uploaded data
 	"Median_Home_Value",
 	"Median_Household_Income",
 	"Median_Monthly_Ownership_Costs",
@@ -63,7 +63,8 @@ var arrUnemployment = [
 	"Unemploy_4",
 	"Unemploy_5"
 ];
-var arrUploadedData = [
+var arrUploadedData = [ //I need to convert this to an array of the uploaded data, or link or something.
+	//at this point it looks to me that it just needs an array from uploaded data, not uploaded data to be in the geojson.
 "UploadedDa",
 	"Uploaded_1",
 	"Uploaded_2",
@@ -81,7 +82,7 @@ var arrYears = [
 	2014
 ];
 
-var arrAttributes = [
+var arrAttributes = [ //not clear to me how this is used yet, so need to check if it needs uploaded data
 	"medianHomeValue",
 	"income",
 	"monthlyCost",
@@ -147,17 +148,17 @@ map.on('load', function() {
 
     // Add the source to query. In this example we're using
     // county polygons uploaded as vector tiles
-    map.addSource('counties', {
+    map.addSource('counties', { //doesn't look like it needs anything from uploaded data
         "type": "vector",
         "url": "mapbox://mapbox.82pkq93d"
     });
 
-    map.addSource('countiesAttribute', {
+    map.addSource('countiesAttribute', { //this does have attributes in it, so may need something from uploaded data, depending on what's being done with this layer
         "type": "geojson",
         "data": "/data/countiesAttribute00.geojson"
     });
 
-    map.addLayer ({
+    map.addLayer ({ //what does this layer do?
         "id": "countiesAttribute",
         "type": "fill",
         "source": "countiesAttribute",
@@ -168,7 +169,7 @@ map.on('load', function() {
         }
     });
 
-    map.addLayer({
+    map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
         "id": "counties-highlighted-A1",
         "type": "fill",
         "source": "countiesAttribute",
@@ -409,7 +410,7 @@ map.on('load', function() {
 
     map.on('mousemove', function(e) {
         if (mouseMoveControl == false) {
-            var features = map.queryRenderedFeatures(e.point, { layers:
+            var features = map.queryRenderedFeatures(e.point, { layers: //not sure what's happening here. does it need attributes from uploaded data?
                 ['counties-highlighted-A1',
                  'counties-highlighted-B1',
                  'counties-highlighted-C1',
@@ -428,7 +429,9 @@ map.on('load', function() {
             }
 
             var feature = features[0];
-        	var arrProperties = [
+        	var arrProperties = [  //so I need to figure out how to add the info for uploaded Data to here - what does
+						//feature.properties.one of the columns get? What does feature.properties.one of the attributes get? I need to
+						//understand what is needed out of this to know how to get uploaded data to get it
 				[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
 				[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
 				[feature.properties.MonthyCost, feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],
@@ -436,7 +439,7 @@ map.on('load', function() {
 			];
 
 
-            popup.setLngLat(e.lngLat)
+            popup.setLngLat(e.lngLat) //I don't understand what this does yet, so don't understand whether I need to do something with it
                 .setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
                 .addTo(map);
         } else {
@@ -451,7 +454,7 @@ function choropleth(x){
 
 	var selectedYAttribute = yAxisValue;
 	var selectedXAttribute = xAxisValue;
-	
+
 	// for single variate, we need to only display the three middle rectangles of bivariate legend
 	// so only three filters and layers, not 9
 	if (selectedXAttribute == arrAxisValues[0] && selectedYAttribute == arrAxisValues[0]) {
@@ -482,6 +485,11 @@ function choropleth(x){
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
 		var yearAttribute02 = arrMedianHomeValue[selectedYear];
 
+	} else if (selectedXAttribute == arrAxisValues[0] && selectedYAttribute == arrAxisValues[4]) {
+		var yearAttribute01 = arrMedianHomeValue[selectedYear];
+	// this is where we put uploaded data 	var yearAttribute02 = arrMonthlyCost[selectedYear];
+	 var yearAttribute02 = arrUploadedData[selectedYear];
+
 	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[1]) {
 		var yearAttribute01 = arrIncome[selectedYear];
 		var yearAttribute02 = arrIncome[selectedYear];
@@ -502,6 +510,11 @@ function choropleth(x){
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
 		var yearAttribute02 = arrIncome[selectedYear];
 
+	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[4]) {
+		var yearAttribute01 = arrIncome[selectedYear];
+//this is where we put uploaded data		var yearAttribute02 = arrMonthlyCost[selectedYear];
+var yearAttribute02 = arrUploadedData[selectedYear];
+
 	} else if (selectedXAttribute == arrAxisValues[2] && selectedYAttribute == arrAxisValues[2]) {
 		var yearAttribute01 = arrUnemployment[selectedYear];
 		var yearAttribute02 = arrUnemployment[selectedYear];
@@ -510,6 +523,11 @@ function choropleth(x){
 		var yearAttribute01 = arrUnemployment[selectedYear];
 		var yearAttribute02 = arrMonthlyCost[selectedYear];
 
+	} else if (selectedXAttribute == arrAxisValues[2] && selectedYAttribute == arrAxisValues[4]) {
+		var yearAttribute01 = arrUnemployment[selectedYear];
+	//this is wehre we put uploaded data	var yearAttribute02 = arrMonthlyCost[selectedYear];
+	var yearAttribute02 = arrUploadedData[selectedYear];
+
 	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[2]) {
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
 		var yearAttribute02 = arrUnemployment[selectedYear];
@@ -517,6 +535,11 @@ function choropleth(x){
 	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[3]) {
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
 		var yearAttribute02 = arrMonthlyCost[selectedYear];
+
+	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[4]) {
+		var yearAttribute01 = arrMonthlyCost[selectedYear];
+//this is where we put uploaded data 		var yearAttribute02 = arrMonthlyCost[selectedYear];
+var yearAttribute02 = arrUploadedData[selectedYear];
 	};
 	fvalueIncome(x, yearAttribute01, yearAttribute02);
 };
@@ -556,7 +579,7 @@ function alterHoveredValues() {
 	displayPop01 = arrAxisValues.indexOf(xAxisValue);
 	displayPop10 = arrAxisValues.indexOf(yAxisValue);
 	displayPop20 = arrYears.indexOf(displayedYear);
-	
+
 	console.log(displayPop01);
 
 };
