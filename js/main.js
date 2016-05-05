@@ -190,17 +190,23 @@ map.on('load', function() {
         },
         "filter": ["==", "NAME", ""]
     });
-	/*
-    map.addLayer ({ //what does this layer do?
+	
+	// Layer for getting the fips codes from clicked state
+	
+	// MAYBE change from finding by fips, and instead find by state
+    map.addLayer({
         "id": "countiesAttribute",
         "type": "fill",
         "source": "countiesAttribute",
         "source-layer": "original",
+        "interactive": true,
         "paint": {
-            "fill-outline-color": "black",
-            "fill-color": "white"
-        }
-    });*/
+            "fill-outline-color": "#484896",
+            "fill-color": "white",
+            "fill-opacity": 0.75
+        },
+        "filter": ["in", "fips", ""]
+    });
 
     map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
         "id": "counties-highlighted-A1",
@@ -450,7 +456,8 @@ map.on('load', function() {
 
     	var feature = features[0];
 		
-		alert("You Clicked a State");
+		console.log(feature.properties.NAME);
+		// get all counties with the STATE attribute of feature.properties.NAME
     
 	});
 	
