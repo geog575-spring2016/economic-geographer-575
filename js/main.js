@@ -148,14 +148,32 @@ map.on('load', function() {
 
     // Add the source to query. In this example we're using
     // county polygons uploaded as vector tiles
+    /*
     map.addSource('counties', { //doesn't look like it needs anything from uploaded data
         "type": "vector",
         "url": "mapbox://mapbox.82pkq93d"
+    });
+    */
+    
+    map.addSource('statesProper', {
+    	"type": "geojson",
+    	"data": "/data/statesProper.geojson"
     });
 
     map.addSource('countiesAttribute', { //this does have attributes in it, so may need something from uploaded data, depending on what's being done with this layer
         "type": "geojson",
         "data": "/data/countiesAttribute00.geojson"
+    });
+    
+    map.addLayer ({
+    	"id": "statesProper",
+    	"type": "fill",
+    	"source": "statesProper",
+    	"source-layer": "original",
+    	"paint": {
+    		"fill-outline-color": "black",
+    		"fill-color": "white"
+    	}
     });
 
     map.addLayer ({ //what does this layer do?
