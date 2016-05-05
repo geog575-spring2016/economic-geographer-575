@@ -193,7 +193,7 @@ map.on('load', function() {
 	
 	// Layer for getting the fips codes from clicked state
 	
-	// MAYBE change from finding by fips, and instead find by state
+	// MAYBE change from finding by fips, and instead find by STATE_NAME
     map.addLayer({
         "id": "countiesAttribute",
         "type": "fill",
@@ -431,12 +431,6 @@ map.on('load', function() {
                 //choropleth(feature.properties.FIPS, features);
                 return memo;
             }, ['in', 'fips']);
-
-            // so we're finding the unique fips id, and we need to add another filter for if that fips number is to a certain extent
-            //map.setFilter("counties-highlighted-A1", ["all", filter, ["<", "medianHome", 50000]]);
-            //map.setFilter("counties-highlighted-B1", ["all", filter, [">=", "medianHome", 50000]]);
-            //map.setFilter("counties-highlighted", ["all", filter, ["<", "fips", 20000]]);
-            //map.setFilter("counties-highlighted-one", ["all", filter, [">=", "fips", 20000]]);
 
             filterHolder = filter;
             choropleth(filterHolder);
