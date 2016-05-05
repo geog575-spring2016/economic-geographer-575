@@ -158,6 +158,7 @@ map.on('load', function() {
     map.addSource('statesProper', {
     	"type": "geojson",
     	"data": "/data/statesProper.geojson"
+    	//"data": "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces.geojson"
     });
 
     map.addSource('countiesAttribute', { //this does have attributes in it, so may need something from uploaded data, depending on what's being done with this layer
@@ -165,6 +166,7 @@ map.on('load', function() {
         "data": "/data/countiesAttribute00.geojson"
     });
     
+    // layer for adding state fills
     map.addLayer ({
     	"id": "statesProper",
     	"type": "fill",
@@ -175,7 +177,20 @@ map.on('load', function() {
     		"fill-color": "white"
     	}
     });
-
+    
+    // layer for hovering over state
+    map.addLayer({
+        "id": "route-hover",
+        "type": "fill",
+        "source": "statesProper",
+        "layout": {},
+        "paint": {
+            "fill-color": "#627BC1",
+            "fill-opacity": 1
+        },
+        "filter": ["==", "NAME", ""]
+    });
+	/*
     map.addLayer ({ //what does this layer do?
         "id": "countiesAttribute",
         "type": "fill",
@@ -185,7 +200,7 @@ map.on('load', function() {
             "fill-outline-color": "black",
             "fill-color": "white"
         }
-    });
+    });*/
 
     map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
         "id": "counties-highlighted-A1",
@@ -328,7 +343,7 @@ map.on('load', function() {
             e.clientX - rect.left - canvas.clientLeft,
             e.clientY - rect.top - canvas.clientTop
         );
-    }
+    };
 
     function mouseDown(e) {
         // Continue the rest of the function if the shiftkey is pressed.
@@ -344,7 +359,7 @@ map.on('load', function() {
 
         // Capture the first xy coordinates
         start = mousePos(e);
-    }
+    };
 
     function onMouseMove(e) {
         // Capture the ongoing xy coordinates
@@ -368,17 +383,17 @@ map.on('load', function() {
         box.style.WebkitTransform = pos;
         box.style.width = maxX - minX + 'px';
         box.style.height = maxY - minY + 'px';
-    }
+    };
 
     function onMouseUp(e) {
         // Capture xy coordinates
         finish([start, mousePos(e)]);
-    }
+    };
 
     function onKeyDown(e) {
         // If the ESC key is pressed
         if (e.keyCode === 27) finish();
-    }
+    };
 
     function finish(bbox) {
         // Remove these events now that finish has been called.
@@ -424,11 +439,24 @@ map.on('load', function() {
         }
 
         map.dragPan.enable();
-    }
+    };
+	
+	map.on('click', function (e) {
+    	var features = map.queryRenderedFeatures(e.point, { layers: ['statesProper'] });
 
+    	if (!features.length) {
+        	return;
+    	}
+
+    	var feature = features[0];
+		
+		alert("You Clicked a State");
+    
+	});
+	
     map.on('mousemove', function(e) {
-        if (mouseMoveControl == false) {
-            var features = map.queryRenderedFeatures(e.point, { layers: //not sure what's happening here. does it need attributes from uploaded data?
+       
+            var features = map.queryRenderedFeatures(e.point, { layers: //controls which features active hover functions
                 ['counties-highlighted-A1',
                  'counties-highlighted-B1',
                  'counties-highlighted-C1',
@@ -437,8 +465,10 @@ map.on('load', function() {
                  'counties-highlighted-C2',
                  'counties-highlighted-A3',
                  'counties-highlighted-B3',
-                 'counties-highlighted-C3']
+                 'counties-highlighted-C3',
+                 'statesProper']
             });
+            
             map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
             if (!features.length) {
@@ -447,22 +477,36 @@ map.on('load', function() {
             }
 
             var feature = features[0];
-        	var arrProperties = [  //so I need to figure out how to add the info for uploaded Data to here - what does
+            // we need to check what we hover over is a county or a state
+            if (feature.layer.id == "statesProper") {
+            	// filter for hovering
+            	if (features.length) {
+            		map.setFilter("route-hover", ["==", "NAME", feature.properties.NAME]);
+        		} else {
+            		map.setFilter("route-hover", ["==", "NAME", ""]);
+        		}
+            	
+            	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
+                	.setText(feature.properties.NAME)
+                	.addTo(map);
+            } else {
+        		var arrProperties = [  //so I need to figure out how to add the info for uploaded Data to here - what does
 						//feature.properties.one of the columns get? What does feature.properties.one of the attributes get? I need to
 						//understand what is needed out of this to know how to get uploaded data to get it
-				[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
-				[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
-				[feature.properties.MonthyCost, feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],
-				[feature.properties.Unemployme, feature.properties.Unemploy_1, feature.properties.Unemploy_2, feature.properties.Unemploy_3, feature.properties.Unemploy_4, feature.properties.Unemploy_5]
-			];
+						// this array holds the feature.properties values for each year
+					[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
+					/*[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
+					[feature.properties.MonthyCost, feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],*/
+					[feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
+					[feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],
+					[feature.properties.Unemployme, feature.properties.Unemploy_1, feature.properties.Unemploy_2, feature.properties.Unemploy_3, feature.properties.Unemploy_4, feature.properties.Unemploy_5]
+				];
 
 
-            popup.setLngLat(e.lngLat) //I don't understand what this does yet, so don't understand whether I need to do something with it
-                .setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
-                .addTo(map);
-        } else {
-            return
-        }
+            	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
+                	.setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
+                	.addTo(map);
+    		}
 	});
 });
 
