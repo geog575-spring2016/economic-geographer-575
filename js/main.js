@@ -170,7 +170,10 @@ map.on('load', function() {
     });
 
     map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
-        "id": "counties-highlighted-A1",
+//looks like you need to add one layer for each color in the choropleth, and that layer contains the counties that have that color. So
+//there are 9 different layers for a bivariate. The way you figure out what's in each layer is by filtering countiesAttribute. So the filter must
+//be where you use the data.
+			  "id": "counties-highlighted-A1",
         "type": "fill",
         "source": "countiesAttribute",
         "source-layer": "original",
@@ -385,6 +388,7 @@ map.on('load', function() {
             // to match features with unique FIPS codes to activate
             // the `counties-highlighted` layer.
             var filter = features.reduce(function(memo, feature) {
+							//I think this is where Robin's change needs to be. Instead of a reduce function, you want to hand the list of fips to the scatterplot, right?
                 memo.push(feature.properties.fips);
 
                 //console.log(memo);
@@ -439,7 +443,7 @@ map.on('load', function() {
 			];
 
 
-            popup.setLngLat(e.lngLat) //I don't understand what this does yet, so don't understand whether I need to do something with it
+            popup.setLngLat(e.lngLat) //I don't understand what this does yet, so don't understand whether I need to do something with it. it's adding text to the map 
                 .setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
                 .addTo(map);
         } else {
@@ -560,7 +564,7 @@ function choropleth(x){
 
 	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrIncome[selectedYear];
-//this is where we put uploaded data		var yearAttribute02 = arrMonthlyCost[selectedYear];
+//this is where we put uploaded data
 var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[2] && selectedYAttribute == arrAxisValues[2]) {
@@ -573,7 +577,7 @@ var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[2] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrUnemployment[selectedYear];
-	//this is wehre we put uploaded data	var yearAttribute02 = arrMonthlyCost[selectedYear];
+	//this is wehre we put uploaded data
 	var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[2]) {
@@ -586,7 +590,7 @@ var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
-//this is where we put uploaded data 		var yearAttribute02 = arrMonthlyCost[selectedYear];
+//this is where we put uploaded data
 var yearAttribute02 = arrUploadedData[selectedYear];
 	};
 	fvalueIncome(x, yearAttribute01, yearAttribute02);
