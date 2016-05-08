@@ -172,6 +172,9 @@ map.on('load', function() {
     	"type": "fill",
     	"source": "statesProper",
     	"source-layer": "original",
+    	'layout': {
+            'visibility': 'visible'
+        },
     	"paint": {
     		"fill-outline-color": "black",
     		"fill-color": "white"
@@ -205,14 +208,14 @@ map.on('load', function() {
             "fill-color": "white",
             "fill-opacity": 0.75
         },
-        "filter": ["in", "fips", ""]
+        "filter": ["in", "STATE_NAME", ""]
     });
 
     map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
 //looks like you need to add one layer for each color in the choropleth, and that layer contains the counties that have that color. So
 //there are 9 different layers for a bivariate. The way you figure out what's in each layer is by filtering countiesAttribute. So the filter must
 //be where you use the data.
-			  "id": "counties-highlighted-A1",
+		"id": "counties-highlighted-A1",
         "type": "fill",
         "source": "countiesAttribute",
         "source-layer": "original",
@@ -455,6 +458,10 @@ map.on('load', function() {
     	var feature = features[0];
 		
 		console.log(feature.properties.NAME);
+		//map.setLayoutProperty("statesProper", 'visibility', 'none');
+		map.setFilter("countiesAttribute", ["==", "STATE_NAME", feature.properties.NAME]);
+		
+		
 		// get all counties with the STATE attribute of feature.properties.NAME
     
 	});
