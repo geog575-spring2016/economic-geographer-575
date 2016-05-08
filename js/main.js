@@ -65,7 +65,7 @@ var arrUnemployment = [
 ];
 var arrUploadedData = [ //I need to convert this to an array of the uploaded data, or link or something.
 	//at this point it looks to me that it just needs an array from uploaded data, not uploaded data to be in the geojson.
-"UploadedDa",
+	"UploadedDa",
 	"Uploaded_1",
 	"Uploaded_2",
 	"Uploaded_3",
@@ -125,15 +125,12 @@ var popup = new mapboxgl.Popup({
     closeButton: false
 });
 
-// Show the state choropleth first
-var level = 'isState';
-
 
 map.on('load', function() {
     var canvas = map.getCanvasContainer();
 
     alterHoveredValues();
-
+	/*
     // Variable to hold the starting xy coordinates
     // when `mousedown` occured.
     var start;
@@ -144,17 +141,11 @@ map.on('load', function() {
 
     // Variable for the draw box element.
     var box;
+    */
 
 
     // Add the source to query. In this example we're using
     // county polygons uploaded as vector tiles
-    /*
-    map.addSource('counties', { //doesn't look like it needs anything from uploaded data
-        "type": "vector",
-        "url": "mapbox://mapbox.82pkq93d"
-    });
-    */
-    
     map.addSource('statesProper', {
     	"type": "geojson",
     	"data": "/data/statesProper.geojson"
@@ -172,6 +163,9 @@ map.on('load', function() {
     	"type": "fill",
     	"source": "statesProper",
     	"source-layer": "original",
+    	'layout': {
+            'visibility': 'visible'
+        },
     	"paint": {
     		"fill-outline-color": "black",
     		"fill-color": "white"
@@ -193,6 +187,7 @@ map.on('load', function() {
 	
 	// Layer for getting the fips codes from clicked state
 	
+	/*
 	// MAYBE change from finding by fips, and instead find by STATE_NAME
     map.addLayer({
         "id": "countiesAttribute",
@@ -205,14 +200,15 @@ map.on('load', function() {
             "fill-color": "white",
             "fill-opacity": 0.75
         },
-        "filter": ["in", "fips", ""]
+        "filter": ["in", "STATE_NAME", ""]
     });
+    */
 
     map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
 //looks like you need to add one layer for each color in the choropleth, and that layer contains the counties that have that color. So
 //there are 9 different layers for a bivariate. The way you figure out what's in each layer is by filtering countiesAttribute. So the filter must
 //be where you use the data.
-			  "id": "counties-highlighted-A1",
+		"id": "counties-highlighted-A1",
         "type": "fill",
         "source": "countiesAttribute",
         "source-layer": "original",
@@ -337,7 +333,7 @@ map.on('load', function() {
         "filter": ["in", "fips", ""]
     });
 
-
+	/*
     // yes, add new layer for each choropleth class, with filter for the class, try to add every rendered county to each class, desired county will only show up in desired filtered choropleth layer
 
     // Set `true` to dispatch the event before other functions
@@ -444,6 +440,7 @@ map.on('load', function() {
 
         map.dragPan.enable();
     };
+	*/
 	
 	map.on('click', function (e) {
     	var features = map.queryRenderedFeatures(e.point, { layers: ['statesProper'] });
@@ -454,7 +451,21 @@ map.on('load', function() {
 
     	var feature = features[0];
 		
-		console.log(feature.properties.NAME);
+		//map.setLayoutProperty("statesProper", 'visibility', 'none');
+		//var stateCountyFilter = map.setFilter("countiesAttribute", ["==", "STATE_NAME", feature.properties.NAME]);
+		
+		
+		filterHolder = feature.properties.NAME;
+		
+		choropleth(filterHolder);
+		/*
+		var countyFeatures = map.querySourceFeatures("countiesAttribute", feature.properties.NAME);
+		console.log(countyFeatures[1000].properties.NAME);
+		*/
+		
+		
+		
+		
 		// get all counties with the STATE attribute of feature.properties.NAME
     
 	});
@@ -494,7 +505,7 @@ map.on('load', function() {
             	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
                 	.setText(feature.properties.NAME)
                 	.addTo(map);
-            } else {
+            /*} else {
         		var arrProperties = [  //so I need to figure out how to add the info for uploaded Data to here - what does
 						//feature.properties.one of the columns get? What does feature.properties.one of the attributes get? I need to
 						//understand what is needed out of this to know how to get uploaded data to get it
@@ -512,7 +523,8 @@ map.on('load', function() {
         } else {
             return
         }
-=======
+=======*/	} else {
+				var arrProperties = [
 						// this array holds the feature.properties values for each year
 					[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
 					/*[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
@@ -527,7 +539,7 @@ map.on('load', function() {
                 	.setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
                 	.addTo(map);
     		}
->>>>>>> origin/master
+/*>>>>>>> origin/master*/
 	});
 });
 
@@ -618,8 +630,8 @@ function choropleth(x){
 
 	} else if (selectedXAttribute == arrAxisValues[0] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrMedianHomeValue[selectedYear];
-	// this is where we put uploaded data 	var yearAttribute02 = arrMonthlyCost[selectedYear];
-	 var yearAttribute02 = arrUploadedData[selectedYear];
+		// this is where we put uploaded data 	var yearAttribute02 = arrMonthlyCost[selectedYear];
+	 	var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[1]) {
 		var yearAttribute01 = arrIncome[selectedYear];
@@ -643,8 +655,8 @@ function choropleth(x){
 
 	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrIncome[selectedYear];
-//this is where we put uploaded data
-var yearAttribute02 = arrUploadedData[selectedYear];
+		//this is where we put uploaded data
+		var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[2] && selectedYAttribute == arrAxisValues[2]) {
 		var yearAttribute01 = arrUnemployment[selectedYear];
@@ -669,31 +681,17 @@ var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
-//this is where we put uploaded data
-var yearAttribute02 = arrUploadedData[selectedYear];
+		//this is where we put uploaded data
+		var yearAttribute02 = arrUploadedData[selectedYear];
 	};
 	fvalueIncome(x, yearAttribute01, yearAttribute02);
 };
 
 
-/*
-function fvalueValue(year, filter) {
-	var yearAttribute01 = arrMedianHomeValue[year];
 
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-};
-*/
 
 function fvalueIncome(filter, yearX, yearY) {
-
+	/*
 	map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
     map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
     map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
@@ -703,7 +701,18 @@ function fvalueIncome(filter, yearX, yearY) {
     map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
     map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
     map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    */
+    map.setFilter("counties-highlighted-A3", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
+    map.setFilter("counties-highlighted-B3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    map.setFilter("counties-highlighted-C3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    map.setFilter("counties-highlighted-A2", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    map.setFilter("counties-highlighted-B2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    map.setFilter("counties-highlighted-C2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    map.setFilter("counties-highlighted-A1", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
+    map.setFilter("counties-highlighted-B1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
+    map.setFilter("counties-highlighted-C1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
 };
+
 
 
 function alterHoveredValues() {
@@ -714,122 +723,6 @@ function alterHoveredValues() {
 	console.log(displayPop01);
 
 };
-/*
-function fvalueUnemployment(year, filter) {
-	var yearAttribute01 = arrMedianHomeValue[year];
-	var yearAttribute02 = arrUnemployment[year];
 
-	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 140000], [">=", yearAttribute02, 40]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 140000], [">=", yearAttribute01, 120000], ["<", yearAttribute02, 40], [">=", yearAttribute02, 35]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 120000], [">=", yearAttribute01, 100000], ["<", yearAttribute02, 35], [">=", yearAttribute02, 30]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, 100000], [">=", yearAttribute01, 80000], ["<", yearAttribute02, 30], [">=", yearAttribute02, 25]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute01, 80000], [">=", yearAttribute01, 60000], ["<", yearAttribute02, 25], [">=", yearAttribute02, 20]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute01, 60000], [">=", yearAttribute01, 50000], ["<", yearAttribute02, 20], [">=", yearAttribute02, 15]]);
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 50000], [">=", yearAttribute01, 40000], ["<", yearAttribute02, 15], [">=", yearAttribute02, 10]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 40000], [">=", yearAttribute01, 30000], ["<", yearAttribute02, 10], [">=", yearAttribute02, 5]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 30000], ["<", yearAttribute02, 5]]);
-};
 
-function fvalueOwnership(year, filter) {
-	var yearAttribute01 = arrMedianHomeValue[year];
-	var yearAttribute02 = arrMonthlyCost[year];
 
-	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 140000], [">=", yearAttribute02, 2000]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 140000], [">=", yearAttribute01, 120000], ["<", yearAttribute02, 2000], [">=", yearAttribute02, 1800]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 120000], [">=", yearAttribute01, 100000], ["<", yearAttribute02, 1800], [">=", yearAttribute02, 1600]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, 100000], [">=", yearAttribute01, 80000], ["<", yearAttribute02, 1600], [">=", yearAttribute02, 1200]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute01, 80000], [">=", yearAttribute01, 60000], ["<", yearAttribute02, 1200], [">=", yearAttribute02, 1000]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute01, 60000], [">=", yearAttribute01, 50000], ["<", yearAttribute02, 1000], [">=", yearAttribute02, 800]]);
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 50000], [">=", yearAttribute01, 40000], ["<", yearAttribute02, 800], [">=", yearAttribute02, 600]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 40000], [">=", yearAttribute01, 30000], ["<", yearAttribute02, 600], [">=", yearAttribute02, 300]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 30000], ["<", yearAttribute02, 300]]);
-};
-
-function fincomeIncome(year, filter) {
-	var yearAttribute01 = arrIncome[year];
-
-	map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-};
-
-function fincomeUnemployment(year, filter) {
-	var yearAttribute01 = arrIncome[year];
-	var yearAttribute02 = arrUnemployment[year];
-
-	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 140000], [">=", yearAttribute02, 40]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 140000], [">=", yearAttribute01, 120000], ["<", yearAttribute02, 40], [">=", yearAttribute02, 35]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 120000], [">=", yearAttribute01, 100000], ["<", yearAttribute02, 35], [">=", yearAttribute02, 30]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, 100000], [">=", yearAttribute01, 80000], ["<", yearAttribute02, 30], [">=", yearAttribute02, 25]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute01, 80000], [">=", yearAttribute01, 60000], ["<", yearAttribute02, 25], [">=", yearAttribute02, 20]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute01, 60000], [">=", yearAttribute01, 50000], ["<", yearAttribute02, 20], [">=", yearAttribute02, 15]]);
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 50000], [">=", yearAttribute01, 40000], ["<", yearAttribute02, 15], [">=", yearAttribute02, 10]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 40000], [">=", yearAttribute01, 30000], ["<", yearAttribute02, 10], [">=", yearAttribute02, 5]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 30000], ["<", yearAttribute02, 5]]);
-};
-
-function fincomeOwnership(year, filter) {
-	var yearAttribute01 = arrIncome[year];
-	var yearAttribute02 = arrMonthlyCost[year];
-
-	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 140000], [">=", yearAttribute02, 2000]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 140000], [">=", yearAttribute01, 120000], ["<", yearAttribute02, 2000], [">=", yearAttribute02, 1800]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 120000], [">=", yearAttribute01, 100000], ["<", yearAttribute02, 1800], [">=", yearAttribute02, 1600]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, 100000], [">=", yearAttribute01, 80000], ["<", yearAttribute02, 1600], [">=", yearAttribute02, 1200]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute01, 80000], [">=", yearAttribute01, 60000], ["<", yearAttribute02, 1200], [">=", yearAttribute02, 1000]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute01, 60000], [">=", yearAttribute01, 50000], ["<", yearAttribute02, 1000], [">=", yearAttribute02, 800]]);
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 50000], [">=", yearAttribute01, 40000], ["<", yearAttribute02, 800], [">=", yearAttribute02, 600]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 40000], [">=", yearAttribute01, 30000], ["<", yearAttribute02, 600], [">=", yearAttribute02, 300]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 30000], ["<", yearAttribute02, 300]]);
-};
-
-function funemploymentUnemployment(year, filter) {
-	var yearAttribute01 = arrUnemployment[year];
-
-	map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-};
-
-function funemploymentOwnership(year, filter) {
-	var yearAttribute01 = arrUnemployment[year];
-	var yearAttribute02 = arrMonthlyCost[year];
-
-	map.setFilter("counties-highlighted-A1", ["all", filter, [">=", yearAttribute01, 40], [">=", yearAttribute02, 2000]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, ["<", yearAttribute01, 40], [">=", yearAttribute01, 35], ["<", yearAttribute02, 2000], [">=", yearAttribute02, 1800]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, ["<", yearAttribute01, 35], [">=", yearAttribute01, 30], ["<", yearAttribute02, 1800], [">=", yearAttribute02, 1600]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, 30], [">=", yearAttribute01, 25], ["<", yearAttribute02, 1600], [">=", yearAttribute02, 1200]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, ["<", yearAttribute01, 25], [">=", yearAttribute01, 20], ["<", yearAttribute02, 1200], [">=", yearAttribute02, 1000]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, ["<", yearAttribute01, 20], [">=", yearAttribute01, 15], ["<", yearAttribute02, 1000], [">=", yearAttribute02, 800]]);
-    map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, 15], [">=", yearAttribute01, 10], ["<", yearAttribute02, 800], [">=", yearAttribute02, 600]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, ["<", yearAttribute01, 10], [">=", yearAttribute01, 5], ["<", yearAttribute02, 600], [">=", yearAttribute02, 300]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, ["<", yearAttribute01, 5], ["<", yearAttribute02, 300]]);
-
-};
-
-function fownershipOwnership(year, filter) {
-	var yearAttribute01 = arrMonthlyCost[year];
-
-	map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01], ["<", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearAttribute01, xQuantile01], ["<", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-    map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearAttribute01, xQuantile01], [">=", yearAttribute01, yQuantile01]]);
-};
-*/
