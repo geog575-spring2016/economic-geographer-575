@@ -494,7 +494,7 @@ map.on('load', function() {
             	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
                 	.setText(feature.properties.NAME)
                 	.addTo(map);
-            } else {
+            /*} else {
         		var arrProperties = [  //so I need to figure out how to add the info for uploaded Data to here - what does
 						//feature.properties.one of the columns get? What does feature.properties.one of the attributes get? I need to
 						//understand what is needed out of this to know how to get uploaded data to get it
@@ -512,7 +512,8 @@ map.on('load', function() {
         } else {
             return
         }
-=======
+=======*/	} else {
+				var arrProperties = [
 						// this array holds the feature.properties values for each year
 					[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
 					/*[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
@@ -527,7 +528,7 @@ map.on('load', function() {
                 	.setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
                 	.addTo(map);
     		}
->>>>>>> origin/master
+/*>>>>>>> origin/master*/
 	});
 });
 
@@ -618,8 +619,8 @@ function choropleth(x){
 
 	} else if (selectedXAttribute == arrAxisValues[0] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrMedianHomeValue[selectedYear];
-	// this is where we put uploaded data 	var yearAttribute02 = arrMonthlyCost[selectedYear];
-	 var yearAttribute02 = arrUploadedData[selectedYear];
+		// this is where we put uploaded data 	var yearAttribute02 = arrMonthlyCost[selectedYear];
+	 	var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[1]) {
 		var yearAttribute01 = arrIncome[selectedYear];
@@ -643,8 +644,8 @@ function choropleth(x){
 
 	} else if (selectedXAttribute == arrAxisValues[1] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrIncome[selectedYear];
-//this is where we put uploaded data
-var yearAttribute02 = arrUploadedData[selectedYear];
+		//this is where we put uploaded data
+		var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[2] && selectedYAttribute == arrAxisValues[2]) {
 		var yearAttribute01 = arrUnemployment[selectedYear];
@@ -669,8 +670,8 @@ var yearAttribute02 = arrUploadedData[selectedYear];
 
 	} else if (selectedXAttribute == arrAxisValues[3] && selectedYAttribute == arrAxisValues[4]) {
 		var yearAttribute01 = arrMonthlyCost[selectedYear];
-//this is where we put uploaded data
-var yearAttribute02 = arrUploadedData[selectedYear];
+		//this is where we put uploaded data
+		var yearAttribute02 = arrUploadedData[selectedYear];
 	};
 	fvalueIncome(x, yearAttribute01, yearAttribute02);
 };
@@ -714,6 +715,29 @@ function alterHoveredValues() {
 	console.log(displayPop01);
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 function fvalueUnemployment(year, filter) {
 	var yearAttribute01 = arrMedianHomeValue[year];
