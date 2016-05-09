@@ -1,5 +1,5 @@
-function setupTimeseriesAnimation() {
-	
+function setupTimeseriesAnimation(visualizations) {
+
 	$('#slider .ui-slider-handle').on('click', function() {
 
 		$('#slider .ui-slider-handle').off('click');
@@ -11,7 +11,7 @@ function setupTimeseriesAnimation() {
 
 			var prevSliderVal = $('#slider').slider("value");
 			$('#slider').slider("value", prevSliderVal+1);
-						
+
 			if (prevSliderVal == $('#slider').slider("option", "max")-1) {
 
 				clearInterval(intervalID);
@@ -24,7 +24,7 @@ function setupTimeseriesAnimation() {
 					$('#slider').slider("value", $('#slider').slider("option", "min"));
 					$('#slider .ui-slider-handle .fa').removeClass('fa-fast-backward').addClass('fa-play');
 					$('#slider .ui-slider-handle').off('click');
-					setupTimeseriesAnimation();
+					setupTimeseriesAnimation(visualizations);
 
 				});
 			}
@@ -35,20 +35,20 @@ function setupTimeseriesAnimation() {
 
 }
 
-function setupDataDropdowns(plot) {
+function setupDataDropdowns(visualizations) {
 
 	$("#yAxisDropdown").selectmenu({
 		width: 230,
 		position: { my : "left bottom", at: "left top" },
 		change: function(event, ui) {
-			loadData(plot, $('#xAxisDropdown').val(), ui.item.value);
+			loadData(visualizations, $('#xAxisDropdown').val(), ui.item.value);
 			$('#slider').slider("destroy");
-			
+
 			//store Y value in variable for map display
 			yAxisValue = ui.item.value;
-			alterHoveredValues();
+			//alterHoveredValues();
 			//call choropleth function to update map
-			choropleth(filterHolder);
+			//choropleth(filterHolder);
 		},
 	});
 
@@ -56,14 +56,14 @@ function setupDataDropdowns(plot) {
 		width: 230,
 		position: { my : "left bottom", at: "left top" },
 		change: function(event, ui) {
-			loadData(plot, ui.item.value, $('#yAxisDropdown').val());
+			loadData(visualizations, ui.item.value, $('#yAxisDropdown').val());
 			$('#slider').slider("destroy");
-			
+
 			//store X value in variable for map display
 			xAxisValue = ui.item.value;
-			alterHoveredValues();
+			//alterHoveredValues();
 			//call choropleth function to update map
-			choropleth(filterHolder);
+			//choropleth(filterHolder);
 		},
 	});
 

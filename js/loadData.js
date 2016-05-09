@@ -2,14 +2,13 @@
     d3_queue.queue()
         //always load FIPS codes...
         .defer(d3.csv, "data/FIPS.csv")
-        .await(function(error, FIPS) {
+        .defer(d3.json, "data/counties.geojson") //load choropleth spatial data
 
-					var visualizations = initializeVisualizations(FIPS)
 
             //default datasets
             loadData(visualizations, "Median_Home_Value", "Median_Household_Income");
 
-            setupDataDropdowns(visualizations.scatterPlot);
+            setupDataDropdowns(visualizations);
 
         });
 
@@ -28,7 +27,6 @@ function loadXDataFromSite(visualizations, xDataFilename) {
     var uploadedFile = document.getElementById("Uploaded_User_Dataset").files[0];
     //handleFile adapted from MounirMesselmeni on github
     function handleFile(file) {
-        console.log(file)
             // Check for the various File API support.
         if (window.FileReader) {
             // FileReader are supported.
@@ -43,9 +41,7 @@ function loadXDataFromSite(visualizations, xDataFilename) {
 
     function loadHandler(event) {
         var raw = event.target.result;
-        console.log(raw)
         yData = d3.csv.parse(raw)
-        console.log(yData)
         d3_queue.queue()
             .defer(d3.csv, "data/" + xDataFilename + ".csv")
             .await(function(error, xData) {
@@ -91,7 +87,7 @@ function applyData(visualizations, xTitle, yTitle, xData, yData) {
             value: 0,
             change: function(event, ui) {
                 var sliderVal = ui.value;
-                updateVisualizations(null, yTitle, xData, 0, yData, sliderVal, visualizations);
+                updateVisualizations(null, yTitle, xData, 0, yData, 0, sliderVal, visualizations);
             },
         });
         $('#slider').position({
@@ -100,7 +96,7 @@ function applyData(visualizations, xTitle, yTitle, xData, yData) {
             of: window,
         });
 
-        setupTimeseriesAnimation();
+        setupTimeseriesAnimation(visualizations);
 
     } else {
 
@@ -124,7 +120,7 @@ function applyData(visualizations, xTitle, yTitle, xData, yData) {
             of: window,
         });
 
-        setupTimeseriesAnimation();
+        setupTimeseriesAnimation(visualizations);
 
     }
 

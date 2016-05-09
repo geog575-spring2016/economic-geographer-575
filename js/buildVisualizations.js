@@ -1,4 +1,4 @@
-function initializeVisualizations(FIPS) {
+function initializeVisualizations(FIPS, topojson) {
   var scatterPlot = initializeScatterPlot(
       FIPS, {
           top: 90,
@@ -10,11 +10,11 @@ function initializeVisualizations(FIPS) {
           height: 575
       }
   );
-//  var choropleth = initializeChoropleth()
+  var choropleth = initializeChoropleth(topojson)
 
   return {
     scatterPlot: scatterPlot,
-//    choropleth: choropleth,
+    choropleth: choropleth,
   }
 
 }
@@ -23,6 +23,11 @@ function updateVisualizations(xTitle, yTitle, xDataRaw, xCol, yDataRaw, yCol, bi
     dataPoints = [];
     xData = [];
     yData = [];
+    FIPSxData = {}
+    FIPSyData = {}
+
+    var year = Object.keys(yDataRaw[0])[yCol]
+
     for (var i = 0; i < yDataRaw.length; i++) {
 
         if (xDataRaw[i]['FIPS'] != yDataRaw[i]['FIPS']) {
@@ -48,6 +53,8 @@ function updateVisualizations(xTitle, yTitle, xDataRaw, xCol, yDataRaw, yCol, bi
             dataPoints.push([parseInt(xVal), parseInt(yVal)]);
             xData.push(parseInt(xVal));
             yData.push(parseInt(yVal));
+            FIPSxData[xDataRaw[i]['FIPS']]=xDataRaw[i][year]
+            FIPSyData[yDataRaw[i]['FIPS']]=yDataRaw[i][year]
         }
     }
 
@@ -69,8 +76,6 @@ function updateVisualizations(xTitle, yTitle, xDataRaw, xCol, yDataRaw, yCol, bi
     yQuantile01 = yQuantileBreaks[0];
     yQuantile02 = yQuantileBreaks[1];
 
-    var year = Object.keys(yDataRaw[0])[yCol]
-
     updateScatterPlot(visualizations.scatterPlot, xTitle, yTitle, xData, yData, data, dataPoints, year, bivariate)
-    //updateChoropleth(choropleth, xDataRaw, xCol, yDataRaw, yCol, year, bivariate)
+    updateChoropleth(visualizations.choropleth, FIPSxData, xCol, FIPSyData, yCol, year, bivariate)
 }
