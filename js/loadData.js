@@ -3,7 +3,9 @@
         //always load FIPS codes...
         .defer(d3.csv, "data/FIPS.csv")
         .defer(d3.json, "data/counties.geojson") //load choropleth spatial data
+        .await(function(error, FIPS, geojson) {
 
+					var visualizations = initializeVisualizations(FIPS, geojson)
 
             //default datasets
             loadData(visualizations, "Median_Home_Value", "Median_Household_Income");
