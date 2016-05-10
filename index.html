@@ -33,10 +33,16 @@
 </head>
 <body>
 
+<div id="control01" style="position:absolute; height:auto; width:auto; background:black; z-index:50; cursor:pointer; right:0;" onclick="toggleWidget()">
+	<p style="color:white;">Toggle</p>
+</div>
+
+
 <div id="splash01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:100; transform:translate(0%);">
 	<div style="width:50%; height:80%; background:white;margin-left:25%; margin-right:25%;">
-		<h1>Title</h1>
-		<p>Content</p>
+		<h1>United States County</h1>
+		<h1>Housing Data Explorer</h1>
+		<p>Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth. Upload your own single attribute dataset if you have another variable you'd like to include.</p>
 		<button style="cursor:pointer;" onclick="moveSplashPage()">Click here for map</button>
 	</div>
 </div>
@@ -50,11 +56,8 @@
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
-    <h3>United States County</h3>
-    <h1>Housing Data Explorer</h1>
-    <!-- In lab today, Robin said we needed a "clear entry point" which she suggested should be a short paragraph describing what
-    this does under the title and that the dropdown menus should be directly below the intro paragraph. Feel free to edit the paragraph-->
-    <p>Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth. Upload your own single attribute dataset if you have another variable you'd like to include.</p>
+
+    
 </div>
 
 <!-- timeseries control -->
@@ -97,10 +100,12 @@
 
 <script>
 	var mapControl = false;
+	var widgetControl = false;
+	
 	function moveSplashPage() {
 		document.getElementById("splash01").style.transform = "translate(150%)";
 		document.getElementById("splash02").style.transform = "translate(-150%)";
-	}
+	};
 	
 	function toggleMap() {
 		if (mapControl == false) {
@@ -112,7 +117,20 @@
 			mapControl = false;
 			return mapControl;
 		}
-	}
+	};
+	
+	function toggleWidget() {
+		if (widgetControl == false) {
+			widgetControl = true;
+			document.getElementById("importUserData").style.transform = "translate(0%)";
+			return widgetControl;
+		} else if (widgetControl == true) {
+			widgetControl = false;
+			document.getElementById("importUserData").style.transform = "translate(200%)";
+			return widgetControl;
+		}
+	};
+		
 </script>
 
 </body>
