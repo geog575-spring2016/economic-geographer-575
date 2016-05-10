@@ -34,16 +34,15 @@
 </head>
 <body>
 
-<div id="control01" style="position:absolute; height:auto; width:auto; background:black; z-index:50; cursor:pointer; right:0;" onclick="toggleWidget()">
+<div id="control01" style="position:absolute; height:auto; width:auto; background:black; z-index:50; cursor:pointer; right:0; top:150px;" onclick="toggleWidget()">
 	<p style="color:white;">Toggle</p>
 </div>
 
 
 <div id="splash01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:100; transform:translate(0%);">
-	<div style="width:50%; height:80%; background:white;margin-left:25%; margin-right:25%;">
-		<h1>United States County</h1>
-		<h1>Housing Data Explorer</h1>
-		<p>Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth. Upload your own single attribute dataset if you have another variable you'd like to include.</p>
+	<div style="width:50%; height:80%; background:white;margin-left:25%; margin-right:25%; border-radius:20px;">
+		<h1 style="text-align:center;">United States County Housing Data Explorer</h1>
+		<p style="text-align: center;">Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth. Upload your own single attribute dataset if you have another variable you'd like to include.</p>
 		<button style="cursor:pointer;" onclick="moveSplashPage()">Click here for map</button>
 	</div>
 </div>
@@ -109,7 +108,8 @@
 	};
 	
 	function toggleMap() {
-
+		// so filterDots function takes in an arrray of fips ids, so to filter map on click 
+		// we just need to pass the fips id's from the state that is clicked into this function
         filterDots(["55001", "55003"]);
 
 		if (mapControl == false) {

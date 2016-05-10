@@ -531,7 +531,8 @@ map.on('load', function() {
 
 
             	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
-                	.setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
+                	//.setText(feature.properties.NAME + " County" + " " + xAxisValue + ": " + arrProperties[displayPop01][displayPop20] + " " + yAxisValue + ": " + arrProperties[displayPop10][displayPop20])
+                	.setHTML(feature.properties.NAME + " County" + "<br>" + xAxisValue + ": " + arrProperties[displayPop01][displayPop20] + "<br>" + yAxisValue + ": " + arrProperties[displayPop10][displayPop20])
                 	.addTo(map);
     		}
 /*>>>>>>> origin/master*/
