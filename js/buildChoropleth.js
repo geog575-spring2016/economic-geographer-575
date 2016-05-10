@@ -1,7 +1,8 @@
 var mouseMoveControl = true;
 function initializeChoropleth(data) {
-  var map = d3.select("body")
+  var map = d3.select("#map2")
     .append("svg")
+    .attr("id", "d3map")
     .attr("class", "map")
     .attr("width", "100%")
     .attr("height", "100%");
@@ -9,7 +10,7 @@ function initializeChoropleth(data) {
       .center([-5, 47.5])
       .rotate([90, 0, 0])
       .parallels([30.5, 44.8])
-      .scale(4500)
+      .scale(3500)
       .translate([0, 0]);
       var path = d3.geo.path()
         .projection(projection);

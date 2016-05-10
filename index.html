@@ -46,6 +46,8 @@
 <!-- mapbox gl map -->
 <div id='map'></div>
 
+<div id='map2' style="position:absolute; width:100%; height:100%; background:black;"></div>
+
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
     <h3>United States County</h3>
@@ -77,7 +79,16 @@
     </select>
 </div>
 
+<div id='importUserData'>
+<p> You can upload your own single attribute dataset, using the dataset template available below </p>
+<a href="/data/template.csv" download>
+<button type="button">Download Dataset Template</button> </a>
+<input type="file" id='Uploaded_User_Dataset' accept='.csv' />
+<button style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
+</div>
+
 <!-- Link custom js script -->
+<script src="js/main.js"></script>
 <script src="js/loadData.js"></script>
 <script src="js/buildVisualizations.js"></script>
 <script src="js/buildScatterPlot.js"></script>
@@ -85,19 +96,26 @@
 <script src="js/buildControls.js"></script>
 
 <script>
+	var mapControl = false;
 	function moveSplashPage() {
 		document.getElementById("splash01").style.transform = "translate(150%)";
 		document.getElementById("splash02").style.transform = "translate(-150%)";
 	}
+	
+	function toggleMap() {
+		if (mapControl == false) {
+			document.getElementById("map2").style.transform = "translate(100%)";
+			mapControl = true;
+			return mapControl;
+		} else if (mapControl == true) {
+			document.getElementById("map2").style.transform = "translate(0%)";
+			mapControl = false;
+			return mapControl;
+		}
+	}
 </script>
 
 </body>
-<!-- why is this outside the body? -->
-<div id='importUserData'>
-<p> You can upload your own single attribute dataset, using the dataset template available below </p>
-<a href="/data/template.csv" download>
-<button type="button">Download Dataset Template</button> </a>
-<input type="file" id='Uploaded_User_Dataset' accept='.csv' />
-</div>
+
 
 </html>
