@@ -33,7 +33,20 @@
 </head>
 <body>
 
+<div id="splash01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:100; transform:translate(0%);">
+	<div style="width:50%; height:80%; background:white;margin-left:25%; margin-right:25%;">
+		<h1>Title</h1>
+		<p>Content</p>
+		<button style="cursor:pointer;" onclick="moveSplashPage()">Click here for map</button>
+	</div>
+</div>
+
+<div id="splash02" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:99; transform:translate(0%);"></div>
+
+<!-- mapbox gl map -->
 <div id='map'></div>
+
+<!-- this should be the timeseries control -->
 <div id="titleSidebar">
     <h3>United States County</h3>
     <h1>Housing Data Explorer</h1>
@@ -41,7 +54,11 @@
     this does under the title and that the dropdown menus should be directly below the intro paragraph. Feel free to edit the paragraph-->
     <p>Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth. Upload your own single attribute dataset if you have another variable you'd like to include.</p>
 </div>
+
+<!-- timeseries control -->
 <div id="slider"></div>
+
+
 <div id="dropdownContainer">
     <select id="yAxisDropdown">
         <option value="Median_Home_Value">Median Home Value</option>
@@ -67,7 +84,15 @@
 <script src="js/buildChoropleth.js"></script>
 <script src="js/buildControls.js"></script>
 
+<script>
+	function moveSplashPage() {
+		document.getElementById("splash01").style.transform = "translate(150%)";
+		document.getElementById("splash02").style.transform = "translate(-150%)";
+	}
+</script>
+
 </body>
+<!-- why is this outside the body? -->
 <div id='importUserData'>
 <p> You can upload your own single attribute dataset, using the dataset template available below </p>
 <a href="/data/template.csv" download>

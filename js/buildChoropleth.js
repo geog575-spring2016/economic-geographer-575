@@ -1,6 +1,6 @@
 var mouseMoveControl = true;
 function initializeChoropleth(data) {
-  var map = d3.select("#map")
+  var map = d3.select("body")
     .append("svg")
     .attr("class", "map")
     .attr("width", "100%")
