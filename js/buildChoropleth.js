@@ -7,10 +7,10 @@ function initializeChoropleth(data) {
     .attr("width", "100%")
     .attr("height", "100%");
     var projection = d3.geo.albers()
-      .center([-5, 47.5])
+      .center([-80, 40])
       .rotate([90, 0, 0])
       .parallels([30.5, 44.8])
-      .scale(3500)
+      .scale(1000)
       .translate([0, 0]);
       var path = d3.geo.path()
         .projection(projection);
