@@ -556,6 +556,7 @@ map.on('load', function() {
     		}
 /*>>>>>>> origin/master*/
 	});
+	choropleth();
 });
 
 
@@ -661,41 +662,55 @@ function choropleth(x){
 
 
 function fvalueIncome(filter, yearX, yearY) {
-	if (stateControl == false) {
+	if (fullCountyControl == false) {
+		if (stateControl == false) {
 		
-		map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
-    	map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
-    	map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
-    	map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
-    	map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
-    	map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
-    	map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
-    	map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
-    	map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
-    } else if (stateControl == true) {
+			map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
+    		map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    		map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    		map.setFilter("counties-highlighted-A2", ["all", filter, ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-B2", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-C2", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-A1", ["all", filter, ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-B1", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    	} else if (stateControl == true) {
     
-    	map.setFilter("counties-highlighted-A3", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
+    		map.setFilter("counties-highlighted-A3", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
 
-    	map.setFilter("counties-highlighted-B3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    		map.setFilter("counties-highlighted-B3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
 
-    	map.setFilter("counties-highlighted-C3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    		map.setFilter("counties-highlighted-C3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
 
-		map.setFilter("counties-highlighted-A2", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+			map.setFilter("counties-highlighted-A2", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
 
-    	map.setFilter("counties-highlighted-B2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-B2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
 
-    	map.setFilter("counties-highlighted-C2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-C2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
 
-    	map.setFilter("counties-highlighted-A1", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-A1", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
 
-    	map.setFilter("counties-highlighted-B1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-B1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
 
-    	map.setFilter("counties-highlighted-C1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    		map.setFilter("counties-highlighted-C1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    	}
+    } else if (fullCountyControl == true) {
+    	map.setFilter("counties-highlighted-A3", ["all", ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
+    	map.setFilter("counties-highlighted-B3", ["all", [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    	map.setFilter("counties-highlighted-C3", ["all", [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
+    	map.setFilter("counties-highlighted-A2", ["all", ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    	map.setFilter("counties-highlighted-B2", ["all", [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    	map.setFilter("counties-highlighted-C2", ["all", [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
+    	map.setFilter("counties-highlighted-A1", ["all", ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
+    	map.setFilter("counties-highlighted-B1", ["all", [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    	map.setFilter("counties-highlighted-C1", ["all", [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
     }
     
     //var test01 = map.getLayer("counties-highlighted-A3");
     //console.log(test01);
 };
+
+
 
 
 

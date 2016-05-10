@@ -103,6 +103,7 @@
 	var mapControl = false;
 	var widgetControl = false;
 	var stateControl = false;
+	var fullCountyControl = true;
 	
 	function moveSplashPage() {
 		document.getElementById("splash01").style.transform = "translate(150%)";
@@ -112,7 +113,7 @@
 	function toggleMap() {
 		// so filterDots function takes in an arrray of fips ids, so to filter map on click 
 		// we just need to pass the fips id's from the state that is clicked into this function
-        filterDots(["55001", "55003"]);
+        //filterDots(["55001", "55003"]);
 
 		if (mapControl == false) {
 			document.getElementById("map2").style.transform = "translate(100%)";
@@ -139,6 +140,7 @@
 	
 	function chooseByState() {
 		//map.removeLayer("countiesAttribute");
+		fullCountyControl = false;
 		
 		if (stateControl == false) {
 			map.addLayer({
