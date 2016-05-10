@@ -158,6 +158,7 @@ map.on('load', function() {
     });
 
     // layer for adding state fills
+    /*
     map.addLayer ({
     	"id": "statesProper",
     	"type": "fill",
@@ -171,8 +172,10 @@ map.on('load', function() {
     		"fill-color": "white"
     	}
     });
+    */
 
     // layer for hovering over state
+    /*
     map.addLayer({
         "id": "route-hover",
         "type": "fill",
@@ -184,6 +187,7 @@ map.on('load', function() {
         },
         "filter": ["==", "NAME", ""]
     });
+    */
 
 	// Layer for getting the fips codes from clicked state
 
@@ -203,7 +207,17 @@ map.on('load', function() {
         "filter": ["in", "STATE_NAME", ""]
     });
     */
-
+	map.addLayer({
+    	"id": "countiesAttribute",
+    	"type": "fill",
+    	"source": "countiesAttribute",
+    	"source-layer": "original",
+    	"paint": {
+    		"fill-outline-color": "black",
+    		"fill-color": "white"
+    	}
+    });
+    		
     map.addLayer({
 		"id": "counties-highlighted-A1",
         "type": "fill",
@@ -446,14 +460,14 @@ map.on('load', function() {
 		filterHolder = feature.properties.NAME;
 
 		choropleth(filterHolder);
+		console.log(filterHolder);
 		/*
 		var countyFeatures = map.querySourceFeatures("countiesAttribute", feature.properties.NAME);
 		console.log(countyFeatures[1000].properties.NAME);
 		["==", "STATE_NAME", filter]
 		*/
 		
-		var countyFeatures = map.querySourceFeatures("countiesAttribute", [feature.properties.NAME]);
-		console.log(countyFeatures);
+		
 		
 
 
