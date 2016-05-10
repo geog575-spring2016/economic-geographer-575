@@ -109,6 +109,9 @@
 	};
 	
 	function toggleMap() {
+
+        filterDots(["55001", "55003"]);
+
 		if (mapControl == false) {
 			document.getElementById("map2").style.transform = "translate(100%)";
 			mapControl = true;

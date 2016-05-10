@@ -55,7 +55,7 @@ function loadXDataFromSite(visualizations, xDataFilename) {
             alert("Cannot read file!");
         }
     }
-    handleFile(uploadedFile)
+    handleFile(uploadedFile);
 }
 
 function loadDataFromSite(visualizations, xDataFilename, yDataFilename) {

@@ -241,7 +241,7 @@ function updateScatterPlot(scatterPlot, xTitle, yTitle, xData, yData, data, data
 	yQuantileBreaks.reverse().splice(0, 0, d3.max(scatterPlot.yScale.domain()));
 	yQuantileBreaks.splice(yQuantileBreaks.length, 0, d3.min(scatterPlot.yScale.domain()));
 
-  updateScatterPlotRegression(dataPoints, xData, yData)
+  updateScatterPlotRegression(scatterPlot, dataPoints, xData, yData)
 
 	scatterPlot.dots.data(data, function(d) {
 					return d.FIPS;
@@ -288,7 +288,7 @@ function updateScatterPlot(scatterPlot, xTitle, yTitle, xData, yData, data, data
 	}
 }
 
-function updateScatterPlotRegression(dataPoints, xData, yData) {
+function updateScatterPlotRegression(scatterPlot, dataPoints, xData, yData) {
   var regressionLine = ss.linearRegressionLine(ss.linearRegression(dataPoints));
 	scatterPlot.correlationLine.attr("x1", scatterPlot.xScale(scatterPlot.xScale.domain()[0]))
 			.attr("y1", scatterPlot.yScale(regressionLine(scatterPlot.xScale.domain()[0])))
@@ -296,18 +296,12 @@ function updateScatterPlotRegression(dataPoints, xData, yData) {
 			.attr("y2", scatterPlot.yScale(regressionLine(scatterPlot.xScale.domain()[1])));
 	scatterPlot.correlationLabel.text("r = " + ss.sampleCorrelation(xData, yData))
 }
-var filteredFIPS = ["55001-FIPS", "55003-FIPS", "55005-FIPS", "55007-FIPS", "55009-FIPS", "55011-FIPS", "55013-FIPS"];
 
-function ChangeDotSize (dots, filteredFIPS) {
-  $.each(filteredFIPS, function(i,class) {
-    if dots.hasClass(class) {
-      dots.attr ("r", 1.5)
-      else dots.style.opacity = 0
+function filterDots(filteredFIPS){
+    d3.selectAll(".dot").attr("r", 0);
+    for (var i = 0; i < filteredFIPS.length; i++) {
+        d3.select(".FIPS-"+filteredFIPS[i]).attr("r", 10);
     }
-  })
-}
-function filterDots(dots, filteredFIPS){
-  dots.forEach(ChangeDotSize)
 }
 
 function formatTicks(d) {
