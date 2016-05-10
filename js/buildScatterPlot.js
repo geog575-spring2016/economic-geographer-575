@@ -192,13 +192,6 @@ function updateScatterPlot(scatterPlot, xTitle, yTitle, xData, yData, data, data
 			return d['y'];
 	})).nice();
 
-	var regressionLine = ss.linearRegressionLine(ss.linearRegression(dataPoints));
-	scatterPlot.correlationLine.attr("x1", scatterPlot.xScale(scatterPlot.xScale.domain()[0]))
-			.attr("y1", scatterPlot.yScale(regressionLine(scatterPlot.xScale.domain()[0])))
-			.attr("x2", scatterPlot.xScale(scatterPlot.xScale.domain()[1]))
-			.attr("y2", scatterPlot.yScale(regressionLine(scatterPlot.xScale.domain()[1])));
-	scatterPlot.correlationLabel.text("r = " + ss.sampleCorrelation(xData, yData))
-
 	if (bivariate) {
 
 			scatterPlot.xAxisGenerator
@@ -248,6 +241,8 @@ function updateScatterPlot(scatterPlot, xTitle, yTitle, xData, yData, data, data
 	yQuantileBreaks.reverse().splice(0, 0, d3.max(scatterPlot.yScale.domain()));
 	yQuantileBreaks.splice(yQuantileBreaks.length, 0, d3.min(scatterPlot.yScale.domain()));
 
+  updateScatterPlotRegression(dataPoints, xData, yData)
+
 	scatterPlot.dots.data(data, function(d) {
 					return d.FIPS;
 			}).sort(function(a, b) {
@@ -291,8 +286,28 @@ function updateScatterPlot(scatterPlot, xTitle, yTitle, xData, yData, data, data
 
 			}
 	}
+}
 
+function updateScatterPlotRegression(dataPoints, xData, yData) {
+  var regressionLine = ss.linearRegressionLine(ss.linearRegression(dataPoints));
+	scatterPlot.correlationLine.attr("x1", scatterPlot.xScale(scatterPlot.xScale.domain()[0]))
+			.attr("y1", scatterPlot.yScale(regressionLine(scatterPlot.xScale.domain()[0])))
+			.attr("x2", scatterPlot.xScale(scatterPlot.xScale.domain()[1]))
+			.attr("y2", scatterPlot.yScale(regressionLine(scatterPlot.xScale.domain()[1])));
+	scatterPlot.correlationLabel.text("r = " + ss.sampleCorrelation(xData, yData))
+}
+var filteredFIPS = ["55001-FIPS", "55003-FIPS", "55005-FIPS", "55007-FIPS", "55009-FIPS", "55011-FIPS", "55013-FIPS"];
 
+function ChangeDotSize (dots, filteredFIPS) {
+  $.each(filteredFIPS, function(i,class) {
+    if dots.hasClass(class) {
+      dots.attr ("r", 1.5)
+      else dots.style.opacity = 0
+    }
+  })
+}
+function filterDots(dots, filteredFIPS){
+  dots.forEach(ChangeDotSize)
 }
 
 function formatTicks(d) {

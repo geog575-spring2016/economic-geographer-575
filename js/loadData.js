@@ -11,7 +11,6 @@
             loadData(visualizations, "Median_Home_Value", "Median_Household_Income");
 
             setupDataDropdowns(visualizations);
-
         });
 
 })();

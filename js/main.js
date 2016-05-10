@@ -156,7 +156,7 @@ map.on('load', function() {
         "type": "geojson",
         "data": "/data/countiesAttribute00.geojson"
     });
-    
+
     // layer for adding state fills
     map.addLayer ({
     	"id": "statesProper",
@@ -171,7 +171,7 @@ map.on('load', function() {
     		"fill-color": "white"
     	}
     });
-    
+
     // layer for hovering over state
     map.addLayer({
         "id": "route-hover",
@@ -184,9 +184,9 @@ map.on('load', function() {
         },
         "filter": ["==", "NAME", ""]
     });
-	
+
 	// Layer for getting the fips codes from clicked state
-	
+
 	/*
 	// MAYBE change from finding by fips, and instead find by STATE_NAME
     map.addLayer({
@@ -204,10 +204,7 @@ map.on('load', function() {
     });
     */
 
-    map.addLayer({ //this starts the letter-number layers. Not sure what they do yet. I think they are the bivariate choropleth colors. So they'd need to link to uploaded data
-//looks like you need to add one layer for each color in the choropleth, and that layer contains the counties that have that color. So
-//there are 9 different layers for a bivariate. The way you figure out what's in each layer is by filtering countiesAttribute. So the filter must
-//be where you use the data.
+    map.addLayer({
 		"id": "counties-highlighted-A1",
         "type": "fill",
         "source": "countiesAttribute",
@@ -441,7 +438,7 @@ map.on('load', function() {
         map.dragPan.enable();
     };
 	*/
-	
+
 	map.on('click', function (e) {
     	var features = map.queryRenderedFeatures(e.point, { layers: ['statesProper'] });
 
@@ -450,28 +447,28 @@ map.on('load', function() {
     	}
 
     	var feature = features[0];
-		
+
 		//map.setLayoutProperty("statesProper", 'visibility', 'none');
 		//var stateCountyFilter = map.setFilter("countiesAttribute", ["==", "STATE_NAME", feature.properties.NAME]);
-		
-		
+
+
 		filterHolder = feature.properties.NAME;
-		
+
 		choropleth(filterHolder);
 		/*
 		var countyFeatures = map.querySourceFeatures("countiesAttribute", feature.properties.NAME);
 		console.log(countyFeatures[1000].properties.NAME);
 		*/
-		
-		
-		
-		
+
+
+
+
 		// get all counties with the STATE attribute of feature.properties.NAME
-    
+
 	});
-	
+
     map.on('mousemove', function(e) {
-       
+
             var features = map.queryRenderedFeatures(e.point, { layers: //controls which features active hover functions
                 ['counties-highlighted-A1',
                  'counties-highlighted-B1',
@@ -484,7 +481,7 @@ map.on('load', function() {
                  'counties-highlighted-C3',
                  'statesProper']
             });
-            
+
             map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
             if (!features.length) {
@@ -501,14 +498,12 @@ map.on('load', function() {
         		} else {
             		map.setFilter("route-hover", ["==", "NAME", ""]);
         		}
-            	
+
             	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
                 	.setText(feature.properties.NAME)
                 	.addTo(map);
             /*} else {
-        		var arrProperties = [  //so I need to figure out how to add the info for uploaded Data to here - what does
-						//feature.properties.one of the columns get? What does feature.properties.one of the attributes get? I need to
-						//understand what is needed out of this to know how to get uploaded data to get it
+        		var arrProperties = [
 <<<<<<< HEAD
 				[feature.properties.medianHome, feature.properties.medianHo_1, feature.properties.medianHo_2, feature.properties.medianHo_3, feature.properties.medianHo_4, feature.properties.medianHo_5],
 				[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
@@ -517,7 +512,7 @@ map.on('load', function() {
 			];
 
 
-            popup.setLngLat(e.lngLat) //I don't understand what this does yet, so don't understand whether I need to do something with it. it's adding text to the map 
+            popup.setLngLat(e.lngLat) //I don't understand what this does yet, so don't understand whether I need to do something with it. it's adding text to the map
                 .setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
                 .addTo(map);
         } else {
@@ -544,51 +539,6 @@ map.on('load', function() {
 });
 
 
-// this function is a work in progress
-//inspired by https://github.com/skorasaurus/dtparking/blob/master/index.html#L63
-function choroplethExternalData(yData){
-	//create a featureLayer method that will be used to load the geojson file
-	  var featLayer = L.mapbox.featureLayer().addTo(mizzap);
-				 //load your geojson file using loadURL - I don't have a geojson or a url
-		featLayer.loadURL('dtparking.geojson');
-
-						// inspired by http://geosprocket.github.io/btv-geographic/social/sociallayers.js
-		function getMyColor(myargument) {
-    	if (myargument === 'multi-storey') {
-        return '#996767'
-    	};
-    	if (myargument === 'surface') {
-        return '#679967'
-    	};
-    	if (myargument === 'underground') {
-        return '#676799'
-    	};
-		}
-
-						// styles each polygon based on its properties in the geojson file, using leaflet's setStyle
-		featLayer.on('ready', function() {
-    	featLayer.eachLayer(function(polygon) {
-    	polygon.bindPopup('This is a ' + polygon.feature.properties.parking + ' parking lot');
-    	console.log(typeof setStyle);
-    	polygon.setStyle({
-        opacity: 0.55,
-        fillOpacity: 0.55,
-        fillColor: getMyColor(polygon.feature.properties.parking),
-        color: getMyColor(polygon.feature.properties.parking) * 1.04
-			});
-			});
-		});
-}
-/* from skorasaurus: "The eachLayer method is confusing. This method is being used to say “hey, I want this code (in lines 77-83) to act on every object (all of the parking areas) that’s in featLayer. Layers have different meanings depending on context in geospatial/GIS.
-
-getMyColor is just an arbitrary name that I made to name the function that I made.I still catch myself once in a while of what is function and what is a method….
-In several past commits, I didn’t include the ‘feature’ part of the object
-because I had mistaken assumed that eachLayer method would go through each object within the layer and that adding ‘feature’ wasn’t necessary.
-
-Beginning at line 63, is the function that will return a different color depending on what is the value of parking. For example, for this polygon parking has a value of ‘surface’ so ‘#679967’ is used as the fillColor for that particular polygon.
-
-polygon and myargument are both arbitrary names that are selected by the coder. If you were to copy and paste this page into as your own, (as well as the dtparking.geojson file at the github repo ), you could rename polygon to
-blob and myargument to judgejudy in each place and it’ll work."*/
 
 
 // function that keep tracks of the year being displayed and the two variables being displayed
@@ -703,21 +653,21 @@ function fvalueIncome(filter, yearX, yearY) {
     map.setFilter("counties-highlighted-C1", ["all", filter, [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
     */
     map.setFilter("counties-highlighted-A3", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
-    
+
     map.setFilter("counties-highlighted-B3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
-    
+
     map.setFilter("counties-highlighted-C3", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
-    
+
 	map.setFilter("counties-highlighted-A2", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
-    
+
     map.setFilter("counties-highlighted-B2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
-    
+
     map.setFilter("counties-highlighted-C2", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile01], ["<", yearY, yQuantile02]]);
-    
+
     map.setFilter("counties-highlighted-A1", ["all", ["==", "STATE_NAME", filter], ["<", yearX, xQuantile01], [">=", yearY, yQuantile02]]);
-    
+
     map.setFilter("counties-highlighted-B1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
-    
+
     map.setFilter("counties-highlighted-C1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
 };
 
@@ -731,6 +681,3 @@ function alterHoveredValues() {
 	console.log(displayPop01);
 
 };
-
-
-

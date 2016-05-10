@@ -1,4 +1,4 @@
-function initializeVisualizations(FIPS, topojson) {
+function initializeVisualizations(FIPS, geojson) {
   var scatterPlot = initializeScatterPlot(
       FIPS, {
           top: 90,
@@ -10,7 +10,7 @@ function initializeVisualizations(FIPS, topojson) {
           height: 575
       }
   );
-  var choropleth = initializeChoropleth(topojson)
+  var choropleth = initializeChoropleth(geojson)
 
   return {
     scatterPlot: scatterPlot,
