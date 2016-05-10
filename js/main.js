@@ -422,16 +422,9 @@ map.on('load', function() {
             var filter = features.reduce(function(memo, feature) {
 							//I think this is where Robin's change needs to be. Instead of a reduce function, you want to hand the list of fips to the scatterplot, right?
                 memo.push(feature.properties.fips);
-
-                //console.log(memo);
-                // call function to change colors for choropleth
-                //choropleth(feature.properties.FIPS, features);
                 return memo;
             }, ['in', 'fips']);
 
-            filterHolder = filter;
-            choropleth(filterHolder);
-            mouseMoveControl = false;
 
         }
 
@@ -441,15 +434,13 @@ map.on('load', function() {
 
 	map.on('click', function (e) {
     	var features = map.queryRenderedFeatures(e.point, { layers: ['statesProper'] });
-
+		
     	if (!features.length) {
         	return;
     	}
 
     	var feature = features[0];
-
-		//map.setLayoutProperty("statesProper", 'visibility', 'none');
-		//var stateCountyFilter = map.setFilter("countiesAttribute", ["==", "STATE_NAME", feature.properties.NAME]);
+    	
 
 
 		filterHolder = feature.properties.NAME;
@@ -458,7 +449,12 @@ map.on('load', function() {
 		/*
 		var countyFeatures = map.querySourceFeatures("countiesAttribute", feature.properties.NAME);
 		console.log(countyFeatures[1000].properties.NAME);
+		["==", "STATE_NAME", filter]
 		*/
+		
+		var countyFeatures = map.querySourceFeatures("countiesAttribute", [feature.properties.NAME]);
+		console.log(countyFeatures);
+		
 
 
 
@@ -531,8 +527,8 @@ map.on('load', function() {
 
 
             	popup.setLngLat(e.lngLat) //fills the popup with based on selected axis values with property values from geojson
-                	//.setText(feature.properties.NAME + " County" + " " + xAxisValue + ": " + arrProperties[displayPop01][displayPop20] + " " + yAxisValue + ": " + arrProperties[displayPop10][displayPop20])
-                	.setHTML(feature.properties.NAME + " County" + "<br>" + xAxisValue + ": " + arrProperties[displayPop01][displayPop20] + "<br>" + yAxisValue + ": " + arrProperties[displayPop10][displayPop20])
+                	//.setText(feature.properties.NAME + " County" + " " + arrProperties[displayPop01][displayPop20] + " " + arrProperties[displayPop10][displayPop20])
+                	.setHTML (feature.properties.NAME + " County" + "<br>" + xAxisValue + ": " + arrProperties[displayPop01][displayPop20] + "<br>" + yAxisValue + ": " + arrProperties[displayPop10][displayPop20])
                 	.addTo(map);
     		}
 /*>>>>>>> origin/master*/
@@ -670,6 +666,9 @@ function fvalueIncome(filter, yearX, yearY) {
     map.setFilter("counties-highlighted-B1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
 
     map.setFilter("counties-highlighted-C1", ["all", ["==", "STATE_NAME", filter], [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
+    
+    //var test01 = map.getLayer("counties-highlighted-A3");
+    //console.log(test01);
 };
 
 
@@ -679,6 +678,6 @@ function alterHoveredValues() {
 	displayPop10 = arrAxisValues.indexOf(yAxisValue);
 	displayPop20 = arrYears.indexOf(displayedYear);
 
-	console.log(displayPop01);
+	//console.log(displayPop01);
 
 };
