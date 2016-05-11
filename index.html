@@ -68,7 +68,10 @@
 <div id='map' style="position:absolute; width:100%; height:100%; background:black;"></div>
 <div id='map2'></div>
 
-
+<div id="infoPanel01" style="cursor:pointer;" onclick="closeMoreInfo()">
+	<p>Use the two drop-downs below the scatterplot to change the axis values displayed. You can select by state, county, or reset the map to the entire county extent. When selecting by state, simply click on the state of your choice. When selecting by county, hold shift while clicking and dragging with the mouse.</p>
+	<p>(Click to Close)</p>
+</div>
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
@@ -85,6 +88,8 @@
     <input id='slider01' type='range' min='1' max='6' step='1' value='1' style="width: 90%"/>
     <button id="playButton" onclick="initiateAnimation(this.id);" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)">Play</button>
     <button id="stopButton" onclick="stopAnimation(this.id);" onmouseover="highlightRepick(this.id)" onmouseout="resetRepick(this.id)">Pause</button>
+    <button id="playButton01" onclick="showMoreInfo()" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)">Info</button>
+    
     
     
     <div id="control02" style="position:absolute; height:100px; width:60%; background:black; z-index:50; top:0; left:100%;">
@@ -95,9 +100,6 @@
         <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:#6DA1AA; cursor:pointer;" onclick="chooseByDrag()"><p style="margin-top:0px;">County Shift + Drag</p></div>
         <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:#6DA1AA; cursor:pointer;" onclick="fullCounty()"><p style="margin-top:20px;">Reset</p></div>
     </div>
-
-
-
 </div>
 
 <!-- timeseries control -->
@@ -296,6 +298,15 @@
 	function resetRepick(x) {
 		document.getElementById(x).style.background = "";
 		document.getElementById(x).style.color = "";
+	};
+	
+	function showMoreInfo() {
+		document.getElementById("infoPanel01").style.transform = "translate(0%)";
+	};
+	
+	function closeMoreInfo() {
+		
+		document.getElementById("infoPanel01").style.transform = "translate(-150%)";
 	};
 
 </script>

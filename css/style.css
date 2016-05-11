@@ -167,7 +167,7 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
   100% { transform: translate(15px);   }
 }
 
-#playButton {
+#playButton, #playButton01 {
 	background-color: #6DA1AA;/*#005E7D;/*#00947B;*/
 	border: none;
     color: white;
@@ -229,5 +229,21 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 #enterMapButton:hover {
 	background: #6DA1AA;
 }
+
+#infoPanel01 {
+	position:absolute;
+	height:auto;
+	text-align:center;
+	padding: 10px;
+	width:40%;
+	background: rgba(255,255,255,0.95);
+	font-family: 'Noticia Text', serif;
+	font-weight: 700;
+	transform:translate(-150%);
+	z-index:100;
+	-webkit-transition: transform .5s;
+	transition: transform .5s;
+}
+	
 
 
