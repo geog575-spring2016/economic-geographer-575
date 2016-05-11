@@ -65,8 +65,9 @@
 <!-- mapbox gl map -->
 
 
-<div id='map' style="position:absolute; width:100%; height:100%; background:black;"></div>
-<div id='map2'></div>
+
+<div id='map'></div>
+<div id='map2' style="position:absolute; width:100%; height:100%; background:black;"></div>
 
 <div id="importUserData">
         <p>Upload your own single attribute dataset using the dataset template available below </p>
@@ -153,9 +154,6 @@
 	};
 
 	function toggleMap() {
-		// so filterDots function takes in an arrray of fips ids, so to filter map on click
-		// we just need to pass the fips id's from the state that is clicked into this function
-        //filterDots(["55001", "55003"]);
 
 		if (mapControl == false) {
 			document.getElementById("map2").style.transform = "translate(0%)";
