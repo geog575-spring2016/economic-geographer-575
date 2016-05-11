@@ -34,24 +34,11 @@
 </head>
 <body>
 
-<div id="control01" style="position:absolute; height:auto; width:auto; background:black; z-index:50; cursor:pointer; right:0; top:150px;" onclick="toggleWidget()">
-	<p style="color:white;">Toggle</p>
-</div>
-
-<div id="control02" style="position:absolute; height:60px; width:20%; background:black; z-index:50; bottom:0; right:0;">
-	<div id="control02Text" style="position:absolute; height:30%; width:100%; background:white;">
-		Selection By: 
-	</div>
-	<div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:orange; cursor:pointer;" onclick="chooseByState()">State</div>
-	<div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:grey; cursor:pointer;" onclick="chooseByDrag()">County</div>
-	<div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:green; cursor:pointer;" onclick="fullCounty()">Whole</div>
-</div>
-
 
 <div id="splash01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:100; transform:translate(0%);">
-	<div style="width:50%; height:80%; background:white;margin-left:25%; margin-right:25%; border-radius:20px;">
-		<h1 style="text-align:center;">United States County Housing Data Explorer</h1>
-		<p style="text-align: center;">Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth. Upload your own single attribute dataset if you have another variable you'd like to include.</p>
+	<div style="width:50%; background:white;margin-left:25%; margin-right:25%; border-radius:20px;">
+		<h1 style="text-align:center;">United States County
+        </br>Housing Data Explorer</h1>
 		<button style="cursor:pointer;" onclick="moveSplashPage()">Click here for map</button>
 	</div>
 </div>
@@ -65,8 +52,20 @@
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
-
-    
+    <p>Upload your own single attribute dataset using the dataset template available below </p>
+    <div id="importUserData">
+        <a href="/data/template.csv" download><button type="button">Download Dataset Template</button></a>
+        <input type="file" id='Uploaded_User_Dataset' accept='.csv'></input>
+    </div></br>
+    <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
+    <div id="control02" style="position:absolute; height:60px; width:60%; background:black; z-index:50; top:180; left:20%;">
+        <div id="control02Text" style="position:absolute; height:30%; width:100%; background:white;">
+            Selection By: 
+        </div>
+        <div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:orange; cursor:pointer;" onclick="chooseByState()">State</div>
+        <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:grey; cursor:pointer;" onclick="chooseByDrag()">County</div>
+        <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:green; cursor:pointer;" onclick="fullCounty()">Whole</div>
+    </div>
 </div>
 
 <!-- timeseries control -->
@@ -89,14 +88,6 @@
         <option value="Median_Monthly_Ownership_Costs">Median Monthly Ownership Costs</option>
         <option value="FIPS">County (Single Variate)</option>
     </select>
-</div>
-
-<div id='importUserData'>
-<p> You can upload your own single attribute dataset, using the dataset template available below </p>
-<a href="/data/template.csv" download>
-<button type="button">Download Dataset Template</button> </a>
-<input type="file" id='Uploaded_User_Dataset' accept='.csv' />
-<button style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
 </div>
 
 <!-- Link custom js script -->

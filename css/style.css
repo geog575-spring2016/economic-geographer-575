@@ -23,7 +23,7 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 	transform: translate(0%);
 }
 
-#titleSidebar {
+#titleSidebar, #splash01 {
 	position: absolute;
 	text-align: center;
 	font-family: 'Noticia Text', serif;
@@ -32,31 +32,23 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 	height: 100%;
 	background: rgba(200,200,200,1);
 }
-#titleSidebar h3 {
-	font-size: 36px;
+#splash01 div {
+	padding: 10px;
 }
-#titleSidebar h1 {
-	font-size: 56px;
+#titleSidebar p {
+	font-size: 18px;
+	margin: 10px;
+}
+#mapToggleButton {
+	font-size: 18px;
 }
 
 #importUserData {
-  	position:absolute;
-	height:auto;
-	width:200px;
-	top:0;
-	right:10%;
-	background:rgba(0,0,0,0.5);
-	transform: translate(200%);
-	-webkit-transition: transform .5s;
-	transition: transform .5s;
+
 }
 
 .map {
-
-}
-
-.counties {
-	transition: fill .75s;
+	
 }
 
 #map2 {
