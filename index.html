@@ -39,6 +39,7 @@
 	<div style="width:50%; background:white;margin-left:25%; margin-right:25%; border-radius:20px;">
 		<h1 style="text-align:center;">United States County
         </br>Housing Data Explorer</h1>
+        <p>We need an intro paragraph describing what the map does and how to use it</p>
 		<button style="cursor:pointer;" onclick="moveSplashPage()">Click here for map</button>
 	</div>
 </div>
@@ -57,12 +58,17 @@
 	</div>
 </div>
 <!-- mapbox gl map -->
-<div id='map'></div>
+
 
 <div id='map2' style="position:absolute; width:100%; height:100%; background:black;"></div>
+<div id='map'></div>
+
+
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
+	<div id="slider"></div>
+	<!--
     <p>Upload your own single attribute dataset using the dataset template available below </p>
     <div id="importUserData">
     	<button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
@@ -70,7 +76,9 @@
         <input type="file" id='Uploaded_User_Dataset' accept='.csv'></input>
     </div></br>
     <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
-    <div id="control02" style="position:absolute; height:60px; width:60%; background:black; z-index:50; top:180; left:20%;">
+    -->
+    
+    <div id="control02" style="position:absolute; height:70px; width:60%; background:black; z-index:50; top:0; left:100%;">
         <div id="control02Text" style="position:absolute; height:30%; width:100%; background:white;">
             Selection By: 
         </div>
@@ -81,7 +89,7 @@
 </div>
 
 <!-- timeseries control -->
-<div id="slider"></div>
+<!--<div id="slider"></div>-->
 
 
 <div id="dropdownContainer">
@@ -127,11 +135,11 @@
         //filterDots(["55001", "55003"]);
 
 		if (mapControl == false) {
-			document.getElementById("map2").style.transform = "translate(100%)";
+			document.getElementById("map2").style.transform = "translate(0%)";
 			mapControl = true;
 			return mapControl;
 		} else if (mapControl == true) {
-			document.getElementById("map2").style.transform = "translate(0%)";
+			document.getElementById("map2").style.transform = "translate(100%)";
 			mapControl = false;
 			return mapControl;
 		}

@@ -421,6 +421,7 @@ map.on('load', function() {
     };
 
     function finish(bbox) {
+    	
     	startLoading();
 		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
         // Remove these events now that finish has been called.
