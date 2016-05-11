@@ -45,6 +45,17 @@
 
 <div id="splash02" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:99; transform:translate(0%);"></div>
 
+<div id="load01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:1; transform: translate(150%);">
+	<div class="container">
+  		<div class="ball"></div>
+  		<div class="ball"></div>
+  		<div class="ball"></div>
+  		<div class="ball"></div>
+  		<div class="ball"></div>
+  		<div class="ball"></div>
+  		<div class="ball"></div>
+	</div>
+</div>
 <!-- mapbox gl map -->
 <div id='map'></div>
 
@@ -54,6 +65,7 @@
 <div id="titleSidebar">
     <p>Upload your own single attribute dataset using the dataset template available below </p>
     <div id="importUserData">
+    	<button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
         <a href="/data/template.csv" download><button type="button">Download Dataset Template</button></a>
         <input type="file" id='Uploaded_User_Dataset' accept='.csv'></input>
     </div></br>
@@ -223,6 +235,14 @@
 		
 		choropleth();
 	};
+	
+	function startLoading() {
+		document.getElementById("load01").style.transform = "translate(0%)";
+	};
+
+	function stopLoading() {
+		document.getElementById("load01").style.transform = "translate(150%)";
+	}
 		
 </script>
 

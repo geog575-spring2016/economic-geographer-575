@@ -579,6 +579,8 @@ map.on('load', function() {
 
 // function that keep tracks of the year being displayed and the two variables being displayed
 function choropleth(x){
+	startLoading();
+	loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 	var selectedYear = arrYears.indexOf(2009);
 
 	var selectedYAttribute = yAxisValue;
@@ -720,7 +722,7 @@ function fvalueIncome(filter, yearX, yearY) {
     	map.setFilter("counties-highlighted-B1", ["all", [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
     	map.setFilter("counties-highlighted-C1", ["all", [">=", yearX, xQuantile02], [">=", yearY, yQuantile02]]);
     }
-    
+   
     //var test01 = map.getLayer("counties-highlighted-A3");
     //console.log(test01);
 };
