@@ -114,7 +114,7 @@ function setupDataDropdowns(visualizations) {
 
 			//store Y value in variable for map display
 			yAxisValue = ui.item.value;
-			alterHoveredValues();
+			//alterHoveredValues();
 			startLoading();
 			loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 			//call choropleth function to update map
@@ -131,7 +131,7 @@ function setupDataDropdowns(visualizations) {
 
 			//store X value in variable for map display
 			xAxisValue = ui.item.value;
-			alterHoveredValues();
+			//alterHoveredValues();
 			startLoading();
 			loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 			//call choropleth function to update map

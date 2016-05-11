@@ -31,7 +31,7 @@ function updateVisualizations(xTitle, yTitle, xDataRaw, xCol, yDataRaw, yCol, bi
     for (var i = 0; i < yDataRaw.length; i++) {
 
         if (xDataRaw[i]['FIPS'] != yDataRaw[i]['FIPS']) {
-            console.log("FIPS order does not match between data sets");
+            alert("FIPS order does not match between data sets");
             return;
         }
 
@@ -77,7 +77,7 @@ function updateVisualizations(xTitle, yTitle, xDataRaw, xCol, yDataRaw, yCol, bi
     yQuantile02 = yQuantileBreaks[1];
 
     updateScatterPlot(visualizations.scatterPlot, xTitle, yTitle, xData, yData, data, dataPoints, year, bivariate)
-    updateChoropleth(visualizations.choropleth, FIPSxData, xCol, FIPSyData, yCol, year, bivariate)
+    updateChoropleth(visualizations.choropleth, xTitle, yTitle, FIPSxData, xCol, FIPSyData, yCol, year, bivariate)
 
 
 
