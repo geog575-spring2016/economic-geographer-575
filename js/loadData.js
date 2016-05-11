@@ -73,7 +73,7 @@ function applyData(visualizations, xTitle, yTitle, xData, yData) {
 
     if (xData.length != yData.length) {
         //console.log("Datasets have different numbers of records,");
-        console.log("ERROR: Datasets must have the same number of records!");
+        alert("Datasets must have same number of records")
     } else if (Object.keys(xData[0]).length != Object.keys(yData[0]).length) {
 
         //console.log("Dataset features have different number of attributes,");
