@@ -1,3 +1,73 @@
+/*
+var myTimer;
+var sliderControl = 1;
+var hoverAnimationControl = false;
+
+// function for animation
+function initiateAnimation() {
+	if (hoverAnimationControl == false) {
+		myTimer = setInterval(startAnimation, 1500);
+		
+		document.getElementById("playButton").style.background = "#E8E57D";
+		hoverAnimationControl = true;
+	} else {
+		return;
+	}
+};
+
+function startAnimation(x) {
+	
+	if (rangeInput.value == 1) {
+		rangeInput.value = 2;
+	} else if (rangeInput.value == 2) {
+		rangeInput.value = 3;
+	} else if (rangeInput.value == 3) {
+		rangeInput.value = 4;
+	} else if (rangeInput.value == 4) {
+		rangeInput.value = 5;
+	} else if (rangeInput.value == 5) {
+		rangeInput.value = 6;
+	} else if (rangeInput.value == 6) {
+		rangeInput.value = 7;
+	} else if (rangeInput.value == 7) {
+		rangeInput.value = 8;
+	} else if (rangeInput.value == 8) {
+		rangeInput.value = 9;
+	} else if (rangeInput.value == 9) {
+		rangeInput.value = 10;
+	} else if (rangeInput.value == 10) {
+		rangeInput.value = 11;
+	} else if (rangeInput.value == 11) {
+		rangeInput.value = 12;
+	} else if (rangeInput.value >= 12) {
+		rangeInput.value = 1;
+	}
+	changeMapOnSlider();
+	
+};
+
+function stopAnimation() {
+	if (hoverAnimationControl == false) {
+		alert("Animation is not running!");
+	} else {
+		window.clearInterval(myTimer);
+		document.getElementById("playButton").style.background = "";
+		document.getElementById("playButton").style.color = "";
+		hoverAnimationControl = false;
+	}
+};
+
+
+function changeMapOnSlider() {
+	slider.innerHTML = sliderValues[rangeInput.value-1][1];
+	// call startUpdate function to get values, used for changing scale and symbol
+    startUpdate(rangeInput.value);
+    // call determine data to determine attribute year, used for displaying data on page
+    determineData(rangeInput.value);
+};
+*/
+// The rangeInput.value is the variable you need to control the year
+
 function setupTimeseriesAnimation(visualizations) {
 
 	$('#slider .ui-slider-handle').on('click', function() {
