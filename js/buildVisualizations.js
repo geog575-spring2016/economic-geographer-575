@@ -76,13 +76,13 @@ function updateVisualizations(xTitle, yTitle, xDataRaw, xCol, yDataRaw, yCol, bi
     yQuantile01 = yQuantileBreaks[0];
     yQuantile02 = yQuantileBreaks[1];
     
-    /*
+    
     if (errorControl01 == false) {
     	errorControl01 = true;
     } else if (errorControl01 == true) {
     	choropleth(filterHolder);
     }
-	*/
+	
     updateScatterPlot(visualizations.scatterPlot, xTitle, yTitle, xData, yData, data, dataPoints, year, bivariate)
     updateChoropleth(visualizations.choropleth, xTitle, yTitle, FIPSxData, xCol, FIPSyData, yCol, year, bivariate)
 

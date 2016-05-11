@@ -66,11 +66,13 @@
 
 
 <div id='map' style="position:absolute; width:100%; height:100%; background:black;"></div>
+<div id='map2'></div>
 
 
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
+	<!--
     <div id="importUserData">
         <p>Upload your own single attribute dataset using the dataset template available below </p>
         <a href="/data/template.csv" download><button type="button">Download Dataset Template</button></a>
@@ -78,6 +80,11 @@
     </div></br>
 
     <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
+    -->
+    <div id="sliderInfo" style="font-size: 40px;">2009</div>
+    <input id='slider01' type='range' min='1' max='6' step='1' value='1' style="width: 80%"/>
+    <button id="playButton" onclick="initiateAnimation(this.id);" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)"><i class="fa fa-play"></i></button>
+    <button id="stopButton" onclick="stopAnimation(this.id);" onmouseover="highlightRepick(this.id)" onmouseout="resetRepick(this.id)"><i class="fa fa-pause"></i></button>
     
     
     <div id="control02" style="position:absolute; height:100px; width:60%; background:black; z-index:50; top:0; left:100%;">
@@ -85,8 +92,8 @@
             Selection By: 
         </div>
         <div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:#6DA1AA; cursor:pointer;" onclick="chooseByState()"><p style="margin-top:20px;">State</p></div>
-        <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:#6DA1AA; cursor:pointer;" onclick="chooseByDrag()"><p style="margin-top:20px;">County</p></div>
-        <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:#6DA1AA; cursor:pointer;" onclick="fullCounty()"><p style="margin-top:20px;">Whole</p></div>
+        <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:#6DA1AA; cursor:pointer;" onclick="chooseByDrag()"><p style="margin-top:0px;">County Shift + Drag</p></div>
+        <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:#6DA1AA; cursor:pointer;" onclick="fullCounty()"><p style="margin-top:20px;">Reset</p></div>
     </div>
 
 
@@ -116,6 +123,7 @@
 </div>
 
 <!-- Link custom js script -->
+<script src="js/main.js"></script>
 <script src="js/loadData.js"></script>
 <script src="js/buildVisualizations.js"></script>
 <script src="js/buildScatterPlot.js"></script>
