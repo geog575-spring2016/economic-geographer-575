@@ -150,9 +150,14 @@
     	map.setFilter("counties-highlighted-B1", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-C1", ["==", "STATE_NAME", "Alaska"]);
     	
-		map.removeLayer("statesProper");
-    	map.removeLayer("route-hover");
-    	
+    	try {
+			map.removeLayer("statesProper");
+    		map.removeLayer("route-hover");
+    	}
+    	catch(err) {
+    		stateControl = false;
+    		return stateControl;
+    	}
 	
     	stateControl = false;
     	return stateControl;

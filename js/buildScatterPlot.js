@@ -298,6 +298,9 @@ function updateScatterPlotRegression(scatterPlot, dataPoints, xData, yData) {
 }
 
 function filterDots(filteredFIPS){
+	console.log(filteredFIPS);
+	
+	
     d3.selectAll(".dot").attr("r", 0);
     for (var i = 0; i < filteredFIPS.length; i++) {
         d3.select(".FIPS-"+filteredFIPS[i]).attr("r", 10);

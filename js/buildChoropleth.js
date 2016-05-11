@@ -24,14 +24,46 @@ function createTileLayer(map) {
 }).addTo(map);
 }
 function setEnumerationUnits(map, dataLayer, data) {
-  var dataLayer = L.geoJson(data, {className: "counties"}).addTo(map)
+  var dataLayer = L.geoJson(data, {
+  	className: "counties",
+  	onEachFeature: function (feature, layer) {
+  		layer.bindPopup(feature.properties.NAME + " County");
+  		layer.on('mouseover', function (e) {
+  			this.openPopup();
+  		});
+  		layer.on('mouseout', function (e) {
+  			//this.closePopup();
+  		});
+  	}
+  }).addTo(map)
+  /*
+  	//selection
+  	var RADIUS = 500000;
+	var filterCircle = L.circle(L.latLng(40, -75), RADIUS, {
+    	opacity: 1,
+    	weight: 1,
+    	fillOpacity: 0
+	}).addTo(map);
+	
+	map.on('mousemove', function(e) {
+    	filterCircle.setLatLng(e.latlng);
+    	dataLayer.filter(function showAirport(feature) {
+        	return e.latlng.distanceTo(L.latLng(
+                feature.geometry.coordinates[1],
+                feature.geometry.coordinates[0])) < RADIUS;
+    	});
+	});
+	*/
+	
+	
+  
   dataLayer.setStyle(function(feature) {
     return {
       weight: .1,
       color: 'black',
       dashArray: '3',
       opacity: 1,
-      fillOpacity: 1,
+      fillOpacity: .7,
     }
   })
 //var counties = map.selectAll()
@@ -51,6 +83,7 @@ return dataLayer
 };
 
 function updateChoropleth(choropleth, FIPSxData, xCol, FIPSyData, yCol, year, bivariate) {
+  errorControl01 = true;
   colors = {}
   colors[[-1, 1]]=window.getComputedStyle(document.getElementById("A1")).fill
   colors[[ 0, 1]]=window.getComputedStyle(document.getElementById("B1")).fill

@@ -7,6 +7,9 @@ var xQuantile02;
 var yQuantile01;
 var yQuantile02;
 
+var errorControl01 = false;
+var fipsHolder = [];
+
 //variables for displaying pop-up info
 var displayPop01 = 0;
 var displayPop02 = 0;
@@ -19,8 +22,8 @@ var displayedYear = 2009;
 var arrAxisValues = [ //I don't think this needs anything from uploaded data
 	"Median_Home_Value",
 	"Median_Household_Income",
-	"Median_Monthly_Ownership_Costs",
 	"Unemployment_Rate",
+	"Median_Monthly_Ownership_Costs",
 	"Uploaded_User_Dataset"
 ];
 
@@ -86,8 +89,8 @@ var arrYears = [
 var arrAttributes = [ //not clear to me how this is used yet, so need to check if it needs uploaded data
 	"medianHomeValue",
 	"income",
-	"monthlyCost",
 	"unemployment",
+	"monthlyCost",
 	"Uploaded_User_Dataset"
 ];
 
@@ -447,13 +450,20 @@ map.on('load', function() {
 			
 			filterHolder = filter;
 			
+			
 			choropleth(filterHolder);
-			fipsHolder = filter;
 			
-			delete fipsHolder[0];
-			delete fipsHolder[0];
 			
+			for (l=2; l < filter.length - 2; l++) {
+				fipsHolder.push(filter[l]);
+			}
+			
+			console.log(fipsHolder);
 			filterDots(fipsHolder);
+			//delete fipsHolder[0];
+			//delete fipsHolder[0];
+			
+			//filterDots(fipsHolder);
         }
 
         map.dragPan.enable();
@@ -549,8 +559,8 @@ map.on('load', function() {
 					/*[feature.properties.Income_Dat, feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
 					[feature.properties.MonthyCost, feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],*/
 					[feature.properties.Income_200, feature.properties.Income_201, feature.properties.Income_202, feature.properties.Income_203, feature.properties.Income_204, feature.properties.Income_205],
-					[feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5],
-					[feature.properties.Unemployme, feature.properties.Unemploy_1, feature.properties.Unemploy_2, feature.properties.Unemploy_3, feature.properties.Unemploy_4, feature.properties.Unemploy_5]
+					[feature.properties.Unemployme, feature.properties.Unemploy_1, feature.properties.Unemploy_2, feature.properties.Unemploy_3, feature.properties.Unemploy_4, feature.properties.Unemploy_5],
+					[feature.properties.MonthlyCos, feature.properties.MonthlyC_1, feature.properties.MonthlyC_2, feature.properties.MonthlyC_3, feature.properties.MonthlyC_4, feature.properties.MonthlyC_5]
 				];
 
 
@@ -667,9 +677,9 @@ function choropleth(x){
 
 
 function fvalueIncome(filter, yearX, yearY) {
+
 	if (fullCountyControl == false) {
 		if (stateControl == false) {
-		
 			map.setFilter("counties-highlighted-A3", ["all", filter, ["<", yearX, xQuantile01], ["<", yearY, yQuantile01]]);
     		map.setFilter("counties-highlighted-B3", ["all", filter, [">=", yearX, xQuantile01], ["<", yearX, xQuantile02], ["<", yearY, yQuantile01]]);
     		map.setFilter("counties-highlighted-C3", ["all", filter, [">=", yearX, xQuantile02], ["<", yearY, yQuantile01]]);

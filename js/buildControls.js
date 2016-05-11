@@ -48,7 +48,7 @@ function setupDataDropdowns(visualizations) {
 			yAxisValue = ui.item.value;
 			alterHoveredValues();
 			//call choropleth function to update map
-			choropleth(filterHolder);
+			//choropleth(filterHolder);
 		},
 	});
 
@@ -63,7 +63,7 @@ function setupDataDropdowns(visualizations) {
 			xAxisValue = ui.item.value;
 			alterHoveredValues();
 			//call choropleth function to update map
-			choropleth(filterHolder);
+			//choropleth(filterHolder);
 		},
 	});
 
