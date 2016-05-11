@@ -168,14 +168,14 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 }
 
 #playButton {
-	background-color: white;/*#005E7D;/*#00947B;*/
+	background-color: #6DA1AA;/*#005E7D;/*#00947B;*/
 	border: none;
     color: white;
     text-align: center;
     text-decoration: none;
     font-size: 14px;
     cursor: pointer;
-    padding: 10px 25px;
+    padding: 5px 15px;
     border-radius: 4px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
@@ -189,7 +189,7 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
     text-decoration: none;
     font-size: 14px;
     cursor: pointer;
-    padding: 10px 25px;
+    padding: 5px 15px;
     border-radius: 4px;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
@@ -229,4 +229,5 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 #enterMapButton:hover {
 	background: #6DA1AA;
 }
+
 
