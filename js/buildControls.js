@@ -18,7 +18,7 @@ var sliderValues = [
 // Event listener to call startUpdate function based on slider value
 rangeInput.addEventListener('mouseup', function() {
 	slider.innerHTML = sliderValues[rangeInput.value-1][1];
-	console.log(rangeInput.value);
+	$('#slider').slider("value", rangeInput.value-1);
 });
 
 // function for animation
@@ -66,7 +66,7 @@ function stopAnimation() {
 
 function changeMapOnSlider() {
 	slider.innerHTML = sliderValues[rangeInput.value-1][1];
-	console.log(rangeInput.value);
+	$('#slider').slider("value", rangeInput.value-1);
 };
 
 

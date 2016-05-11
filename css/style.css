@@ -1,6 +1,8 @@
 body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
-
+#slider {
+  display: none;
+}
 .boxdraw {
 	background: rgba(56,135,190,0.1);
     border: 2px solid #3887be;

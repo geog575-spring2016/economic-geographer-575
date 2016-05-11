@@ -88,6 +88,7 @@ function applyData(visualizations, xTitle, yTitle, xData, yData) {
             value: 0,
             change: function(event, ui) {
                 var sliderVal = ui.value;
+                console.log(sliderVal);
                 updateVisualizations(null, yTitle, xData, 0, yData, 0, sliderVal, visualizations);
             },
         });
@@ -112,6 +113,7 @@ function applyData(visualizations, xTitle, yTitle, xData, yData) {
             value: 0,
             change: function(event, ui) {
                 var sliderVal = ui.value;
+                console.log(sliderVal);
                 updateVisualizations(xTitle, yTitle, xData, sliderVal, yData, sliderVal, true, visualizations);
             },
         });
