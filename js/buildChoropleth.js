@@ -1,6 +1,6 @@
 var mouseMoveControl = true;
 function initializeChoropleth(data) {
-  var map = L.map('map2' ,{
+  var map = L.map('map' ,{
       center: [40, -120],
       zoom: 4
   })
@@ -20,7 +20,7 @@ function createTileLayer(map) {
   var mapboxAccessToken = "pk.eyJ1IjoiY2F0aGVyaW5lc3RyZWlmZmVyIiwiYSI6ImNpa3BrOTVlaTEyNmZ0aWo3eDlyaThraGMifQ.bYUxm5s4cRD2iRGqvpNNBA"
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
     id: 'mapbox.light',
-    attribution: '&copy; <a href="http://mapbox.com/">Mapbox</a> icon: Invitro Estudio; data source: UNHCR'
+    attribution: '&copy; <a href="http://mapbox.com/">Mapbox</a>; data source: Census Bureau'
 }).addTo(map);
 }
 function setEnumerationUnits(map, dataLayer, data) {
@@ -36,6 +36,7 @@ function setEnumerationUnits(map, dataLayer, data) {
   		});
   	}
   }).addTo(map)
+
   /*
   	//selection
   	var RADIUS = 500000;
@@ -44,7 +45,7 @@ function setEnumerationUnits(map, dataLayer, data) {
     	weight: 1,
     	fillOpacity: 0
 	}).addTo(map);
-	
+
 	map.on('mousemove', function(e) {
     	filterCircle.setLatLng(e.latlng);
     	dataLayer.filter(function showAirport(feature) {
@@ -54,9 +55,9 @@ function setEnumerationUnits(map, dataLayer, data) {
     	});
 	});
 	*/
-	
-	
-  
+
+
+
   dataLayer.setStyle(function(feature) {
     return {
       weight: .1,

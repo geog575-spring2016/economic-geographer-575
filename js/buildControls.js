@@ -15,17 +15,11 @@ var sliderValues = [
 ];
 
 
-// Event listener to call startUpdate function based on slider value
-rangeInput.addEventListener('mouseup', function() {
-	slider.innerHTML = sliderValues[rangeInput.value-1][1];
-	console.log(rangeInput.value);
-});
-
 // function for animation
 function initiateAnimation() {
 	if (hoverAnimationControl == false) {
 		myTimer = setInterval(startAnimation, 1500);
-		
+
 		document.getElementById("playButton").style.background = "#E8E57D";
 		hoverAnimationControl = true;
 	} else {
@@ -34,7 +28,7 @@ function initiateAnimation() {
 };
 
 function startAnimation(x) {
-	
+
 	if (rangeInput.value == 1) {
 		rangeInput.value = 2;
 	} else if (rangeInput.value == 2) {
@@ -47,9 +41,9 @@ function startAnimation(x) {
 		rangeInput.value = 6;
 	} else if (rangeInput.value >= 6) {
 		rangeInput.value = 1;
-	} 
+	}
 	changeMapOnSlider();
-	
+
 };
 
 function stopAnimation() {

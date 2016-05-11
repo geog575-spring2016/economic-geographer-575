@@ -60,35 +60,18 @@
 <!-- mapbox gl map -->
 
 
-<div id='map2' style="position:absolute; width:100%; height:100%; background:black;"></div>
-<div id='map'></div>
+<div id='map' style="position:absolute; width:100%; height:100%; background:black;"></div>
 
 
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
-	<div id="sliderInfo" style="font-size: 40px;">2009</div>
-	<input id='slider01' type='range' min='1' max='6' step='1' value='1' style="width: 80%"/>
-	<button id="playButton" onclick="initiateAnimation(this.id);" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)"><i class="fa fa-play"></i></button>
-    <button id="stopButton" onclick="stopAnimation(this.id);" onmouseover="highlightRepick(this.id)" onmouseout="resetRepick(this.id)"><i class="fa fa-pause"></i></button>
-	<!--
-    <p>Upload your own single attribute dataset using the dataset template available below </p>
     <div id="importUserData">
-    	<button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
+        <p>Upload your own single attribute dataset using the dataset template available below </p>
         <a href="/data/template.csv" download><button type="button">Download Dataset Template</button></a>
         <input type="file" id='Uploaded_User_Dataset' accept='.csv'></input>
     </div></br>
-    <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
-    -->
-    
-    <div id="control02" style="position:absolute; height:70px; width:60%; background:black; z-index:50; top:0; left:100%;">
-        <div id="control02Text" style="position:absolute; height:30%; width:100%; background:white;">
-            Selection By: 
-        </div>
-        <div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:orange; cursor:pointer;" onclick="chooseByState()">State</div>
-        <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:grey; cursor:pointer;" onclick="chooseByDrag()">County</div>
-        <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:green; cursor:pointer;" onclick="fullCounty()">Whole</div>
-    </div>
+
 </div>
 
 <!-- timeseries control -->
@@ -114,7 +97,6 @@
 </div>
 
 <!-- Link custom js script -->
-<script src="js/main.js"></script>
 <script src="js/loadData.js"></script>
 <script src="js/buildVisualizations.js"></script>
 <script src="js/buildScatterPlot.js"></script>
@@ -126,14 +108,14 @@
 	var widgetControl = false;
 	var stateControl = false;
 	var fullCountyControl = true;
-	
+
 	function moveSplashPage() {
 		document.getElementById("splash01").style.transform = "translate(150%)";
 		document.getElementById("splash02").style.transform = "translate(-150%)";
 	};
-	
+
 	function toggleMap() {
-		// so filterDots function takes in an arrray of fips ids, so to filter map on click 
+		// so filterDots function takes in an arrray of fips ids, so to filter map on click
 		// we just need to pass the fips id's from the state that is clicked into this function
         //filterDots(["55001", "55003"]);
 
@@ -147,7 +129,7 @@
 			return mapControl;
 		}
 	};
-	
+
 	function toggleWidget() {
 		if (widgetControl == false) {
 			widgetControl = true;
@@ -159,12 +141,12 @@
 			return widgetControl;
 		}
 	};
-	
+
 	function chooseByDrag() {
 		startLoading();
 		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 		fullCountyControl = false;
-		
+
 		map.setFilter("counties-highlighted-A3", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-B3", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-C3", ["==", "STATE_NAME", "Alaska"]);
@@ -174,7 +156,7 @@
     	map.setFilter("counties-highlighted-A1", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-B1", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-C1", ["==", "STATE_NAME", "Alaska"]);
-    	
+
     	try {
 			map.removeLayer("statesProper");
     		map.removeLayer("route-hover");
@@ -183,19 +165,19 @@
     		stateControl = false;
     		return stateControl;
     	}
-	
+
     	stateControl = false;
     	return stateControl;
     };
-	
+
 	function chooseByState() {
 		startLoading();
 		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 		//map.removeLayer("countiesAttribute");
 		fullCountyControl = false;
 		stateControl = true;
-    	
-		
+
+
 		map.setFilter("counties-highlighted-A3", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-B3", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-C3", ["==", "STATE_NAME", "Alaska"]);
@@ -205,7 +187,7 @@
     	map.setFilter("counties-highlighted-A1", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-B1", ["==", "STATE_NAME", "Alaska"]);
     	map.setFilter("counties-highlighted-C1", ["==", "STATE_NAME", "Alaska"]);
-    	
+
     	/*
     	map.removeLayer("counties-highlighted-A3");
     	map.removeLayer("counties-highlighted-B3");
@@ -228,7 +210,7 @@
         		},
         		"filter": ["==", "NAME", ""]
     		}, "counties-highlighted-A1");
-    		
+
 			map.addLayer ({
     			"id": "statesProper",
 				"type": "fill",
@@ -244,15 +226,15 @@
     		},"route-hover");
     		return stateControl;
 	};
-	
+
 	function fullCounty() {
 		startLoading();
 		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 		fullCountyControl = true;
-		
+
 		choropleth();
 	};
-	
+
 	function startLoading() {
 		document.getElementById("load01").style.transform = "translate(0%)";
 	};
@@ -260,7 +242,7 @@
 	function stopLoading() {
 		document.getElementById("load01").style.transform = "translate(150%)";
 	}
-	
+
 	function highlightPlayButton(x) {
 		if (hoverAnimationControl == false) {
 			document.getElementById(x).style.background = "#E8E57D";
@@ -269,7 +251,7 @@
 			return;
 		}
 	};
-	
+
 	function resetPlayButton(x) {
 		if (hoverAnimationControl == false) {
 			document.getElementById(x).style.background = "";
@@ -278,17 +260,17 @@
 			return;
 		}
 	};
-	
+
 	function highlightRepick(x) {
 		document.getElementById(x).style.background = "#E8E57D";
 		document.getElementById(x).style.color = "black";
 	};
-	
+
 	function resetRepick(x) {
 		document.getElementById(x).style.background = "";
 		document.getElementById(x).style.color = "";
 	};
-		
+
 </script>
 
 </body>
