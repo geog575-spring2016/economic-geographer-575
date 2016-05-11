@@ -40,7 +40,8 @@
 		<h1 style="text-align:center;">United States County
         </br>Housing Data Explorer</h1>
 
-        <p>Many variables contribute to differences in the value of houses across the country. Select two variables below to explore some of those variables both in the scatterplot and bivariate choropleth.</p>
+        <p>Many variables contribute to differences in the value of homes across the country. You can use this tool to explore those variables within each county in the continental United States. Select two variables from the drop-downs to visualize them in both the scatterplot and bivariate choropleth.</p>
+        <p>Your own custom data may also be added by using the "Import Data" widget in the menu. Note that your imported data may only be displayed when viewing the fixed full county map.</p>
 		<button id="enterMapButton" style="cursor:pointer; width:80%; height: 100px;" onclick="moveSplashPage()"><h1>Click Here to Begin</h1></button>
 		
 		
@@ -71,7 +72,7 @@
 
 <div id="importUserData">
         <p>Upload your own single attribute dataset using the dataset template available below </p>
-        <a href="/data/template.csv" download><button type="button">Download Dataset Template</button></a>
+        <a href="/data/template.csv" target="_blank" download><button type="button">Download Dataset Template</button></a>
         <input type="file" id='Uploaded_User_Dataset' accept='.csv'></input>
         <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
 </div>
