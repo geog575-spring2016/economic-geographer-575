@@ -67,7 +67,10 @@
 
 <!-- this should be the timeseries control -->
 <div id="titleSidebar">
+	<div id="sliderInfo" style="font-size: 40px;">2009</div>
 	<input id='slider01' type='range' min='1' max='6' step='1' value='1' style="width: 80%"/>
+	<button id="playButton" onclick="initiateAnimation(this.id);" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)"><i class="fa fa-play"></i></button>
+    <button id="stopButton" onclick="stopAnimation(this.id);" onmouseover="highlightRepick(this.id)" onmouseout="resetRepick(this.id)"><i class="fa fa-pause"></i></button>
 	<!--
     <p>Upload your own single attribute dataset using the dataset template available below </p>
     <div id="importUserData">
@@ -89,7 +92,7 @@
 </div>
 
 <!-- timeseries control -->
-<!--<div id="slider"></div>-->
+<div id="slider"></div>
 
 
 <div id="dropdownContainer">
@@ -257,6 +260,34 @@
 	function stopLoading() {
 		document.getElementById("load01").style.transform = "translate(150%)";
 	}
+	
+	function highlightPlayButton(x) {
+		if (hoverAnimationControl == false) {
+			document.getElementById(x).style.background = "#E8E57D";
+			document.getElementById(x).style.color = "black";
+		} else {
+			return;
+		}
+	};
+	
+	function resetPlayButton(x) {
+		if (hoverAnimationControl == false) {
+			document.getElementById(x).style.background = "";
+			document.getElementById(x).style.color = "";
+		} else {
+			return;
+		}
+	};
+	
+	function highlightRepick(x) {
+		document.getElementById(x).style.background = "#E8E57D";
+		document.getElementById(x).style.color = "black";
+	};
+	
+	function resetRepick(x) {
+		document.getElementById(x).style.background = "";
+		document.getElementById(x).style.color = "";
+	};
 		
 </script>
 

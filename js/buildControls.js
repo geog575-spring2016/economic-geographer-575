@@ -1,7 +1,26 @@
-/*
+
 var myTimer;
 var sliderControl = 1;
 var hoverAnimationControl = false;
+
+// Declare variables for range slider
+var rangeInput = document.getElementById("slider01");
+var slider = document.getElementById("sliderInfo");
+var sliderValues = [
+	[1, 2009],
+	[2, 2010],
+	[3, 2011],
+	[4, 2012],
+	[5, 2013],
+	[6, 2014]
+];
+
+
+// Event listener to call startUpdate function based on slider value
+rangeInput.addEventListener('mouseup', function() {
+	slider.innerHTML = sliderValues[rangeInput.value-1][1];
+	console.log(rangeInput.value);
+});
 
 // function for animation
 function initiateAnimation() {
@@ -27,21 +46,9 @@ function startAnimation(x) {
 		rangeInput.value = 5;
 	} else if (rangeInput.value == 5) {
 		rangeInput.value = 6;
-	} else if (rangeInput.value == 6) {
-		rangeInput.value = 7;
-	} else if (rangeInput.value == 7) {
-		rangeInput.value = 8;
-	} else if (rangeInput.value == 8) {
-		rangeInput.value = 9;
-	} else if (rangeInput.value == 9) {
-		rangeInput.value = 10;
-	} else if (rangeInput.value == 10) {
-		rangeInput.value = 11;
-	} else if (rangeInput.value == 11) {
-		rangeInput.value = 12;
-	} else if (rangeInput.value >= 12) {
+	} else if (rangeInput.value >= 6) {
 		rangeInput.value = 1;
-	}
+	} 
 	changeMapOnSlider();
 	
 };
@@ -60,16 +67,12 @@ function stopAnimation() {
 
 function changeMapOnSlider() {
 	slider.innerHTML = sliderValues[rangeInput.value-1][1];
-	// call startUpdate function to get values, used for changing scale and symbol
-    startUpdate(rangeInput.value);
-    // call determine data to determine attribute year, used for displaying data on page
-    determineData(rangeInput.value);
+	console.log(rangeInput.value);
 };
-*/
+
 // The rangeInput.value is the variable you need to control the year
 
 function setupTimeseriesAnimation(visualizations) {
-
 	$('#slider .ui-slider-handle').on('click', function() {
 
 		$('#slider .ui-slider-handle').off('click');
