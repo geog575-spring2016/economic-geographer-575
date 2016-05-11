@@ -66,6 +66,7 @@ i.fa {
 	font-weight: 700;
 }
 .time {
+	display: none;
 	font-size: 48px;
 	font-family: 'Raleway', sans-serif;
 	font-weight: 800;
