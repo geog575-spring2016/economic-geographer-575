@@ -68,6 +68,14 @@
 <div id='map' style="position:absolute; width:100%; height:100%; background:black;"></div>
 <div id='map2'></div>
 
+<div id="importUserData">
+        <p>Upload your own single attribute dataset using the dataset template available below </p>
+        <a href="/data/template.csv" download><button type="button">Download Dataset Template</button></a>
+        <input type="file" id='Uploaded_User_Dataset' accept='.csv'></input>
+        <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
+</div>
+
+
 <div id="infoPanel01" style="cursor:pointer;" onclick="closeMoreInfo()">
 	<p>Use the two drop-downs below the scatterplot to change the axis values displayed. You can select by state, county, or reset the map to the entire county extent. When selecting by state, simply click on the state of your choice. When selecting by county, hold shift while clicking and dragging with the mouse.</p>
 	<p>(Click to Close)</p>
@@ -89,6 +97,7 @@
     <button id="playButton" onclick="initiateAnimation(this.id);" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)">Play</button>
     <button id="stopButton" onclick="stopAnimation(this.id);" onmouseover="highlightRepick(this.id)" onmouseout="resetRepick(this.id)">Pause</button>
     <button id="playButton01" onclick="showMoreInfo()" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)">Info</button>
+    <button id="playButton02" onclick="toggleWidget()" onmouseover="highlightPlayButton(this.id)" onmouseout="resetPlayButton(this.id)">Import Data</button>
     
     
     
@@ -166,7 +175,7 @@
 			return widgetControl;
 		} else if (widgetControl == true) {
 			widgetControl = false;
-			document.getElementById("importUserData").style.transform = "translate(200%)";
+			document.getElementById("importUserData").style.transform = "translate(250%)";
 			return widgetControl;
 		}
 	};

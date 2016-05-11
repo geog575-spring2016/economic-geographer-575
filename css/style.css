@@ -46,7 +46,15 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
 }
 
 #importUserData {
-	padding-top: 60px;
+	position:absolute;
+	width:200px;
+	height:auto;
+	right:245px;
+	background:rgba(255,255,255,.95);
+	transform: translate(250%);
+	z-index:100;
+	-webkit-transition: transform .5s;
+	transition: transform .5s;
 }
 
 .map {
@@ -169,7 +177,7 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
   100% { transform: translate(15px);   }
 }
 
-#playButton, #playButton01 {
+#playButton, #playButton01, #playButton02 {
 	background-color: #6DA1AA;/*#005E7D;/*#00947B;*/
 	border: none;
     color: white;
