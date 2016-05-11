@@ -35,16 +35,19 @@
 <body>
 
 
-<div id="splash01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:100; transform:translate(0%);">
+<div id="splash01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.4); z-index:100; transform:translate(0%);">
 	<div style="width:50%; background:white;margin-left:25%; margin-right:25%; border-radius:20px;">
 		<h1 style="text-align:center;">United States County
         </br>Housing Data Explorer</h1>
         <p>We need an intro paragraph describing what the map does and how to use it</p>
-		<button style="cursor:pointer;" onclick="moveSplashPage()">Click here for map</button>
+		<button id="enterMapButton" style="cursor:pointer; width:80%; height: 100px;" onclick="moveSplashPage()"><h1>Click Here to Begin</h1></button>
+		
+		
+		</div>
 	</div>
 </div>
 
-<div id="splash02" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:99; transform:translate(0%);"></div>
+<div id="splash02" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.4); z-index:99; transform:translate(0%);"></div>
 
 <div id="load01" style="position:absolute; height:100%; width:100%; background: rgba(0,0,0,0.25); z-index:1; transform: translate(150%);">
 	<div class="container">
@@ -81,13 +84,13 @@
     <button id="mapToggleButton" style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
     -->
     
-    <div id="control02" style="position:absolute; height:70px; width:60%; background:black; z-index:50; top:0; left:100%;">
+    <div id="control02" style="position:absolute; height:100px; width:60%; background:black; z-index:50; top:0; left:100%;">
         <div id="control02Text" style="position:absolute; height:30%; width:100%; background:white;">
             Selection By: 
         </div>
-        <div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:orange; cursor:pointer;" onclick="chooseByState()">State</div>
-        <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:grey; cursor:pointer;" onclick="chooseByDrag()">County</div>
-        <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:green; cursor:pointer;" onclick="fullCounty()">Whole</div>
+        <div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:#6DA1AA; cursor:pointer;" onclick="chooseByState()"><p style="margin-top:20px;">State</p></div>
+        <div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:#6DA1AA; cursor:pointer;" onclick="chooseByDrag()"><p style="margin-top:20px;">County</p></div>
+        <div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:#6DA1AA; cursor:pointer;" onclick="fullCounty()"><p style="margin-top:20px;">Whole</p></div>
     </div>
 </div>
 

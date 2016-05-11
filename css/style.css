@@ -194,3 +194,37 @@ body { margin:0; padding:0; overflow-x:hidden; overflow-y: hidden; }
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
 }
+
+#control0201 {
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+}
+
+#control0202 {
+	border-style:solid;
+	border-width: 1px;
+	border-color: black;
+}
+
+#control0203 {
+	border-style:solid;
+	border-width: 1px;
+	border-color: black;
+}
+
+#enterMapButton {
+	border-style:solid;
+	border-width: 1px;
+	border-radius:10px;
+	border-color:black;
+	background: transparent;
+	font-family: 'Noticia Text', serif;
+	font-weight: 700;
+	-webkit-transition: background .5s;
+	transition: background .5s;
+}
+
+#enterMapButton:hover {
+	background: #6DA1AA;
+}
