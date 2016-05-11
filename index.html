@@ -150,6 +150,8 @@
 	};
 	
 	function chooseByDrag() {
+		startLoading();
+		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 		fullCountyControl = false;
 		
 		map.setFilter("counties-highlighted-A3", ["==", "STATE_NAME", "Alaska"]);
@@ -176,6 +178,8 @@
     };
 	
 	function chooseByState() {
+		startLoading();
+		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 		//map.removeLayer("countiesAttribute");
 		fullCountyControl = false;
 		stateControl = true;
@@ -231,6 +235,8 @@
 	};
 	
 	function fullCounty() {
+		startLoading();
+		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 		fullCountyControl = true;
 		
 		choropleth();

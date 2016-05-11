@@ -47,6 +47,8 @@ function setupDataDropdowns(visualizations) {
 			//store Y value in variable for map display
 			yAxisValue = ui.item.value;
 			alterHoveredValues();
+			startLoading();
+			loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 			//call choropleth function to update map
 			//choropleth(filterHolder);
 		},
@@ -62,6 +64,8 @@ function setupDataDropdowns(visualizations) {
 			//store X value in variable for map display
 			xAxisValue = ui.item.value;
 			alterHoveredValues();
+			startLoading();
+			loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 			//call choropleth function to update map
 			//choropleth(filterHolder);
 		},

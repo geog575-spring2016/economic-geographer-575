@@ -421,6 +421,8 @@ map.on('load', function() {
     };
 
     function finish(bbox) {
+    	startLoading();
+		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
         // Remove these events now that finish has been called.
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('keydown', onKeyDown);
@@ -471,6 +473,9 @@ map.on('load', function() {
 	
 
 	map.on('click', function (e) {
+		startLoading();
+		loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
+		
     	var features = map.queryRenderedFeatures(e.point, { layers: ['statesProper'] });
 		
     	if (!features.length) {
@@ -579,8 +584,6 @@ map.on('load', function() {
 
 // function that keep tracks of the year being displayed and the two variables being displayed
 function choropleth(x){
-	startLoading();
-	loadingTimer = setTimeout(stopLoading, 5000); //barbaric I know
 	var selectedYear = arrYears.indexOf(2009);
 
 	var selectedYAttribute = yAxisValue;
