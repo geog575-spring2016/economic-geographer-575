@@ -352,9 +352,12 @@ map.on('load', function() {
     // call it. This is necessary for disabling the default map
     // dragging behaviour.
     canvas.addEventListener('mousedown', mouseDown, true);
+    
+   
 
      // Return the xy coordinates of the mouse position
     function mousePos(e) {
+    	popup.remove();
         var rect = canvas.getBoundingClientRect();
         return new mapboxgl.Point(
             e.clientX - rect.left - canvas.clientLeft,
@@ -365,6 +368,7 @@ map.on('load', function() {
     function mouseDown(e) {
         // Continue the rest of the function if the shiftkey is pressed.
         if (!(e.shiftKey && e.button === 0)) return;
+        
 
         // Disable default drag zooming when the shift key is held down.
         map.dragPan.disable();
@@ -373,12 +377,13 @@ map.on('load', function() {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
         document.addEventListener('keydown', onKeyDown);
-
+		popup.remove();
         // Capture the first xy coordinates
         start = mousePos(e);
     };
 
     function onMouseMove(e) {
+    	popup.remove();
         // Capture the ongoing xy coordinates
         current = mousePos(e);
 

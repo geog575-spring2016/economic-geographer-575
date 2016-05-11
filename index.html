@@ -38,10 +38,13 @@
 	<p style="color:white;">Toggle</p>
 </div>
 
-<div id="control02" style="position:absolute; height:50px; width:30%; background:black; z-index:50; bottom:0; right:0;">
-	<div id="control0201" style="position: absolute; height:100%; width:33.3%; background:orange; cursor:pointer;" onclick="chooseByState()">State</div>
-	<div id="control0202" style="position: absolute; height:100%; width:33.3%; margin-left: 33.3%;background:grey; cursor:pointer;" onclick="chooseByDrag()">County</div>
-	<div id="control0203" style="position: absolute; height:100%; width:33.3%; margin-left: 66.6%; background:green; cursor:pointer;" onclick="fullCounty()">Whole</div>
+<div id="control02" style="position:absolute; height:60px; width:20%; background:black; z-index:50; bottom:0; right:0;">
+	<div id="control02Text" style="position:absolute; height:30%; width:100%; background:white;">
+		Selection By: 
+	</div>
+	<div id="control0201" style="position: absolute; height:70%; bottom:0;width:33.3%; background:orange; cursor:pointer;" onclick="chooseByState()">State</div>
+	<div id="control0202" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 33.3%;background:grey; cursor:pointer;" onclick="chooseByDrag()">County</div>
+	<div id="control0203" style="position: absolute; height:70%; bottom:0;width:33.3%; margin-left: 66.6%; background:green; cursor:pointer;" onclick="fullCounty()">Whole</div>
 </div>
 
 
@@ -94,7 +97,6 @@
 <button type="button">Download Dataset Template</button> </a>
 <input type="file" id='Uploaded_User_Dataset' accept='.csv' />
 <button style="cursor:pointer;" onclick="toggleMap()">Toggle Between Maps</button>
-<button style="cursor:pointer;" onclick="chooseByState()">Choose By State</button>
 </div>
 
 <!-- Link custom js script -->
@@ -146,8 +148,20 @@
 	
 	function chooseByDrag() {
 		fullCountyControl = false;
+		
+		map.setFilter("counties-highlighted-A3", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-B3", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-C3", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-A2", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-B2", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-C2", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-A1", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-B1", ["==", "STATE_NAME", "Alaska"]);
+    	map.setFilter("counties-highlighted-C1", ["==", "STATE_NAME", "Alaska"]);
+    	
 		map.removeLayer("statesProper");
     	map.removeLayer("route-hover");
+    	
 	
     	stateControl = false;
     	return stateControl;
@@ -210,6 +224,7 @@
 	
 	function fullCounty() {
 		fullCountyControl = true;
+		
 		choropleth();
 	};
 		
