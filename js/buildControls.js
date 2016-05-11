@@ -1,6 +1,5 @@
 
 var myTimer;
-var sliderControl = 1;
 var hoverAnimationControl = false;
 
 // Declare variables for range slider
@@ -70,7 +69,9 @@ function changeMapOnSlider() {
 	console.log(rangeInput.value);
 };
 
-// The rangeInput.value is the variable you need to control the year
+
+
+
 
 function setupTimeseriesAnimation(visualizations) {
 	$('#slider .ui-slider-handle').on('click', function() {

@@ -9,6 +9,7 @@ var yQuantile02;
 
 var errorControl01 = false;
 var fipsHolder = [];
+var sliderControl = 1;
 
 //variables for displaying pop-up info
 var displayPop01 = 0;
