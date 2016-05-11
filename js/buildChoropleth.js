@@ -46,15 +46,15 @@ var desc = counties.append("desc")
 
 function updateChoropleth(choropleth, FIPSxData, xCol, FIPSyData, yCol, year, bivariate) {
   colors = {}
-  colors[[-1,-1]]=window.getComputedStyle(document.getElementById("A1")).fill
-  colors[[ 0,-1]]=window.getComputedStyle(document.getElementById("B1")).fill
-  colors[[ 1,-1]]=window.getComputedStyle(document.getElementById("C1")).fill
+  colors[[-1, 1]]=window.getComputedStyle(document.getElementById("A1")).fill
+  colors[[ 0, 1]]=window.getComputedStyle(document.getElementById("B1")).fill
+  colors[[ 1, 1]]=window.getComputedStyle(document.getElementById("C1")).fill
   colors[[-1, 0]]=window.getComputedStyle(document.getElementById("A2")).fill
   colors[[ 0, 0]]=window.getComputedStyle(document.getElementById("B2")).fill
   colors[[ 1, 0]]=window.getComputedStyle(document.getElementById("C2")).fill
-  colors[[-1, 1]]=window.getComputedStyle(document.getElementById("A3")).fill
-  colors[[ 0, 1]]=window.getComputedStyle(document.getElementById("B3")).fill
-  colors[[ 1, 1]]=window.getComputedStyle(document.getElementById("C3")).fill
+  colors[[-1,-1]]=window.getComputedStyle(document.getElementById("A3")).fill
+  colors[[ 0,-1]]=window.getComputedStyle(document.getElementById("B3")).fill
+  colors[[ 1,-1]]=window.getComputedStyle(document.getElementById("C3")).fill
   var counties = d3.selectAll(".counties")
       .transition()
       .duration(1000)
